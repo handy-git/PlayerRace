@@ -1,0 +1,38 @@
+# 没权限时候提醒
+noPermission: "&4你没有权限执行该命令"
+
+# 重载插件提醒
+reloadMsg: "&a插件重载完成"
+
+# placeholderAPI提醒
+placeholderAPISucceedMsg: "&a成功加载placeholderApi,启用自定义变量功能!"
+placeholderAPIFailureMsg: "&4未找到placeholderApi,未启用自定义变量功能!"
+
+# 能量不足提醒
+energyShortageMsg: "&a能量不足,需要:${amount}能量,你当前能量为:${myAmount}"
+# 恢复能量提醒
+restoreEnergyMsg: "&a你恢复了 ${amount} 点能量!"
+succeedMsg: "&a命令执行成功"
+failureMsg: "&4命令执行失败"
+
+# 种族名称
+raceType:
+  mankind: "&a人类"
+  werwolf: "&a狼人"
+  vampire: "&a吸血鬼"
+  ghoul: "&a食尸鬼"
+  demon: "&a恶魔"
+  pastor: "&a牧师"
+  angel: "&a天使"
+  demonHunter: "&a恶魔猎手"
+
+# 狼人
+werwolf:
+  succeedMsg: "&a在月圆之夜,你感染了狼人的血统,获得了狼人的力量!"
+# 吸血鬼
+vampire:
+  ancestorSucceedMsg: "&a你喝下了该隐之血,身体发生了诡异的变化,你极度渴望血液,成为了吸血鬼始祖!"
+  succeedMsg: "&a你被${player}初拥了,获得了吸血鬼的力量!"
+  bookSucceedMsg: "&a意外之喜,您发现一本蕴含着神秘力量的知识之书"
+  vampireHateSunlight: "&a吸血鬼讨厌阳光,请速度躲避"
+

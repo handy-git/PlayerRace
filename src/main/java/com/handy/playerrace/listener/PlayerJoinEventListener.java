@@ -1,0 +1,60 @@
+package com.handy.playerrace.listener;
+
+import com.handy.lib.util.HandyHttpUtil;
+import com.handy.playerrace.PlayerRace;
+import com.handy.playerrace.constants.RaceTypeEnum;
+import com.handy.playerrace.entity.RacePlayer;
+import com.handy.playerrace.service.RacePlayerService;
+import com.handy.playerrace.util.ConfigUtil;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.scheduler.BukkitRunnable;
+
+/**
+ * @author hs
+ * @Description: {玩家加入游戏的事件.}
+ * @date 2020/3/23 14:09
+ */
+public class PlayerJoinEventListener implements Listener {
+
+    /**
+     * 玩家加入初始化种族
+     *
+     * @param event
+     */
+    @EventHandler
+    public void onPlayerJoin(PlayerJoinEvent event) {
+        Player player = event.getPlayer();
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                RacePlayer racePlayer = RacePlayerService.getInstance().findByPlayerName(player.getName());
+                if (racePlayer != null) {
+                    return;
+                }
+                racePlayer = new RacePlayer();
+                racePlayer.setPlayerName(player.getName());
+                racePlayer.setPlayerUuid(player.getUniqueId().toString());
+                racePlayer.setRaceType(RaceTypeEnum.MANKIND.getType());
+                racePlayer.setAmount(ConfigUtil.config.getInt("maxFatigue"));
+                RacePlayerService.getInstance().add(racePlayer);
+            }
+        }.runTaskAsynchronously(PlayerRace.getInstance());
+    }
+
+    /**
+     * op加入发送更新提醒
+     *
+     * @param event
+     */
+    @EventHandler
+    public void onOpPlayerJoin(PlayerJoinEvent event) {
+        if (!ConfigUtil.config.getBoolean("isCheckUpdateToOpMsg")) {
+            return;
+        }
+        HandyHttpUtil.checkVersion(PlayerRace.getInstance(), event.getPlayer(), "https://api.github.com/repos/handy-git/PlayerRaceVersion/releases/latest");
+    }
+
+}

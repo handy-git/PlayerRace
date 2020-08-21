@@ -1,0 +1,34 @@
+# 正版签名验证
+sign: 123456
+
+# 语言文件 [可选 中文简体:zh_CN;中文繁體:zh_TW;English:en_US]
+language: zh_CN
+
+# 是否开启更新提醒,建议开启
+isCheckUpdate: true
+
+# op登录时候是否发送更新提醒
+isCheckUpdateToOpMsg: true
+
+# 普通玩家每分钟恢复的数量
+restoreNumber: 1
+
+# 有 playerrace.vip 权限的每分钟恢复的数量
+vipRestoreNumber: 2
+
+# 恢复速度,单位秒
+restoreSpeed: 1
+
+# 最大能量值限制
+maxFatigue: 100
+
+# 是否开启离线恢复,如果是群组服,只建议在一个子服开启或者不开启,不然,假设有俩个子服,那么就是双倍恢复速度
+offlineRestore: false
+
+# 是否开启ActionBar疲劳值消耗提醒
+isActionBar: true
+
+# 启用的世界
+worlds:
+  - "world"
+  - "ziyuan"
