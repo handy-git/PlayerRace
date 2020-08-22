@@ -1,12 +1,12 @@
-package com.handy.playerrace.util;
+package com.handy.playerrace.task;
 
-import com.handy.lib.api.MessageApi;
 import com.handy.lib.constants.BaseConstants;
 import com.handy.lib.util.BaseUtil;
 import com.handy.playerrace.PlayerRace;
 import com.handy.playerrace.constants.RaceTypeEnum;
 import com.handy.playerrace.entity.RacePlayer;
 import com.handy.playerrace.service.RacePlayerService;
+import com.handy.playerrace.util.ConfigUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -19,7 +19,7 @@ import java.util.UUID;
  * @Description: {}
  * @date 2020/7/15 13:38
  */
-public class RecoveryEnergyUtil {
+public class RecoveryEnergyTask {
 
     /**
      * 异步恢复能量值
@@ -118,57 +118,6 @@ public class RecoveryEnergyUtil {
             }
             RacePlayerService.getInstance().updateAdd(racePlayer.getPlayerName(), amount);
         }
-    }
-
-    /**
-     * 恢复能量
-     *
-     * @param player       玩家
-     * @param raceTypeEnum 种族
-     * @param amount       能量
-     */
-    public static void restoreEnergy(Player player, RaceTypeEnum raceTypeEnum, int amount) {
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                // 判断是否为对应种族
-                String raceType = RacePlayerService.getInstance().findRaceType(player.getName());
-                if (!raceTypeEnum.getType().equals(raceType)) {
-                    return;
-                }
-
-                RacePlayer racePlayer = RacePlayerService.getInstance().findByPlayerName(player.getName());
-                if (racePlayer == null || !raceTypeEnum.getType().equals(racePlayer.getRaceType())) {
-                    return;
-                }
-                int maxFatigue = ConfigUtil.config.getInt("maxFatigue");
-                if (racePlayer.getMaxAmount() != null && racePlayer.getMaxAmount() != 0) {
-                    maxFatigue = racePlayer.getMaxAmount();
-                }
-                // 吸血鬼计算最大值
-                if (RaceTypeEnum.VAMPIRE.getType().equals(racePlayer.getRaceType())) {
-                    double energyDiscount = ConfigUtil.raceConfig.getDouble("vampire.energyDiscount" + racePlayer.getRaceLevel());
-                    if (energyDiscount > 0) {
-                        maxFatigue = (int) Math.ceil(maxFatigue * energyDiscount);
-                    }
-                }
-
-                if (racePlayer.getAmount() >= maxFatigue) {
-                    return;
-                }
-                int num = amount;
-                if (racePlayer.getAmount() + amount > maxFatigue) {
-                    num = maxFatigue - racePlayer.getAmount();
-                }
-                Boolean rst = RacePlayerService.getInstance().updateAdd(player.getName(), num);
-                if (rst) {
-                    String restoreEnergyMsg = ConfigUtil.langConfig.getString("restoreEnergyMsg");
-                    restoreEnergyMsg = restoreEnergyMsg.replaceAll("\\$\\{".concat("amount").concat("\\}")
-                            , amount + "");
-                    MessageApi.sendActionbar(player, BaseUtil.replaceChatColor(restoreEnergyMsg));
-                }
-            }
-        }.runTaskAsynchronously(PlayerRace.getInstance());
     }
 
 }

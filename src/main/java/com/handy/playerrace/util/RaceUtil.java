@@ -1,19 +1,21 @@
 package com.handy.playerrace.util;
 
+import com.handy.lib.api.MessageApi;
 import com.handy.lib.constants.VersionCheckEnum;
 import com.handy.lib.util.BaseUtil;
 import com.handy.playerrace.PlayerRace;
+import com.handy.playerrace.constants.RaceTypeEnum;
+import com.handy.playerrace.entity.RacePlayer;
+import com.handy.playerrace.service.RacePlayerService;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
-import org.bukkit.World;
-import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.KnowledgeBookMeta;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -120,104 +122,54 @@ public class RaceUtil {
     }
 
     /**
-     * 通过时间秒毫秒数判断两个时间的间隔
+     * 恢复能量
      *
-     * @param dateTime 时间
-     * @return
+     * @param player       玩家
+     * @param raceTypeEnum 种族
+     * @param amount       能量
      */
-    public static int getDifferDay(Long dateTime) {
-        return (int) ((System.currentTimeMillis() - dateTime) / (1000 * 3600 * 24));
-    }
+    public static void restoreEnergy(Player player, RaceTypeEnum raceTypeEnum, int amount) {
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                // 判断是否为对应种族
+                String raceType = RacePlayerService.getInstance().findRaceType(player.getName());
+                if (!raceTypeEnum.getType().equals(raceType)) {
+                    return;
+                }
 
-    /**
-     * 玩家时间是否为夜晚
-     *
-     * @param player 玩家
-     * @return
-     */
-    public static boolean playerTimeIsNether(Player player) {
-        return World.Environment.NETHER.equals(player.getWorld().getEnvironment());
-    }
+                RacePlayer racePlayer = RacePlayerService.getInstance().findByPlayerName(player.getName());
+                if (racePlayer == null || !raceTypeEnum.getType().equals(racePlayer.getRaceType())) {
+                    return;
+                }
+                int maxFatigue = ConfigUtil.config.getInt("maxFatigue");
+                if (racePlayer.getMaxAmount() != null && racePlayer.getMaxAmount() != 0) {
+                    maxFatigue = racePlayer.getMaxAmount();
+                }
+                // 吸血鬼计算最大值
+                if (RaceTypeEnum.VAMPIRE.getType().equals(racePlayer.getRaceType())) {
+                    double energyDiscount = ConfigUtil.raceConfig.getDouble("vampire.energyDiscount" + racePlayer.getRaceLevel());
+                    if (energyDiscount > 0) {
+                        maxFatigue = (int) Math.ceil(maxFatigue * energyDiscount);
+                    }
+                }
 
-    /**
-     * 玩家时间是否为夜晚
-     *
-     * @param player 玩家
-     * @return
-     */
-    public static boolean playerTimeIsNotNether(Player player) {
-        return !playerTimeIsNether(player);
-    }
-
-    /**
-     * 世界时间是否为夜晚
-     *
-     * @param player 玩家
-     * @return
-     */
-    public static boolean worldTimeIsNight(Player player) {
-        long time = player.getWorld().getTime() % 24000L;
-        return time < 0L || time > 12400L;
-    }
-
-    /**
-     * 世界时间是否为夜晚
-     *
-     * @param player 玩家
-     * @return
-     */
-    public static boolean worldTimeIsNotNight(Player player) {
-        return !worldTimeIsNight(player);
-    }
-
-    /**
-     * 判断是否晴天
-     *
-     * @param player 玩家
-     * @return
-     */
-    public static boolean worldIsStorm(Player player) {
-        return player.getWorld().hasStorm();
-    }
-
-    /**
-     * 判断是否晴天
-     *
-     * @param player 玩家
-     * @return
-     */
-    public static boolean worldIsNotStorm(Player player) {
-        return !worldIsStorm(player);
-    }
-
-    /**
-     * 玩家头上是否有方块
-     *
-     * @param player 玩家
-     * @return
-     */
-    public static boolean isUnderRoof(Player player) {
-        Block block = player.getLocation().getBlock();
-        if (player.getLocation().getY() >= 254.0D) {
-            return false;
-        }
-        while (block.getY() + 1 <= 255) {
-            block = block.getRelative(BlockFace.UP);
-            if (!Material.AIR.equals(block.getType())) {
-                return true;
+                if (racePlayer.getAmount() >= maxFatigue) {
+                    return;
+                }
+                int num = amount;
+                if (racePlayer.getAmount() + amount > maxFatigue) {
+                    num = maxFatigue - racePlayer.getAmount();
+                }
+                Boolean rst = RacePlayerService.getInstance().updateAdd(player.getName(), num);
+                if (rst) {
+                    String restoreEnergyMsg = ConfigUtil.langConfig.getString("restoreEnergyMsg");
+                    restoreEnergyMsg = restoreEnergyMsg.replaceAll("\\$\\{".concat("amount").concat("\\}")
+                            , amount + "");
+                    MessageApi.sendActionbar(player, BaseUtil.replaceChatColor(restoreEnergyMsg));
+                }
             }
-        }
-        return false;
-    }
-
-    /**
-     * 玩家头上是否有方块
-     *
-     * @param player 玩家
-     * @return
-     */
-    public static boolean isNotUnderRoof(Player player) {
-        return !isUnderRoof(player);
+        }.runTaskAsynchronously(PlayerRace.getInstance());
     }
 
 }

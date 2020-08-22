@@ -9,7 +9,6 @@ import com.handy.playerrace.entity.RacePlayer;
 import com.handy.playerrace.service.RacePlayerService;
 import com.handy.playerrace.util.ConfigUtil;
 import com.handy.playerrace.util.RaceUtil;
-import com.handy.playerrace.util.RecoveryEnergyUtil;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.*;
@@ -52,7 +51,7 @@ public class WerWolfEventListener implements Listener {
         Player player = (Player) livingEntity;
 
         // 判断是在夜晚
-        if (RaceUtil.worldTimeIsNight(player)) {
+        if (BaseUtil.worldTimeIsNight(player)) {
             return;
         }
 
@@ -110,7 +109,7 @@ public class WerWolfEventListener implements Listener {
         Player player = (Player) entity;
 
         // 判断是在夜晚
-        if (RaceUtil.worldTimeIsNight(player)) {
+        if (BaseUtil.worldTimeIsNight(player)) {
             return;
         }
 
@@ -124,7 +123,7 @@ public class WerWolfEventListener implements Listener {
         if (livingEntity instanceof Animals) {
             amount = ConfigUtil.raceConfig.getInt("werwolf.killAnimals");
         }
-        RecoveryEnergyUtil.restoreEnergy(player, RaceTypeEnum.WER_WOLF, amount);
+        RaceUtil.restoreEnergy(player, RaceTypeEnum.WER_WOLF, amount);
     }
 
     /**
@@ -143,7 +142,7 @@ public class WerWolfEventListener implements Listener {
         Player player = event.getPlayer();
 
         // 判断是在夜晚
-        if (RaceUtil.worldTimeIsNight(player)) {
+        if (BaseUtil.worldTimeIsNight(player)) {
             return;
         }
 
@@ -164,7 +163,7 @@ public class WerWolfEventListener implements Listener {
         for (String materialStr : materials) {
             Material material = Material.valueOf(materialStr);
             if (itemStackType.equals(material)) {
-                RecoveryEnergyUtil.restoreEnergy(player, RaceTypeEnum.WER_WOLF, ConfigUtil.raceConfig.getInt("werwolf.consume"));
+                RaceUtil.restoreEnergy(player, RaceTypeEnum.WER_WOLF, ConfigUtil.raceConfig.getInt("werwolf.consume"));
                 return;
             }
         }
@@ -189,7 +188,7 @@ public class WerWolfEventListener implements Listener {
         Player player = (Player) entity;
 
         // 判断是在夜晚
-        if (RaceUtil.worldTimeIsNight(player)) {
+        if (BaseUtil.worldTimeIsNight(player)) {
             return;
         }
 
@@ -206,7 +205,7 @@ public class WerWolfEventListener implements Listener {
 
     /**
      * 当一个实体受到另外一个实体伤害时触发该事件
-     * 狼人攻击翻倍
+     * 狼人攻击加成
      *
      * @param event 事件
      */
@@ -236,7 +235,7 @@ public class WerWolfEventListener implements Listener {
         }
 
         // 判断是在夜晚
-        if (RaceUtil.worldTimeIsNight(player)) {
+        if (BaseUtil.worldTimeIsNight(player)) {
             return;
         }
 
@@ -271,7 +270,7 @@ public class WerWolfEventListener implements Listener {
         }
 
         // 判断是在夜晚
-        if (RaceUtil.worldTimeIsNight(player)) {
+        if (BaseUtil.worldTimeIsNight(player)) {
             return;
         }
 

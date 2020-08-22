@@ -1,4 +1,4 @@
-package com.handy.playerrace.util;
+package com.handy.playerrace.task;
 
 import com.handy.lib.api.MessageApi;
 import com.handy.lib.util.BaseUtil;
@@ -6,6 +6,7 @@ import com.handy.playerrace.PlayerRace;
 import com.handy.playerrace.constants.RaceTypeEnum;
 import com.handy.playerrace.entity.RacePlayer;
 import com.handy.playerrace.service.RacePlayerService;
+import com.handy.playerrace.util.RaceUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -17,7 +18,7 @@ import org.bukkit.scheduler.BukkitRunnable;
  * @Description: {}
  * @date 2020/8/21 10:51
  */
-public class VampireCombustUtil {
+public class VampireCombustTask {
 
     /**
      * 异步对吸血鬼进行燃烧
@@ -42,7 +43,7 @@ public class VampireCombustUtil {
                     }
 
                     // 判断是否为白天并且为晴天
-                    if (RaceUtil.playerTimeIsNether(player) || RaceUtil.worldTimeIsNight(player) || RaceUtil.worldIsStorm(player)) {
+                    if (BaseUtil.playerTimeIsNether(player) || BaseUtil.worldTimeIsNight(player) || BaseUtil.worldIsStorm(player)) {
                         continue;
                     }
                     // 判断玩家是不是在水中
@@ -56,7 +57,7 @@ public class VampireCombustUtil {
                         continue;
                     }
                     // 判断头顶是否有方块
-                    if (RaceUtil.isUnderRoof(player)) {
+                    if (BaseUtil.isUnderRoof(player)) {
                         continue;
                     }
                     player.setFireTicks(20 * 60);

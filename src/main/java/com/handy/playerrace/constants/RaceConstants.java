@@ -1,10 +1,9 @@
 package com.handy.playerrace.constants;
 
+import com.handy.playerrace.param.PlayerCursesParam;
 import org.bukkit.entity.Player;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * @author hs
@@ -22,5 +21,10 @@ public class RaceConstants {
      * 吸血鬼主动技能吸血缓存
      */
     public static Map<UUID, Player> VICTIM_ENTITY = new HashMap();
+
+    /**
+     * 被诅咒的玩家
+     */
+    public static List<PlayerCursesParam> PLAYER_CURSES = new ArrayList<>();
 
 }

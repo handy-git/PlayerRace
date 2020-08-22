@@ -10,7 +10,10 @@ import com.handy.lib.util.SqlManagerUtil;
 import com.handy.playerrace.command.PlayerRaceCommand;
 import com.handy.playerrace.listener.ListenerManage;
 import com.handy.playerrace.service.RacePlayerService;
-import com.handy.playerrace.util.*;
+import com.handy.playerrace.task.TaskManage;
+import com.handy.playerrace.util.ConfigUtil;
+import com.handy.playerrace.util.PlaceholderUtil;
+import com.handy.playerrace.util.RaceUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -67,11 +70,8 @@ public final class PlayerRace extends JavaPlugin {
         // 注册合成表
         RaceUtil.addVampire();
 
-        // 运行异步恢复能量
-        RecoveryEnergyUtil.setRecoveryFatigueTask();
-
-        // 运行异步烧吸血鬼
-        VampireCombustUtil.setVampireCombustTask();
+        //注册定时事件
+        TaskManage.enableTask();
 
         // 进行插件使用数据统计
         new Metrics(this, 8605);

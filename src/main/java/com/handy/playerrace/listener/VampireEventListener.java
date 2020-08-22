@@ -10,7 +10,7 @@ import com.handy.playerrace.entity.RacePlayer;
 import com.handy.playerrace.service.RacePlayerService;
 import com.handy.playerrace.util.ConfigUtil;
 import com.handy.playerrace.util.RaceUtil;
-import com.handy.playerrace.util.RecoveryEnergyUtil;
+import com.handy.playerrace.task.RecoveryEnergyTask;
 import org.bukkit.Material;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
@@ -85,7 +85,7 @@ public class VampireEventListener implements Listener {
                 }
                 // 判断是否已经是吸血鬼了
                 if (RaceTypeEnum.VAMPIRE.getType().equals(raceType)) {
-                    RecoveryEnergyUtil.restoreEnergy(player, RaceTypeEnum.VAMPIRE, ConfigUtil.raceConfig.getInt("vampire.cainBlood"));
+                    RaceUtil.restoreEnergy(player, RaceTypeEnum.VAMPIRE, ConfigUtil.raceConfig.getInt("vampire.cainBlood"));
                     return;
                 }
                 // 判断是否为第一只吸血鬼
@@ -171,7 +171,7 @@ public class VampireEventListener implements Listener {
         double damageModifier = ConfigUtil.raceConfig.getDouble("vampire.damage");
 
         // 转换天数
-        int differDay = RaceUtil.getDifferDay(racePlayer.getTransferTime());
+        int differDay = BaseUtil.getDifferDay(racePlayer.getTransferTime());
         if (differDay > 0) {
             double transferTime = ConfigUtil.raceConfig.getDouble("vampire.transferTime" + differDay);
             if (transferTime > 0) {
@@ -238,7 +238,7 @@ public class VampireEventListener implements Listener {
         double damageModifier = ConfigUtil.raceConfig.getDouble("vampire.defenseBonus");
 
         // 转换天数
-        int differDay = RaceUtil.getDifferDay(racePlayer.getTransferTime());
+        int differDay = BaseUtil.getDifferDay(racePlayer.getTransferTime());
         if (differDay > 0) {
             double transferTime = ConfigUtil.raceConfig.getDouble("vampire.transferTime" + differDay);
             if (transferTime > 0) {
@@ -284,7 +284,7 @@ public class VampireEventListener implements Listener {
         if (livingEntity instanceof Animals) {
             amount = ConfigUtil.raceConfig.getInt("vampire.killAnimals");
         }
-        RecoveryEnergyUtil.restoreEnergy(player, RaceTypeEnum.VAMPIRE, amount);
+        RaceUtil.restoreEnergy(player, RaceTypeEnum.VAMPIRE, amount);
     }
 
     /**

@@ -81,6 +81,16 @@ vampire:
   hematophagiaNum: 5
 # 食尸鬼
 ghoul:
+  # 扣除被攻击者对应的能量值
+  absorptionValue: 1
+  # 主动技能: 召唤 猪人 消耗值
+  summonPigZombie: 20
+  # 主动技能: 邪恶诅咒 消耗值
+  curse: 20
+  # 主动技能: 邪恶诅咒 生效时间, 单位秒
+  curseSecond: 600
+  # 在水中每秒伤害
+  waterDamage: 1
 # 恶魔
 demon:
 # 牧师
