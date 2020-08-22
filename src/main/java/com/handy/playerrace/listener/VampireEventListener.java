@@ -94,7 +94,7 @@ public class VampireEventListener implements Listener {
                     return;
                 }
                 // 设置玩家种族为吸血鬼始祖
-                Boolean rst = RacePlayerService.getInstance().updateRaceType(player.getName(), RaceTypeEnum.VAMPIRE.getType(), 1);
+                Boolean rst = RacePlayerService.getInstance().updateRaceType(player, player.getName(), RaceTypeEnum.VAMPIRE.getType(), 1);
                 if (rst) {
                     player.sendMessage(BaseUtil.getLangMsg("vampire.ancestorSucceedMsg"));
                 }
@@ -134,7 +134,7 @@ public class VampireEventListener implements Listener {
                 }
 
                 // 设置玩家种族为吸血鬼-等级变低一级
-                Boolean rst = RacePlayerService.getInstance().updateRaceType(player.getName(), RaceTypeEnum.VAMPIRE.getType(), racePlayerDamage.getRaceLevel() + 1);
+                Boolean rst = RacePlayerService.getInstance().updateRaceType(player, player.getName(), RaceTypeEnum.VAMPIRE.getType(), racePlayerDamage.getRaceLevel() + 1);
                 if (rst) {
                     player.sendMessage(BaseUtil.getLangMsg("werwolf.succeedMsg"));
                 }

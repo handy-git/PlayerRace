@@ -9,7 +9,11 @@ import com.handy.playerrace.constants.RaceConstants;
 import com.handy.playerrace.constants.RaceTypeEnum;
 import com.handy.playerrace.constants.sql.RacePlayerSqlEnum;
 import com.handy.playerrace.entity.RacePlayer;
+import com.handy.playerrace.event.PlayerChangeRaceEvent;
 import lombok.val;
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
+import org.bukkit.plugin.PluginManager;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -352,11 +356,13 @@ public class RacePlayerService {
      * 设置种族
      *
      * @param playerName 玩家
+     * @param playerName 玩家名
      * @param raceType   种族类型
      * @param raceLevel  种族等级
      * @return
      */
-    public Boolean updateRaceType(String playerName, String raceType, int raceLevel) {
+    public Boolean updateRaceType(Player player, String playerName, String raceType, int raceLevel) {
+        String name = playerName;
         playerName = BaseUtil.toLowerCase(playerName);
         Connection conn = null;
         PreparedStatement ps = null;
@@ -377,6 +383,8 @@ public class RacePlayerService {
         }
         if (rst > 0) {
             RaceConstants.PLAYER_RACE.remove(playerName);
+            PluginManager pluginManager = Bukkit.getServer().getPluginManager();
+            pluginManager.callEvent(new PlayerChangeRaceEvent(player, name, RaceTypeEnum.getEnum(raceType)));
         }
         return rst > 0;
     }
