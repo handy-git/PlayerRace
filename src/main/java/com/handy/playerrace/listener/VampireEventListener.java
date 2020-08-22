@@ -207,10 +207,15 @@ public class VampireEventListener implements Listener {
         if (damager instanceof Player) {
             Player damagerPlayer = (Player) damager;
             ItemStack itemInHand = damagerPlayer.getItemInHand();
-            if (Material.WOODEN_SWORD.equals(itemInHand.getType())) {
+
+            String material = "WOOD_SWORD";
+            if (VersionCheckEnum.getEnum().getVersionId() > VersionCheckEnum.V_1_12.getVersionId()) {
+                material = "WOODEN_SWORD";
+            }
+            if (Material.valueOf(material).equals(itemInHand.getType())) {
                 // 被木剑伤害增加倍数
                 double damageModifier = ConfigUtil.raceConfig.getDouble("vampire.woodenSwordDamageMultiplier");
-                event.setDamage(event.getDamage() * damageModifier);
+                event.setDamage(event.getDamage() + damageModifier);
                 return;
             }
         }
@@ -233,7 +238,7 @@ public class VampireEventListener implements Listener {
         }
 
         player.sendMessage("修改前:" + event.getDamage());
-        event.setDamage(event.getDamage() / damageModifier);
+        event.setDamage(event.getDamage() - damageModifier);
         player.sendMessage("修改后:" + event.getDamage());
     }
 
@@ -298,7 +303,7 @@ public class VampireEventListener implements Listener {
         }
 
         player.sendMessage("修改前:" + event.getAmount());
-        event.setAmount(event.getAmount() * ConfigUtil.raceConfig.getInt("vampire.regainHealth"));
+        event.setAmount(event.getAmount() + ConfigUtil.raceConfig.getInt("vampire.regainHealth"));
         player.sendMessage("修改后:" + event.getAmount());
     }
 
@@ -329,7 +334,7 @@ public class VampireEventListener implements Listener {
         }
 
         player.sendMessage("修改前:" + event.getDamage());
-        event.setDamage(event.getDamage() / ConfigUtil.raceConfig.getInt("vampire.drowning"));
+        event.setDamage(event.getDamage() - ConfigUtil.raceConfig.getInt("vampire.drowning"));
         player.sendMessage("修改后:" + event.getDamage());
     }
 

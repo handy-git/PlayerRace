@@ -22,6 +22,7 @@ import org.bukkit.event.entity.EntityRegainHealthEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.projectiles.ProjectileSource;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
@@ -199,7 +200,7 @@ public class WerWolfEventListener implements Listener {
         }
 
         player.sendMessage("修改前:" + event.getAmount());
-        event.setAmount(event.getAmount() * ConfigUtil.raceConfig.getInt("werwolf.regainHealth"));
+        event.setAmount(event.getAmount() + ConfigUtil.raceConfig.getInt("werwolf.regainHealth"));
         player.sendMessage("修改后:" + event.getAmount());
     }
 
@@ -212,10 +213,27 @@ public class WerWolfEventListener implements Listener {
     @EventHandler
     public void onEntityDamageByEntityEvent(EntityDamageByEntityEvent event) {
         Entity entity = event.getDamager();
-        if (!(entity instanceof Player)) {
+
+        int damage = 0;
+        Player player = null;
+        // 判断是否远程
+        if (entity instanceof Projectile) {
+            Projectile projectile = (Projectile) entity;
+            ProjectileSource shooter = projectile.getShooter();
+            if (shooter instanceof Player) {
+                player = (Player) shooter;
+                damage = ConfigUtil.raceConfig.getInt("werwolf.projectileDamage");
+            }
+        }
+
+        // 判断是否近战
+        if ((entity instanceof Player)) {
+            player = (Player) entity;
+            damage = ConfigUtil.raceConfig.getInt("werwolf.damage");
+        }
+        if (player == null) {
             return;
         }
-        Player player = (Player) entity;
 
         // 判断是在夜晚
         if (RaceUtil.worldTimeIsNight(player)) {
@@ -229,7 +247,7 @@ public class WerWolfEventListener implements Listener {
         }
 
         player.sendMessage("修改前:" + event.getDamage());
-        event.setDamage(event.getDamage() * ConfigUtil.raceConfig.getInt("werwolf.damage"));
+        event.setDamage(event.getDamage() + ConfigUtil.raceConfig.getInt("werwolf.damage"));
         player.sendMessage("修改后:" + event.getDamage());
     }
 
@@ -264,7 +282,7 @@ public class WerWolfEventListener implements Listener {
         }
 
         player.sendMessage("修改前:" + event.getDamage());
-        event.setDamage(event.getDamage() / ConfigUtil.raceConfig.getInt("werwolf.fall"));
+        event.setDamage(event.getDamage() - ConfigUtil.raceConfig.getInt("werwolf.fall"));
         player.sendMessage("修改后:" + event.getDamage());
     }
 
