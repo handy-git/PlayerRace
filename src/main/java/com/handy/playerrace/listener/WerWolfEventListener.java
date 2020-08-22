@@ -138,7 +138,14 @@ public class WerWolfEventListener implements Listener {
         if (event.isCancelled()) {
             return;
         }
+
         Player player = event.getPlayer();
+
+        // 判断是在夜晚
+        if (RaceUtil.worldTimeIsNight(player)) {
+            return;
+        }
+
         Material itemStackType = event.getItem().getType();
 
         List<String> materials = new ArrayList<>();
@@ -242,6 +249,11 @@ public class WerWolfEventListener implements Listener {
 
         // 判断伤害来源是否掉落
         if (!EntityDamageEvent.DamageCause.FALL.equals(event.getCause())) {
+            return;
+        }
+
+        // 判断是在夜晚
+        if (RaceUtil.worldTimeIsNight(player)) {
             return;
         }
 

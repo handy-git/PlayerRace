@@ -1,5 +1,6 @@
 package com.handy.playerrace.listener;
 
+import com.handy.lib.constants.VersionCheckEnum;
 import com.handy.lib.util.BaseUtil;
 import com.handy.playerrace.PlayerRace;
 import com.handy.playerrace.constants.RaceTypeEnum;
@@ -17,6 +18,9 @@ import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -40,7 +44,11 @@ public class VampireEventListener implements Listener {
             return;
         }
         //注意：这里从0算起
-        int dropRate = new Random().nextInt(ConfigUtil.raceConfig.getInt("vampire.dropRate"));
+        int anInt = ConfigUtil.raceConfig.getInt("vampire.dropRate");
+        if (anInt == 0) {
+            return;
+        }
+        int dropRate = new Random().nextInt(anInt);
         if (dropRate == 0) {
             event.getDrops().add(RaceUtil.getKnowledgeBook());
             player.sendMessage(BaseUtil.getLangMsg("vampire.bookSucceedMsg"));
@@ -350,6 +358,52 @@ public class VampireEventListener implements Listener {
             return;
         }
         event.setCancelled(true);
+    }
+
+    /**
+     * 当玩家消耗完物品时, 此事件将触发 例如:(食物, 药水, 牛奶桶).
+     * 吸血鬼只能吃生肉
+     *
+     * @param event 事件
+     */
+    @EventHandler
+    public void consume(PlayerItemConsumeEvent event) {
+        // 事件是否被取消
+        if (event.isCancelled()) {
+            return;
+        }
+        Player player = event.getPlayer();
+
+        // 判断是否为吸血鬼
+        String raceType = RacePlayerService.getInstance().findRaceType(player.getName());
+        if (!RaceTypeEnum.VAMPIRE.getType().equals(raceType)) {
+            return;
+        }
+
+        Material itemStackType = event.getItem().getType();
+
+        List<String> materials = new ArrayList<>();
+        Integer versionId = VersionCheckEnum.getEnum().getVersionId();
+        if (VersionCheckEnum.V_1_7.equals(VersionCheckEnum.getEnum())) {
+            // 生牛肉,生鸡肉,生猪排
+            materials = Arrays.asList("RAW_BEEF", "RAW_CHICKEN", "PORK");
+        } else if (versionId > 7 && versionId < 13) {
+            // 生牛肉,生鸡肉,生羊肉,生兔肉,生猪排
+            materials = Arrays.asList("RAW_BEEF", "RAW_CHICKEN", "MUTTON", "RABBIT", "PORK");
+        } else if (versionId > 12) {
+            // 生牛肉,生鸡肉,生羊肉,生兔肉,生猪排
+            materials = Arrays.asList("BEEF", "CHICKEN", "MUTTON", "RABBIT", "PORKCHOP");
+        }
+        boolean rst = true;
+        for (String materialStr : materials) {
+            Material material = Material.valueOf(materialStr);
+            if (itemStackType.equals(material)) {
+                rst = false;
+            }
+        }
+        if (rst) {
+            event.setCancelled(true);
+        }
     }
 
     /**

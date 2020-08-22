@@ -34,5 +34,5 @@ vampire:
   ancestorSucceedMsg: "&a你喝下了该隐之血,身体发生了诡异的变化,你极度渴望血液,成为了吸血鬼始祖!"
   succeedMsg: "&a你被${player}初拥了,获得了吸血鬼的力量!"
   bookSucceedMsg: "&a意外之喜,您发现一本蕴含着神秘力量的知识之书"
-  vampireHateSunlight: "&a吸血鬼讨厌阳光,请速度躲避"
+  vampireHateSunlight: "&a吸血鬼讨厌阳光,请速度躲避或者带上金头盔"
 

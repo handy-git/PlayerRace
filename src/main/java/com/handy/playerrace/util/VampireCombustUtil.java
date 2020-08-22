@@ -30,6 +30,12 @@ public class VampireCombustUtil {
                     if (player.getFireTicks() > 0) {
                         return;
                     }
+                    // 判断是否为吸血鬼
+                    String raceType = RacePlayerService.getInstance().findRaceType(player.getName());
+                    if (!RaceTypeEnum.VAMPIRE.getType().equals(raceType)) {
+                        continue;
+                    }
+
                     RacePlayer racePlayer = RacePlayerService.getInstance().findByPlayerName(player.getName());
                     if (racePlayer == null || !RaceTypeEnum.VAMPIRE.getType().equals(racePlayer.getRaceType())) {
                         continue;
@@ -50,7 +56,7 @@ public class VampireCombustUtil {
                         continue;
                     }
                     // 判断头顶是否有方块
-                    if (RaceUtil.isNotUnderRoof(player)) {
+                    if (RaceUtil.isUnderRoof(player)) {
                         continue;
                     }
                     player.setFireTicks(20 * 60);

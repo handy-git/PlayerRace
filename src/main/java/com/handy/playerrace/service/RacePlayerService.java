@@ -360,6 +360,7 @@ public class RacePlayerService {
         playerName = BaseUtil.toLowerCase(playerName);
         Connection conn = null;
         PreparedStatement ps = null;
+        int rst = 0;
         try {
             String selectStr = RacePlayerSqlEnum.UPDATE_BY_RACE_TYPE.getCommand();
             conn = SqlManagerUtil.getInstance().getConnection(PlayerRace.getInstance());
@@ -368,15 +369,16 @@ public class RacePlayerService {
             ps.setInt(2, raceLevel);
             ps.setLong(3, System.currentTimeMillis());
             ps.setString(4, playerName);
-            val rst = ps.executeUpdate();
-            return rst > 0;
+            rst = ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
             SqlManagerUtil.getInstance().closeSql(conn, ps, null);
         }
-        RaceConstants.PLAYER_RACE.remove(playerName);
-        return false;
+        if (rst > 0) {
+            RaceConstants.PLAYER_RACE.remove(playerName);
+        }
+        return rst > 0;
     }
 
     /**

@@ -17,7 +17,7 @@ restoreNumber: 1
 vipRestoreNumber: 2
 
 # 恢复速度,单位秒
-restoreSpeed: 1
+restoreSpeed: 60
 
 # 最大能量值限制
 maxFatigue: 100
