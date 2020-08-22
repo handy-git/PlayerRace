@@ -16,6 +16,8 @@ public class ListenerManage {
     public static void enableListener(PlayerRace plugin) {
         // 玩家进入服务器事件初始化信息.
         plugin.getServer().getPluginManager().registerEvents(new PlayerJoinEventListener(), plugin);
+        // 玩家退出服务器事件清理缓存
+        plugin.getServer().getPluginManager().registerEvents(new PlayerQuitEventListener(), plugin);
 
         // 狼人相关事件
         plugin.getServer().getPluginManager().registerEvents(new WerWolfEventListener(), plugin);

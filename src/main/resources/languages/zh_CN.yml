@@ -35,4 +35,5 @@ vampire:
   succeedMsg: "&a你被${player}初拥了,获得了吸血鬼的力量!"
   bookSucceedMsg: "&a意外之喜,您发现一本蕴含着神秘力量的知识之书"
   vampireHateSunlight: "&a吸血鬼讨厌阳光,请速度躲避或者带上金头盔"
-
+  noTarget: "&a视线范围内没有发现目标"
+  hematophagiaSucceedMsg: "&a使用技能成功,你从${player}处,吸收到血液${amount}"

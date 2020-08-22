@@ -1,8 +1,10 @@
 package com.handy.playerrace.listener;
 
+import com.handy.lib.api.MessageApi;
 import com.handy.lib.constants.VersionCheckEnum;
 import com.handy.lib.util.BaseUtil;
 import com.handy.playerrace.PlayerRace;
+import com.handy.playerrace.constants.RaceConstants;
 import com.handy.playerrace.constants.RaceTypeEnum;
 import com.handy.playerrace.entity.RacePlayer;
 import com.handy.playerrace.service.RacePlayerService;
@@ -14,6 +16,7 @@ import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.*;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -147,11 +150,11 @@ public class VampireEventListener implements Listener {
      */
     @EventHandler
     public void onEntityDamageByEntityEvent(EntityDamageByEntityEvent event) {
-        Entity entity = event.getDamager();
-        if (!(entity instanceof Player)) {
+        Entity damager = event.getDamager();
+        if (!(damager instanceof Player)) {
             return;
         }
-        Player player = (Player) entity;
+        Player player = (Player) damager;
 
         // 判断是否为吸血鬼
         String raceType = RacePlayerService.getInstance().findRaceType(player.getName());
@@ -180,6 +183,12 @@ public class VampireEventListener implements Listener {
         event.setDamage(event.getDamage() * damageModifier);
 
         player.sendMessage("修改后:" + event.getDamage());
+
+        // 被伤害者
+        Entity entity = event.getEntity();
+        if (entity instanceof Player) {
+            RaceConstants.VICTIM_ENTITY.put(player.getUniqueId(), (Player) entity);
+        }
     }
 
     /**
@@ -434,6 +443,83 @@ public class VampireEventListener implements Listener {
             return;
         }
         event.setCancelled(true);
+    }
+
+
+    /**
+     * 当玩家对一个对象或空气进行交互时触发本事件.
+     * 吸血鬼主动技能-吸血
+     *
+     * @param event 事件
+     */
+    @EventHandler
+    public void onSummonWolf(PlayerInteractEvent event) {
+        Player player = event.getPlayer();
+
+        // 判断是否为吸血鬼
+        String raceType = RacePlayerService.getInstance().findRaceType(player.getName());
+        if (!RaceTypeEnum.VAMPIRE.getType().equals(raceType)) {
+            return;
+        }
+
+        // 判断是否为红石粉
+        ItemStack item = event.getItem();
+        if (item == null || !Material.REDSTONE.equals(item.getType())) {
+            return;
+        }
+
+        // 判断是否有敌人
+        Player entity = RaceConstants.VICTIM_ENTITY.get(player.getUniqueId());
+        if (entity == null || !player.canSee(entity)) {
+            MessageApi.sendActionbar(player, BaseUtil.getLangMsg("vampire.noTarget"));
+            return;
+        }
+
+        // 判断是否为吸血鬼
+        RacePlayer racePlayer = RacePlayerService.getInstance().findByPlayerName(player.getName());
+        if (racePlayer == null || !RaceTypeEnum.VAMPIRE.getType().equals(racePlayer.getRaceType())) {
+            return;
+        }
+
+        int amount = ConfigUtil.raceConfig.getInt("vampire.hematophagia");
+        Boolean rst = RacePlayerService.getInstance().updateSubtract(player.getName(), amount);
+        if (!rst) {
+            MessageApi.sendActionbar(player, RaceUtil.getEnergyShortageMsg(amount, racePlayer.getAmount()));
+            return;
+        }
+
+        // 删除物品
+        if (item.getAmount() > 1) {
+            item.setAmount(item.getAmount() - 1);
+        } else {
+            player.getInventory().remove(item);
+        }
+
+        // 进行吸血
+        int hematophagiaNum = ConfigUtil.raceConfig.getInt("vampire.hematophagiaNum");
+
+        // 目标剩余生命值
+        double health = entity.getHealth() - hematophagiaNum;
+        if (health > 0) {
+            entity.setHealth(health);
+            player.setHealth(player.getHealth() + hematophagiaNum);
+        } else if (health == 0) {
+            entity.setHealth(1);
+
+            player.setHealth(player.getHealth() + hematophagiaNum);
+        } else {
+            entity.setHealth(1);
+            player.setHealth(player.getHealth() + (hematophagiaNum - entity.getHealth()));
+        }
+
+        String hematophagiaSucceedMsg = BaseUtil.getLangMsg("vampire.hematophagiaSucceedMsg");
+        hematophagiaSucceedMsg = hematophagiaSucceedMsg
+                .replaceAll("\\$\\{".concat("player").concat("\\}"), entity.getName())
+                .replaceAll("\\$\\{".concat("amount").concat("\\}"), hematophagiaNum + "");
+
+        MessageApi.sendActionbar(player, BaseUtil.replaceChatColor(hematophagiaSucceedMsg));
+
+        RaceConstants.VICTIM_ENTITY.remove(player.getUniqueId());
     }
 
 }

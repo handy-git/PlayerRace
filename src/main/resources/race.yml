@@ -75,6 +75,10 @@ vampire:
   defenseBonus: 2
   # 弱点: 被木剑攻击伤害增加值,无视被动
   woodenSwordDamageMultiplier: 5
+  # 主动技能: 吸血 消耗能量值
+  hematophagia: 20
+  # 主动技能: 吸血 吸收的血量
+  hematophagiaNum: 5
 # 食尸鬼
 ghoul:
 # 恶魔
