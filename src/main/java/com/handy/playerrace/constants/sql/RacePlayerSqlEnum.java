@@ -53,7 +53,7 @@ public enum RacePlayerSqlEnum {
             "SELECT * FROM `race_player`"
     ),
     SELECT_RESTORE_ALL(
-            "SELECT * FROM `race_player` WHERE `max_amount` = 0 AND `amount` != ? UNION SELECT * FROM `race_player` WHERE `max_amount` != 0 AND `amount` != `max_amount`"
+            "SELECT * FROM `race_player` WHERE `max_amount` = 0 AND `amount` != ? UNION SELECT * FROM `race_player` WHERE `max_amount` != 0 AND `amount` < `max_amount`"
     ),
     SELECT_BY_NAME(
             "SELECT * FROM `race_player` WHERE `player_name` = ?"

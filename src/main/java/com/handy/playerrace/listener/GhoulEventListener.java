@@ -129,8 +129,13 @@ public class GhoulEventListener implements Listener {
         if (!RaceTypeEnum.GHOUL.getType().equals(raceType)) {
             return;
         }
-        player.setHealth(player.getHealth() + event.getFinalDamage());
-        player.sendMessage("修改后: 食尸鬼吸血:" + event.getFinalDamage());
+        double health = player.getHealth() + event.getFinalDamage();
+
+        if (health > player.getMaxHealth()) {
+            health = player.getMaxHealth() - player.getHealth();
+        }
+        player.setHealth(health);
+        player.sendMessage("修改后: 食尸鬼吸血:" + health);
 
         // 如果是玩家还要扣除能量值
         Entity entity = event.getEntity();

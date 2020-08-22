@@ -39,8 +39,17 @@ vampire:
   hematophagiaSucceedMsg: "&a使用技能成功,你从${player}处,吸收到血液${amount}"
 # 食尸鬼
 ghoul:
-  succeedMsg: "&a你被猪人撕碎了,领悟到人类是有极限的! 所以你不做人了,成为了食尸鬼!"
+  succeedMsg: "&a你被猪人撕碎了,在愤怒中领悟到人类是有极限的! 所以你不做人了,成为了食尸鬼!"
   absorptionMsg: "&a你被食尸鬼攻击了,能量值减少 ${amount}"
   curseMsg: "&a你被食尸鬼诅咒了,${minute}分钟内不喝牛奶将强制转换为食尸鬼"
   cursesucceedMsg: "&a食尸鬼诅咒攻心,你被迫成为了一名食尸鬼"
   waterDamageMsg: "&a食尸鬼极度害怕水,请立即离开!"
+# 恶魔
+demon:
+  succeedMsg: "&a你被邪恶的力量所蛊惑,在岩浆中领悟恶魔之道,成为了恶魔!"
+# 牧师
+pastor:
+# 天使
+angel:
+# 恶魔猎手
+demonHunter:

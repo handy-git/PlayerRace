@@ -109,7 +109,7 @@ public class RecoveryEnergyTask {
 
             // 只有在线玩家能获取vip恢复速度
             Player player = Bukkit.getPlayer(UUID.fromString(racePlayer.getPlayerUuid()));
-            if (player != null && player.hasPermission("playerfatigue.vip") && BaseConstants.SIGN) {
+            if (player != null && player.hasPermission("playerrace.vip") && BaseConstants.SIGN) {
                 amount = ConfigUtil.config.getInt("vipRestoreNumber");
             }
 

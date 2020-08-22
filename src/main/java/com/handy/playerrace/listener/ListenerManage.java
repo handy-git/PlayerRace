@@ -25,6 +25,8 @@ public class ListenerManage {
         plugin.getServer().getPluginManager().registerEvents(new VampireEventListener(), plugin);
         // 食尸鬼相关事件
         plugin.getServer().getPluginManager().registerEvents(new GhoulEventListener(), plugin);
+        // 恶魔相关事件
+        plugin.getServer().getPluginManager().registerEvents(new DemonEventListener(), plugin);
     }
 
 }
