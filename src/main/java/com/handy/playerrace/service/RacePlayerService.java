@@ -9,11 +9,8 @@ import com.handy.playerrace.constants.RaceConstants;
 import com.handy.playerrace.constants.RaceTypeEnum;
 import com.handy.playerrace.constants.sql.RacePlayerSqlEnum;
 import com.handy.playerrace.entity.RacePlayer;
-import com.handy.playerrace.event.PlayerChangeRaceEvent;
 import lombok.val;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.PluginManager;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -383,8 +380,6 @@ public class RacePlayerService {
         }
         if (rst > 0) {
             RaceConstants.PLAYER_RACE.remove(playerName);
-            PluginManager pluginManager = Bukkit.getServer().getPluginManager();
-            pluginManager.callEvent(new PlayerChangeRaceEvent(player, name, RaceTypeEnum.getEnum(raceType)));
         }
         return rst > 0;
     }

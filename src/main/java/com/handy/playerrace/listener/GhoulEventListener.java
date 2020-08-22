@@ -132,7 +132,7 @@ public class GhoulEventListener implements Listener {
         double health = player.getHealth() + event.getFinalDamage();
 
         if (health > player.getMaxHealth()) {
-            health = player.getMaxHealth() - player.getHealth();
+            health = health - player.getMaxHealth();
         }
         player.setHealth(health);
         player.sendMessage("修改后: 食尸鬼吸血:" + health);
