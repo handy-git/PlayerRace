@@ -124,42 +124,40 @@ public class GhoulEventListener implements Listener {
         }
         Player player = (Player) damager;
 
+        if (player.getHealth() == player.getMaxHealth()) {
+            return;
+        }
+
         // 判断是否为食尸鬼
         String raceType = RacePlayerService.getInstance().findRaceType(player.getName());
         if (!RaceTypeEnum.GHOUL.getType().equals(raceType)) {
             return;
         }
 
-        // 判断是否为食尸鬼
-        RacePlayer racePlayer = RacePlayerService.getInstance().findByPlayerName(player.getName());
-        if (racePlayer == null || !RaceTypeEnum.GHOUL.getType().equals(racePlayer.getRaceType())) {
-            return;
-        }
-
-        Double health = player.getHealth() + event.getFinalDamage();
-
-        if (health > player.getMaxHealth()) {
-            health = player.getMaxHealth();
-        }
-
-        int healthInt = health.intValue();
-
-        Boolean rst = RacePlayerService.getInstance().updateSubtract(player.getName(), healthInt);
-        if (!rst) {
-            return;
-        }
-
-        player.setHealth(healthInt);
-        player.sendMessage("修改后: 食尸鬼吸血:" + healthInt);
-
-        // 如果是玩家还要扣除能量值
-        Entity entity = event.getEntity();
-        if (!(entity instanceof Player)) {
-            return;
-        }
+        // 扣除能量回血
         new BukkitRunnable() {
             @Override
             public void run() {
+                Double finalDamage = event.getFinalDamage();
+                Boolean rst = RacePlayerService.getInstance().updateSubtract(player.getName(), finalDamage.intValue());
+                if (!rst) {
+                    return;
+                }
+
+                double health = player.getHealth() + event.getFinalDamage();
+
+                if (health > player.getMaxHealth()) {
+                    health = player.getMaxHealth();
+                }
+
+                player.setHealth(health);
+                player.sendMessage("修改后: 食尸鬼吸血:" + health);
+
+                // 如果是玩家还要扣除能量值
+                Entity entity = event.getEntity();
+                if (!(entity instanceof Player)) {
+                    return;
+                }
                 Player entityPlayer = (Player) entity;
                 int amount = ConfigUtil.raceConfig.getInt("ghoul.absorptionValue");
                 RacePlayerService.getInstance().updateSubtract(entityPlayer.getName(), amount);
