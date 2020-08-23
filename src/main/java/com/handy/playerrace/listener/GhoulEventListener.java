@@ -77,7 +77,7 @@ public class GhoulEventListener implements Listener {
 
     /**
      * 当生物攻击或解除目标时调用
-     * 食尸鬼和僵尸猪人休战
+     * 食尸鬼和僵尸休战
      *
      * @param event 事件
      */
@@ -97,12 +97,8 @@ public class GhoulEventListener implements Listener {
         if (!RaceTypeEnum.GHOUL.getType().equals(raceType)) {
             return;
         }
-        // 判断是否为猪人
-        String entityType = "PIG_ZOMBIE";
-        if (VersionCheckEnum.getEnum().getVersionId() > VersionCheckEnum.V_1_15.getVersionId()) {
-            entityType = "ZOMBIFIED_PIGLIN";
-        }
-        if (!EntityType.valueOf(entityType).equals(event.getEntity().getType())) {
+
+        if (!EntityType.ZOMBIE.equals(event.getEntity().getType())) {
             return;
         }
         event.setCancelled(true);
