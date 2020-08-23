@@ -71,7 +71,7 @@ public enum RacePlayerSqlEnum {
             "UPDATE `race_player` SET `amount` = `amount` + ? WHERE `player_name` = ?"
     ),
     UPDATE_SUBTRACT_BY_PLAYER_NAME(
-            "UPDATE `race_player` SET `amount` = `amount` - ? WHERE `player_name` = ? , `amount` - ? >= 0"
+            "UPDATE `race_player` SET `amount` = `amount` - ? WHERE `player_name` = ? AND `amount` - ? >= 0"
     ),
     UPDATE_BY_PLAYER_NAME(
             "UPDATE `race_player` SET `amount` = ? WHERE `player_name` = ?"
@@ -83,7 +83,7 @@ public enum RacePlayerSqlEnum {
             "UPDATE `race_player` SET `amount` = `amount` + ? WHERE `player_uuid` = ?"
     ),
     UPDATE_SUBTRACT_BY_PLAYER_UUID(
-            "UPDATE `race_player` SET `amount` = `amount` - ? WHERE `player_uuid` = ?  , `amount` - ? >= 0"
+            "UPDATE `race_player` SET `amount` = `amount` - ? WHERE `player_uuid` = ?  AND `amount` - ? >= 0"
     ),
     UPDATE_BY_PLAYER_UUID(
             "UPDATE `race_player` SET `amount` = ? WHERE `player_uuid` = ?"

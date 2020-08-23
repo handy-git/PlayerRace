@@ -129,13 +129,28 @@ public class GhoulEventListener implements Listener {
         if (!RaceTypeEnum.GHOUL.getType().equals(raceType)) {
             return;
         }
-        double health = player.getHealth() + event.getFinalDamage();
+
+        // 判断是否为食尸鬼
+        RacePlayer racePlayer = RacePlayerService.getInstance().findByPlayerName(player.getName());
+        if (racePlayer == null || !RaceTypeEnum.GHOUL.getType().equals(racePlayer.getRaceType())) {
+            return;
+        }
+
+        Double health = player.getHealth() + event.getFinalDamage();
 
         if (health > player.getMaxHealth()) {
             health = player.getMaxHealth();
         }
-        player.setHealth(health);
-        player.sendMessage("修改后: 食尸鬼吸血:" + health);
+
+        int healthInt = health.intValue();
+
+        Boolean rst = RacePlayerService.getInstance().updateSubtract(player.getName(), healthInt);
+        if (!rst) {
+            return;
+        }
+
+        player.setHealth(healthInt);
+        player.sendMessage("修改后: 食尸鬼吸血:" + healthInt);
 
         // 如果是玩家还要扣除能量值
         Entity entity = event.getEntity();
