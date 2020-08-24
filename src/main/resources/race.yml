@@ -93,6 +93,10 @@ ghoul:
   waterDamage: 1
 # 恶魔
 demon:
+  # 在岩浆中恢复血量
+  restoreHealth: 1
+  # 在岩浆中恢复能量值
+  energyHealth: 1
 # 牧师
 pastor:
 # 天使

@@ -5,8 +5,11 @@ import com.handy.lib.util.BaseUtil;
 import com.handy.playerrace.PlayerRace;
 import com.handy.playerrace.constants.RaceTypeEnum;
 import com.handy.playerrace.service.RacePlayerService;
+import com.handy.playerrace.util.ConfigUtil;
+import com.handy.playerrace.util.RaceUtil;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -91,6 +94,74 @@ public class DemonEventListener implements Listener {
                 }
             }
         }.runTaskAsynchronously(PlayerRace.getInstance());
+    }
+
+    /**
+     * 储存伤害事件的数据
+     * 恶魔免疫火焰
+     *
+     * @param event 事件
+     */
+    @EventHandler
+    public void onFireDamage(EntityDamageEvent event) {
+        Entity entity = event.getEntity();
+        if (!(entity instanceof Player)) {
+            return;
+        }
+        Player player = (Player) entity;
+
+        // 判断伤害来源是否火焰
+        if (!EntityDamageEvent.DamageCause.FIRE.equals(event.getCause())) {
+            return;
+        }
+
+        // 判断是否为恶魔
+        String raceType = RacePlayerService.getInstance().findRaceType(player.getName());
+        if (!RaceTypeEnum.DEMON.getType().equals(raceType)) {
+            return;
+        }
+        event.setCancelled(true);
+    }
+
+    /**
+     * 储存伤害事件的数据
+     * 恶魔岩浆中恢复血量和能量
+     *
+     * @param event 事件
+     */
+    @EventHandler
+    public void onLavaDamage(EntityDamageEvent event) {
+        Entity entity = event.getEntity();
+        if (!(entity instanceof Player)) {
+            return;
+        }
+        Player player = (Player) entity;
+
+        // 判断伤害来源是否岩浆
+        if (!EntityDamageEvent.DamageCause.LAVA.equals(event.getCause())) {
+            return;
+        }
+
+        // 判断是否为恶魔
+        String raceType = RacePlayerService.getInstance().findRaceType(player.getName());
+        if (!RaceTypeEnum.DEMON.getType().equals(raceType)) {
+            return;
+        }
+
+        event.setCancelled(true);
+
+        // 恢复能量
+        RaceUtil.restoreEnergy(player, RaceTypeEnum.DEMON, ConfigUtil.raceConfig.getInt("demon.energyHealth"));
+
+        // 恢复血量
+        if (player.getHealth() == player.getMaxHealth()) {
+            return;
+        }
+        double health = player.getHealth() + ConfigUtil.raceConfig.getInt("demon.restoreHealth");
+        if (health > player.getMaxHealth()) {
+            health = player.getMaxHealth();
+        }
+        player.setHealth(health);
     }
 
 }
