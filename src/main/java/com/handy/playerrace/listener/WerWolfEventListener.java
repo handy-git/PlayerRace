@@ -198,9 +198,7 @@ public class WerWolfEventListener implements Listener {
             return;
         }
 
-        player.sendMessage("修改前:" + event.getAmount());
         event.setAmount(event.getAmount() + ConfigUtil.raceConfig.getInt("werwolf.regainHealth"));
-        player.sendMessage("修改后:" + event.getAmount());
     }
 
     /**
@@ -245,9 +243,7 @@ public class WerWolfEventListener implements Listener {
             return;
         }
 
-        player.sendMessage("修改前:" + event.getDamage());
         event.setDamage(event.getDamage() + ConfigUtil.raceConfig.getInt("werwolf.damage"));
-        player.sendMessage("修改后:" + event.getDamage());
     }
 
     /**
@@ -280,9 +276,7 @@ public class WerWolfEventListener implements Listener {
             return;
         }
 
-        player.sendMessage("修改前:" + event.getDamage());
         event.setDamage(event.getDamage() - ConfigUtil.raceConfig.getInt("werwolf.fall"));
-        player.sendMessage("修改后:" + event.getDamage());
     }
 
     /**

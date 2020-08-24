@@ -178,11 +178,7 @@ public class VampireEventListener implements Listener {
                 damageModifier = (int) Math.ceil(damageModifier * transferTime);
             }
         }
-        player.sendMessage("修改前:" + event.getDamage());
-
         event.setDamage(event.getDamage() * damageModifier);
-
-        player.sendMessage("修改后:" + event.getDamage());
 
         // 被伤害者
         Entity entity = event.getEntity();
@@ -245,10 +241,7 @@ public class VampireEventListener implements Listener {
                 damageModifier = (int) Math.ceil(damageModifier * transferTime);
             }
         }
-
-        player.sendMessage("修改前:" + event.getDamage());
         event.setDamage(event.getDamage() - damageModifier);
-        player.sendMessage("修改后:" + event.getDamage());
     }
 
     /**
@@ -310,10 +303,7 @@ public class VampireEventListener implements Listener {
         if (!RaceTypeEnum.VAMPIRE.getType().equals(raceType)) {
             return;
         }
-
-        player.sendMessage("修改前:" + event.getAmount());
         event.setAmount(event.getAmount() + ConfigUtil.raceConfig.getInt("vampire.regainHealth"));
-        player.sendMessage("修改后:" + event.getAmount());
     }
 
 
@@ -341,10 +331,7 @@ public class VampireEventListener implements Listener {
         if (!RaceTypeEnum.VAMPIRE.getType().equals(raceType)) {
             return;
         }
-
-        player.sendMessage("修改前:" + event.getDamage());
         event.setDamage(event.getDamage() - ConfigUtil.raceConfig.getInt("vampire.drowning"));
-        player.sendMessage("修改后:" + event.getDamage());
     }
 
     /**

@@ -147,7 +147,6 @@ public class GhoulEventListener implements Listener {
                 }
 
                 player.setHealth(health);
-                player.sendMessage("修改后: 食尸鬼吸血:" + health);
 
                 // 如果是玩家还要扣除能量值
                 Entity entity = event.getEntity();
