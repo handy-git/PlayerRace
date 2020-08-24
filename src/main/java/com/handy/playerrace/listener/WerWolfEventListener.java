@@ -14,6 +14,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
@@ -287,6 +288,10 @@ public class WerWolfEventListener implements Listener {
      */
     @EventHandler
     public void onSummonWolf(PlayerInteractEvent event) {
+        // 判断是否左击
+        if (!Action.LEFT_CLICK_AIR.equals(event.getAction()) && !Action.LEFT_CLICK_BLOCK.equals(event.getAction())) {
+            return;
+        }
         // 判断是否为生猪排
         String material = "PORK";
         if (VersionCheckEnum.getEnum().getVersionId() > 12) {
@@ -339,6 +344,10 @@ public class WerWolfEventListener implements Listener {
      */
     @EventHandler
     public void onSprint(PlayerInteractEvent event) {
+        // 判断是否左击
+        if (!Action.LEFT_CLICK_AIR.equals(event.getAction()) && !Action.LEFT_CLICK_BLOCK.equals(event.getAction())) {
+            return;
+        }
         // 判断是否为羽毛
         ItemStack item = event.getItem();
         if (item == null || !Material.FEATHER.equals(item.getType())) {

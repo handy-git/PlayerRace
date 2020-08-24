@@ -16,6 +16,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
@@ -173,6 +174,11 @@ public class GhoulEventListener implements Listener {
      */
     @EventHandler
     public void onSummonPigZombie(PlayerInteractEvent event) {
+        // 判断是否左击
+        if (!Action.LEFT_CLICK_AIR.equals(event.getAction()) && !Action.LEFT_CLICK_BLOCK.equals(event.getAction())) {
+            return;
+        }
+
         // 判断是否为金块
         ItemStack item = event.getItem();
         if (item == null || !Material.GOLD_BLOCK.equals(item.getType())) {
