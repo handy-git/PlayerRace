@@ -10,7 +10,6 @@ import com.handy.playerrace.constants.RaceTypeEnum;
 import com.handy.playerrace.constants.sql.RacePlayerSqlEnum;
 import com.handy.playerrace.entity.RacePlayer;
 import lombok.val;
-import org.bukkit.entity.Player;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -352,13 +351,12 @@ public class RacePlayerService {
     /**
      * 设置种族
      *
-     * @param playerName 玩家
      * @param playerName 玩家名
      * @param raceType   种族类型
      * @param raceLevel  种族等级
      * @return
      */
-    public Boolean updateRaceType(Player player, String playerName, String raceType, int raceLevel) {
+    public Boolean updateRaceType(String playerName, String raceType, int raceLevel) {
         String name = playerName;
         playerName = BaseUtil.toLowerCase(playerName);
         Connection conn = null;

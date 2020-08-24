@@ -33,10 +33,7 @@ public class PlayerCursesTask {
                     int anInt = ConfigUtil.raceConfig.getInt("ghoul.curseSecond");
                     long second = System.currentTimeMillis() - playerCursesParam.getAddTime() / 1000;
                     if (second >= anInt) {
-                        Boolean rst = RacePlayerService.getInstance().updateRaceType(playerCursesParam.getPlayer(),
-                                playerCursesParam.getPlayerName(),
-                                playerCursesParam.getRaceTypeEnum().getType(),
-                                0);
+                        RacePlayerService.getInstance().updateRaceType(playerCursesParam.getPlayerName(), playerCursesParam.getRaceTypeEnum().getType(), 0);
                         iterator.remove();
                         if (playerCursesParam.getPlayer().isOnline()) {
                             MessageApi.sendActionbar(playerCursesParam.getPlayer(), BaseUtil.getLangMsg("ghoul.cursesucceedMsg"));

@@ -67,7 +67,7 @@ public class GhoulEventListener implements Listener {
                     return;
                 }
                 // 设置玩家种族为食尸鬼
-                Boolean rst = RacePlayerService.getInstance().updateRaceType(player, player.getName(), RaceTypeEnum.GHOUL.getType(), 0);
+                Boolean rst = RacePlayerService.getInstance().updateRaceType(player.getName(), RaceTypeEnum.GHOUL.getType(), 0);
                 if (rst) {
                     player.sendMessage(BaseUtil.getLangMsg("ghoul.succeedMsg"));
                 }
