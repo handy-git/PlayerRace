@@ -271,7 +271,11 @@ public class GhoulEventListener implements Listener {
         }
 
         RaceConstants.PLAYER_CURSES.add(new PlayerCursesParam(playerEntity, playerEntity.getName().toLowerCase(), System.currentTimeMillis(), RaceTypeEnum.GHOUL));
-        MessageApi.sendActionbar(playerEntity, BaseUtil.getLangMsg("ghoul.curseMsg"));
+
+        int curseSecond = ConfigUtil.raceConfig.getInt("ghoul.curseSecond");
+        String diaupMsg = BaseUtil.getLangMsg("ghoul.curseMsg");
+        diaupMsg = diaupMsg.replaceAll("\\$\\{".concat("time").concat("\\}"), curseSecond + "");
+        MessageApi.sendActionbar(playerEntity, BaseUtil.replaceChatColor(diaupMsg));
     }
 
 }

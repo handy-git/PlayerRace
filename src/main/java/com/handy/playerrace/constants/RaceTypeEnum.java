@@ -23,7 +23,7 @@ public enum RaceTypeEnum {
     VAMPIRE("vampire", BaseUtil.getLangMsg("raceType.vampire"), 2L),
     GHOUL("ghoul", BaseUtil.getLangMsg("raceType.ghoul"), 3L),
     DEMON("demon", BaseUtil.getLangMsg("raceType.demon"), 4L),
-    PASTOR("pastor", BaseUtil.getLangMsg("raceType.pastor"), 5L),
+    ELVES("elves", BaseUtil.getLangMsg("raceType.elves"), 5L),
     ANGEL("angel", BaseUtil.getLangMsg("raceType.angel"), 6L),
     DEMON_HUNTER("demon_hunter", BaseUtil.getLangMsg("raceType.demonHunter"), 7L),
     ;

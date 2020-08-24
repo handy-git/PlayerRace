@@ -1,25 +1,28 @@
 package com.handy.playerrace.listener;
 
+import com.handy.lib.api.MessageApi;
 import com.handy.lib.constants.VersionCheckEnum;
 import com.handy.lib.util.BaseUtil;
 import com.handy.playerrace.PlayerRace;
 import com.handy.playerrace.constants.RaceTypeEnum;
+import com.handy.playerrace.entity.RacePlayer;
 import com.handy.playerrace.service.RacePlayerService;
 import com.handy.playerrace.util.ConfigUtil;
 import com.handy.playerrace.util.RaceUtil;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageByBlockEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.util.Vector;
 
 /**
  * @author hs
@@ -162,6 +165,61 @@ public class DemonEventListener implements Listener {
             health = player.getMaxHealth();
         }
         player.setHealth(health);
+    }
+
+    /**
+     * 当玩家对一个对象或空气进行交互时触发本事件.
+     * 恶魔主动技能-火焰弹
+     *
+     * @param event 事件
+     */
+    @EventHandler
+    public void onSprint(PlayerInteractEvent event) {
+        // 判断是否左击
+        if (!Action.LEFT_CLICK_AIR.equals(event.getAction())) {
+            return;
+        }
+        // 判断是否为火焰弹
+        String material = "FIREBALL";
+        if (VersionCheckEnum.getEnum().getVersionId() > VersionCheckEnum.V_1_12.getVersionId()) {
+            material = "LEGACY_FIREBALL";
+        }
+        ItemStack item = event.getItem();
+        if (item == null || !Material.valueOf(material).equals(item.getType())) {
+            return;
+        }
+        Player player = event.getPlayer();
+
+        // 判断是否为恶魔
+        String raceType = RacePlayerService.getInstance().findRaceType(player.getName());
+        if (!RaceTypeEnum.DEMON.getType().equals(raceType)) {
+            return;
+        }
+
+        // 判断是否为恶魔
+        RacePlayer racePlayer = RacePlayerService.getInstance().findByPlayerName(player.getName());
+        if (racePlayer == null || !RaceTypeEnum.DEMON.getType().equals(racePlayer.getRaceType())) {
+            return;
+        }
+        int amount = ConfigUtil.raceConfig.getInt("demon.fireBall");
+        Boolean rst = RacePlayerService.getInstance().updateSubtract(player.getName(), amount);
+        if (!rst) {
+            MessageApi.sendActionbar(player, RaceUtil.getEnergyShortageMsg(amount, racePlayer.getAmount()));
+            return;
+        }
+
+        // 删除物品
+        if (item.getAmount() > 1) {
+            item.setAmount(item.getAmount() - 1);
+        } else {
+            player.getInventory().remove(item);
+        }
+
+        // 发射火焰弹
+        Vector direction = player.getEyeLocation().getDirection().multiply(2);
+        Projectile projectile = (Projectile) player.getWorld().spawn(player.getEyeLocation().add(direction.getX(), direction.getY(), direction.getZ()), Fireball.class);
+        projectile.setShooter(player);
+        projectile.setVelocity(direction);
     }
 
 }

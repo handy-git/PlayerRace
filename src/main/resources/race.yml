@@ -97,9 +97,13 @@ demon:
   restoreHealth: 1
   # 在岩浆中恢复能量值
   energyHealth: 1
-# 牧师
-pastor:
+  # 火焰弹消耗能量值
+  fireBall: 20
+# 精灵
+elves:
 # 天使
 angel:
+  # 主动技能: 击飞 消耗能量值
+  diaup: 20
 # 恶魔猎手
 demonHunter:
