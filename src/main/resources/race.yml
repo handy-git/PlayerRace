@@ -99,6 +99,8 @@ demon:
   energyHealth: 1
   # 火焰弹消耗能量值
   fireBall: 20
+  # 召唤蜘蛛网消耗能量值
+  web: 5
 # 精灵
 elves:
 # 天使

@@ -9,6 +9,7 @@ import com.handy.playerrace.entity.RacePlayer;
 import com.handy.playerrace.service.RacePlayerService;
 import com.handy.playerrace.util.ConfigUtil;
 import com.handy.playerrace.util.RaceUtil;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.*;
@@ -179,6 +180,7 @@ public class DemonEventListener implements Listener {
         if (!Action.LEFT_CLICK_AIR.equals(event.getAction())) {
             return;
         }
+
         // 判断是否为火焰弹
         String material = "FIREBALL";
         if (VersionCheckEnum.getEnum().getVersionId() > VersionCheckEnum.V_1_12.getVersionId()) {
@@ -220,6 +222,64 @@ public class DemonEventListener implements Listener {
         Projectile projectile = (Projectile) player.getWorld().spawn(player.getEyeLocation().add(direction.getX(), direction.getY(), direction.getZ()), Fireball.class);
         projectile.setShooter(player);
         projectile.setVelocity(direction);
+    }
+
+    /**
+     * 当玩家对一个对象或空气进行交互时触发本事件.
+     * 恶魔主动技能-生成蜘蛛网
+     *
+     * @param event 事件
+     */
+    @EventHandler
+    public void web(PlayerInteractEvent event) {
+        // 判断是否左击
+        if (!Action.LEFT_CLICK_AIR.equals(event.getAction())) {
+            return;
+        }
+
+        // 判断是否为墨囊
+        String material = "INK_SACK";
+        if (VersionCheckEnum.getEnum().getVersionId() > VersionCheckEnum.V_1_12.getVersionId()) {
+            material = "LEGACY_INK_SACK";
+        }
+        ItemStack item = event.getItem();
+        if (item == null || !Material.valueOf(material).equals(item.getType())) {
+            return;
+        }
+        Player player = event.getPlayer();
+
+        // 判断是否为恶魔
+        String raceType = RacePlayerService.getInstance().findRaceType(player.getName());
+        if (!RaceTypeEnum.DEMON.getType().equals(raceType)) {
+            return;
+        }
+
+        // 判断是否为恶魔
+        RacePlayer racePlayer = RacePlayerService.getInstance().findByPlayerName(player.getName());
+        if (racePlayer == null || !RaceTypeEnum.DEMON.getType().equals(racePlayer.getRaceType())) {
+            return;
+        }
+        int amount = ConfigUtil.raceConfig.getInt("demon.web");
+        Boolean rst = RacePlayerService.getInstance().updateSubtract(player.getName(), amount);
+        if (!rst) {
+            MessageApi.sendActionbar(player, RaceUtil.getEnergyShortageMsg(amount, racePlayer.getAmount()));
+            return;
+        }
+
+        // 删除物品
+        if (item.getAmount() > 1) {
+            item.setAmount(item.getAmount() - 1);
+        } else {
+            player.getInventory().remove(item);
+        }
+
+        // 召唤蜘蛛网
+        String web = "WEB";
+        if (VersionCheckEnum.getEnum().getVersionId() > VersionCheckEnum.V_1_12.getVersionId()) {
+            web = "LEGACY_WEB";
+        }
+        Location location = player.getLocation();
+        player.getWorld().getBlockAt(location).setType(Material.valueOf(material));
     }
 
 }
