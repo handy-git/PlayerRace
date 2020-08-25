@@ -46,11 +46,9 @@ public class AngelEventListener implements Listener {
         }
         Player player = (Player) livingEntity;
 
-        // 获取伤害事件
-        EntityDamageEvent entityDamageEvent = livingEntity.getLastDamageCause();
-
         // 判断伤害来源是否掉落
-        if (!EntityDamageEvent.DamageCause.FALL.equals(entityDamageEvent.getCause())) {
+        EntityDamageEvent entityDamageEvent = livingEntity.getLastDamageCause();
+        if (entityDamageEvent == null || !EntityDamageEvent.DamageCause.FALL.equals(entityDamageEvent.getCause())) {
             return;
         }
         // 判断手上是否羽毛
