@@ -47,10 +47,12 @@ ghoul:
 # 恶魔
 demon:
   succeedMsg: "&a你被邪恶的力量所蛊惑,在岩浆中领悟恶魔之道,成为了恶魔!"
+  wearEquipmentMsg: "&a恶魔只能穿锁链装备"
 # 精灵
 elves:
 # 天使
 angel:
   diaupMsg: "&a你被${player}击飞了"
+  wearEquipmentMsg: "&a天使只能穿皮革装备"
 # 恶魔猎手
 demonHunter:

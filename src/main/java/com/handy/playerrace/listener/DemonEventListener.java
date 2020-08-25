@@ -301,24 +301,28 @@ public class DemonEventListener implements Listener {
 
         // 获取被光标所拿起来的物品
         ItemStack cursor = event.getCursor();
-        if (cursor == null) {
+        if (cursor == null || Material.AIR.equals(cursor.getType())) {
             return;
         }
 
         if (slot == 39 && !Material.CHAINMAIL_HELMET.equals(cursor.getType())) {
             event.setCancelled(true);
+            player.sendMessage(BaseUtil.getLangMsg("demon.wearEquipmentMsg"));
             return;
         }
         if (slot == 38 && !Material.CHAINMAIL_CHESTPLATE.equals(cursor.getType())) {
             event.setCancelled(true);
+            player.sendMessage(BaseUtil.getLangMsg("demon.wearEquipmentMsg"));
             return;
         }
         if (slot == 37 && !Material.CHAINMAIL_LEGGINGS.equals(cursor.getType())) {
             event.setCancelled(true);
+            player.sendMessage(BaseUtil.getLangMsg("demon.wearEquipmentMsg"));
             return;
         }
         if (slot == 36 && !Material.CHAINMAIL_BOOTS.equals(cursor.getType())) {
             event.setCancelled(true);
+            player.sendMessage(BaseUtil.getLangMsg("demon.wearEquipmentMsg"));
         }
     }
 

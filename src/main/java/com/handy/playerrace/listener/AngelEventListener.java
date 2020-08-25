@@ -186,24 +186,28 @@ public class AngelEventListener implements Listener {
 
         // 获取被光标所拿起来的物品
         ItemStack cursor = event.getCursor();
-        if (cursor == null) {
+        if (cursor == null || Material.AIR.equals(cursor.getType())) {
             return;
         }
 
         if (slot == 39 && !Material.LEATHER_HELMET.equals(cursor.getType())) {
             event.setCancelled(true);
+            player.sendMessage(BaseUtil.getLangMsg("angel.wearEquipmentMsg"));
             return;
         }
         if (slot == 38 && !Material.LEATHER_CHESTPLATE.equals(cursor.getType())) {
             event.setCancelled(true);
+            player.sendMessage(BaseUtil.getLangMsg("angel.wearEquipmentMsg"));
             return;
         }
         if (slot == 37 && !Material.LEATHER_LEGGINGS.equals(cursor.getType())) {
             event.setCancelled(true);
+            player.sendMessage(BaseUtil.getLangMsg("angel.wearEquipmentMsg"));
             return;
         }
         if (slot == 36 && !Material.LEATHER_BOOTS.equals(cursor.getType())) {
             event.setCancelled(true);
+            player.sendMessage(BaseUtil.getLangMsg("angel.wearEquipmentMsg"));
         }
     }
 
