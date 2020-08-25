@@ -100,7 +100,7 @@ public class DemonEventListener implements Listener {
         Player player = (Player) entity;
 
         // 判断伤害来源是否火焰
-        if (!EntityDamageEvent.DamageCause.FIRE.equals(event.getCause())) {
+        if (!EntityDamageEvent.DamageCause.FIRE.equals(event.getCause()) || !EntityDamageEvent.DamageCause.FIRE_TICK.equals(event.getCause())) {
             return;
         }
 
@@ -109,7 +109,7 @@ public class DemonEventListener implements Listener {
         if (!RaceTypeEnum.DEMON.getType().equals(raceType)) {
             return;
         }
-        event.setCancelled(true);
+        event.setDamage(0);
     }
 
     /**
@@ -136,9 +136,7 @@ public class DemonEventListener implements Listener {
         if (!RaceTypeEnum.DEMON.getType().equals(raceType)) {
             return;
         }
-
-        event.setCancelled(true);
-
+        event.setDamage(0);
         // 恢复能量
         RaceUtil.restoreEnergy(player, RaceTypeEnum.DEMON, ConfigUtil.raceConfig.getInt("demon.energyHealth"));
 
