@@ -167,7 +167,7 @@ public class DemonEventListener implements Listener {
         // 判断是否为火焰弹
         String material = "FIREBALL";
         if (VersionCheckEnum.getEnum().getVersionId() > VersionCheckEnum.V_1_12.getVersionId()) {
-            material = "LEGACY_FIREBALL";
+            material = "FIRE_CHARGE";
         }
         ItemStack item = event.getItem();
         if (item == null || !Material.valueOf(material).equals(item.getType())) {
@@ -223,7 +223,7 @@ public class DemonEventListener implements Listener {
         // 判断是否为墨囊
         String material = "INK_SACK";
         if (VersionCheckEnum.getEnum().getVersionId() > VersionCheckEnum.V_1_12.getVersionId()) {
-            material = "LEGACY_INK_SACK";
+            material = "INK_SAC";
         }
         ItemStack item = event.getItem();
         if (item == null || !Material.valueOf(material).equals(item.getType())) {
