@@ -10,6 +10,7 @@ import com.handy.playerrace.util.RaceUtil;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -17,7 +18,10 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
+import org.bukkit.event.inventory.InventoryAction;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
@@ -51,6 +55,22 @@ public class AngelEventListener implements Listener {
         }
         // 判断手上是否羽毛
         if (!Material.FEATHER.equals(player.getInventory().getItemInHand().getType())) {
+            return;
+        }
+
+        // 判断是否为皮革装备
+        PlayerInventory inventory = player.getInventory();
+        ItemStack helmet = inventory.getHelmet();
+        ItemStack chestplate = inventory.getChestplate();
+        ItemStack leggings = inventory.getLeggings();
+        ItemStack boots = inventory.getBoots();
+
+        if (helmet == null || chestplate == null || leggings == null || boots == null) {
+            return;
+        }
+
+        if (!Material.LEATHER_HELMET.equals(helmet.getType()) || !Material.LEATHER_CHESTPLATE.equals(chestplate.getType())
+                || !Material.LEATHER_LEGGINGS.equals(leggings.getType()) || !Material.LEATHER_BOOTS.equals(boots.getType())) {
             return;
         }
 
@@ -131,6 +151,61 @@ public class AngelEventListener implements Listener {
             entity.setVelocity(player.getLocation().getDirection().multiply(7));
             entity.setVelocity(new Vector(entity.getVelocity().getX(), 3.1D, entity.getVelocity().getZ()));
             player.playSound(entity.getLocation(), Sound.ENTITY_SLIME_SQUISH, 100.0F, 10.0F);
+        }
+    }
+
+    /**
+     * 当玩家点击物品栏中的格子时触发事件事件..
+     * 天使无法穿除了皮革以外的装备
+     *
+     * @param event 事件
+     */
+    @EventHandler
+    public void onInventoryClick(InventoryClickEvent event) {
+        HumanEntity whoClicked = event.getWhoClicked();
+        if (!(whoClicked instanceof Player)) {
+            return;
+        }
+        Player player = (Player) whoClicked;
+
+        // 判断是否为天使
+        String raceType = RacePlayerService.getInstance().findRaceType(player.getName());
+        if (!RaceTypeEnum.ANGEL.getType().equals(raceType)) {
+            return;
+        }
+
+        InventoryAction action = event.getAction();
+        // 判断是否移动物品
+        if (!InventoryAction.PICKUP_ALL.equals(action) && !InventoryAction.SWAP_WITH_CURSOR.equals(action)) {
+            return;
+        }
+
+        //返回点击的格子序号，可传递给Inventory.getItem(int)。
+        int slot = event.getSlot();
+        if (slot > 39 || slot < 36) {
+            return;
+        }
+
+        // 获取被光标所拿起来的物品
+        ItemStack cursor = event.getCursor();
+        if (cursor == null) {
+            return;
+        }
+
+        if (slot == 39 && !Material.LEATHER_HELMET.equals(cursor.getType())) {
+            event.setCancelled(true);
+            return;
+        }
+        if (slot == 38 && !Material.LEATHER_CHESTPLATE.equals(cursor.getType())) {
+            event.setCancelled(true);
+            return;
+        }
+        if (slot == 37 && !Material.LEATHER_LEGGINGS.equals(cursor.getType())) {
+            event.setCancelled(true);
+            return;
+        }
+        if (slot == 36 && !Material.LEATHER_BOOTS.equals(cursor.getType())) {
+            event.setCancelled(true);
         }
     }
 

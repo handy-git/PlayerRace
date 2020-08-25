@@ -19,6 +19,8 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageByBlockEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
+import org.bukkit.event.inventory.InventoryAction;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
@@ -280,6 +282,61 @@ public class DemonEventListener implements Listener {
         }
         Location location = player.getLocation();
         player.getWorld().getBlockAt(location).setType(Material.valueOf(material));
+    }
+
+    /**
+     * 当玩家点击物品栏中的格子时触发事件事件..
+     * 恶魔无法穿除了锁链以外的装备
+     *
+     * @param event 事件
+     */
+    @EventHandler
+    public void onInventoryClick(InventoryClickEvent event) {
+        HumanEntity whoClicked = event.getWhoClicked();
+        if (!(whoClicked instanceof Player)) {
+            return;
+        }
+        Player player = (Player) whoClicked;
+
+        // 判断是否为恶魔
+        String raceType = RacePlayerService.getInstance().findRaceType(player.getName());
+        if (!RaceTypeEnum.DEMON.getType().equals(raceType)) {
+            return;
+        }
+
+        InventoryAction action = event.getAction();
+        // 判断是否移动物品
+        if (!InventoryAction.PICKUP_ALL.equals(action) && !InventoryAction.SWAP_WITH_CURSOR.equals(action)) {
+            return;
+        }
+
+        //返回点击的格子序号，可传递给Inventory.getItem(int)。
+        int slot = event.getSlot();
+        if (slot > 39 || slot < 36) {
+            return;
+        }
+
+        // 获取被光标所拿起来的物品
+        ItemStack cursor = event.getCursor();
+        if (cursor == null) {
+            return;
+        }
+
+        if (slot == 39 && !Material.CHAINMAIL_HELMET.equals(cursor.getType())) {
+            event.setCancelled(true);
+            return;
+        }
+        if (slot == 38 && !Material.CHAINMAIL_CHESTPLATE.equals(cursor.getType())) {
+            event.setCancelled(true);
+            return;
+        }
+        if (slot == 37 && !Material.CHAINMAIL_LEGGINGS.equals(cursor.getType())) {
+            event.setCancelled(true);
+            return;
+        }
+        if (slot == 36 && !Material.CHAINMAIL_BOOTS.equals(cursor.getType())) {
+            event.setCancelled(true);
+        }
     }
 
 }
