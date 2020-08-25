@@ -211,4 +211,58 @@ public class AngelEventListener implements Listener {
         }
     }
 
+    /**
+     * 储存伤害事件的数据
+     * 天使掉落无伤
+     *
+     * @param event 事件
+     */
+    @EventHandler
+    public void onFallDamage(EntityDamageEvent event) {
+        Entity entity = event.getEntity();
+        if (!(entity instanceof Player)) {
+            return;
+        }
+        Player player = (Player) entity;
+
+        // 判断伤害来源是否掉落
+        if (!EntityDamageEvent.DamageCause.FALL.equals(event.getCause())) {
+            return;
+        }
+
+        // 判断是否为天使
+        String raceType = RacePlayerService.getInstance().findRaceType(player.getName());
+        if (!RaceTypeEnum.ANGEL.getType().equals(raceType)) {
+            return;
+        }
+        event.setCancelled(true);
+    }
+
+    /**
+     * 储存伤害事件的数据
+     * 天使水下无伤
+     *
+     * @param event 事件
+     */
+    @EventHandler
+    public void onDrowningDamage(EntityDamageEvent event) {
+        Entity entity = event.getEntity();
+        if (!(entity instanceof Player)) {
+            return;
+        }
+        Player player = (Player) entity;
+
+        // 判断伤害来源是否溺水
+        if (!EntityDamageEvent.DamageCause.DROWNING.equals(event.getCause())) {
+            return;
+        }
+
+        // 判断是否为天使
+        String raceType = RacePlayerService.getInstance().findRaceType(player.getName());
+        if (!RaceTypeEnum.ANGEL.getType().equals(raceType)) {
+            return;
+        }
+        event.setDamage(0);
+    }
+
 }
