@@ -202,7 +202,7 @@ public class DemonEventListener implements Listener {
         }
 
         // 发射火焰弹
-        Vector direction = player.getEyeLocation().getDirection().multiply(2);
+        Vector direction = player.getEyeLocation().getDirection().multiply(10);
         Projectile projectile = (Projectile) player.getWorld().spawn(player.getEyeLocation().add(direction.getX(), direction.getY(), direction.getZ()), Fireball.class);
         projectile.setShooter(player);
         projectile.setVelocity(direction);
@@ -245,7 +245,8 @@ public class DemonEventListener implements Listener {
         }
         Location location = block.getLocation();
         location.setY(location.getY() + 1);
-        if (location.getY() >= 254.0D) {
+
+        if (location.getY() >= 254.0D || !Material.AIR.equals(location.getBlock().getType())) {
             return;
         }
         // 判断是否为恶魔
