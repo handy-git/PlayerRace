@@ -11,6 +11,7 @@ import com.handy.playerrace.util.ConfigUtil;
 import com.handy.playerrace.util.RaceUtil;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -100,7 +101,7 @@ public class DemonEventListener implements Listener {
         Player player = (Player) entity;
 
         // 判断伤害来源是否火焰
-        if (!EntityDamageEvent.DamageCause.FIRE.equals(event.getCause()) || !EntityDamageEvent.DamageCause.FIRE_TICK.equals(event.getCause())) {
+        if (!EntityDamageEvent.DamageCause.FIRE.equals(event.getCause()) && !EntityDamageEvent.DamageCause.FIRE_TICK.equals(event.getCause())) {
             return;
         }
 
@@ -215,8 +216,8 @@ public class DemonEventListener implements Listener {
      */
     @EventHandler
     public void web(PlayerInteractEvent event) {
-        // 判断是否左击
-        if (!Action.LEFT_CLICK_AIR.equals(event.getAction())) {
+        // 判断是否左击方块
+        if (!Action.LEFT_CLICK_BLOCK.equals(event.getAction())) {
             return;
         }
 
@@ -237,11 +238,22 @@ public class DemonEventListener implements Listener {
             return;
         }
 
+        // 判断点击的方块位置
+        Block block = event.getClickedBlock();
+        if (block == null) {
+            return;
+        }
+        Location location = block.getLocation();
+        location.setY(location.getY() + 1);
+        if (location.getY() >= 254.0D) {
+            return;
+        }
         // 判断是否为恶魔
         RacePlayer racePlayer = RacePlayerService.getInstance().findByPlayerName(player.getName());
         if (racePlayer == null || !RaceTypeEnum.DEMON.getType().equals(racePlayer.getRaceType())) {
             return;
         }
+
         int amount = ConfigUtil.raceConfig.getInt("demon.web");
         Boolean rst = RacePlayerService.getInstance().updateSubtract(player.getName(), amount);
         if (!rst) {
@@ -255,14 +267,14 @@ public class DemonEventListener implements Listener {
         } else {
             player.getInventory().remove(item);
         }
-
+        event.setCancelled(true);
         // 召唤蜘蛛网
         String web = "WEB";
         if (VersionCheckEnum.getEnum().getVersionId() > VersionCheckEnum.V_1_12.getVersionId()) {
-            web = "LEGACY_WEB";
+            web = "COBWEB";
         }
-        Location location = player.getLocation();
-        player.getWorld().getBlockAt(location).setType(Material.valueOf(material));
+
+        block.getWorld().getBlockAt(location).setType(Material.valueOf(web));
     }
 
     /**
