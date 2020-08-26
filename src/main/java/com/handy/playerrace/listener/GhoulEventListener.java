@@ -240,6 +240,10 @@ public class GhoulEventListener implements Listener {
         if (!(entity instanceof Player)) {
             return;
         }
+        // 判断是否为npc
+        if (entity.hasMetadata("NPC")){
+            return;
+        }
 
         Player player = (Player) damager;
         Player playerEntity = (Player) entity;

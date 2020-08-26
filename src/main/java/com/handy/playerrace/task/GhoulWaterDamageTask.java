@@ -38,7 +38,12 @@ public class GhoulWaterDamageTask {
                         continue;
                     }
                     int waterDamage = ConfigUtil.raceConfig.getInt("ghoul.waterDamage");
-                    player.setHealth(player.getHealth() - waterDamage);
+
+                    double health = player.getHealth() - waterDamage;
+                    if (health < 0) {
+                        health = 0;
+                    }
+                    player.setHealth(health);
 
                     MessageApi.sendActionbar(player, BaseUtil.getLangMsg("ghoul.waterDamageMsg"));
                 }

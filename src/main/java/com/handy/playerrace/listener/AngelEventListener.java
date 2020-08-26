@@ -120,6 +120,11 @@ public class AngelEventListener implements Listener {
             return;
         }
 
+        // 判断是否为npc
+        if (entity.hasMetadata("NPC")){
+            return;
+        }
+
         int amount = ConfigUtil.raceConfig.getInt("angel.diaup");
         Boolean rst = RacePlayerService.getInstance().updateSubtract(player.getName(), amount);
         if (!rst) {
@@ -292,6 +297,10 @@ public class AngelEventListener implements Listener {
         }
         // 被伤害者
         Entity entity = event.getEntity();
+        // 判断是否为npc
+        if (entity.hasMetadata("NPC")){
+            return;
+        }
 
         // 判断是否为动物和玩家
         if (!(entity instanceof Animals) && !(entity instanceof Player)) {
@@ -399,6 +408,10 @@ public class AngelEventListener implements Listener {
         if (!(entity instanceof Player)) {
             return;
         }
+        // 判断是否为npc
+        if (entity.hasMetadata("NPC")){
+            return;
+        }
 
         Player player = (Player) damager;
         Player playerEntity = (Player) entity;
@@ -466,6 +479,10 @@ public class AngelEventListener implements Listener {
         }
         Entity entity = event.getEntity();
         if (!(entity instanceof Player)) {
+            return;
+        }
+        // 判断是否为npc
+        if (entity.hasMetadata("NPC")){
             return;
         }
 

@@ -8,6 +8,10 @@ reloadMsg: "&a插件重载完成"
 placeholderAPISucceedMsg: "&a成功加载placeholderApi,启用自定义变量功能!"
 placeholderAPIFailureMsg: "&4未找到placeholderApi,未启用自定义变量功能!"
 
+# Citizens提醒
+citizensSucceedMsg: "&a成功加载Citizens,开始兼容Citizens!"
+citizensFailureMsg: "&4未找到Citizens,未开始兼容Citizens!"
+
 # /plr 指令管理员出现的提醒
 helps:
   - "&e&m一一一一一一一一一一一一一&f[&e玩家任务系统&f]&e&m一一一一一一一一一一一一一"
