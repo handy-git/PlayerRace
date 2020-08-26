@@ -6,7 +6,6 @@ import com.handy.lib.util.BaseUtil;
 import com.handy.playerrace.PlayerRace;
 import com.handy.playerrace.constants.RaceConstants;
 import com.handy.playerrace.constants.RaceTypeEnum;
-import com.handy.playerrace.entity.RacePlayer;
 import com.handy.playerrace.param.PlayerCursesParam;
 import com.handy.playerrace.service.RacePlayerService;
 import com.handy.playerrace.util.ConfigUtil;
@@ -197,16 +196,10 @@ public class GhoulEventListener implements Listener {
             return;
         }
 
-        // 判断是否为食尸鬼
-        RacePlayer racePlayer = RacePlayerService.getInstance().findByPlayerName(player.getName());
-        if (racePlayer == null || !RaceTypeEnum.GHOUL.getType().equals(racePlayer.getRaceType())) {
-            return;
-        }
-
         int amount = ConfigUtil.raceConfig.getInt("ghoul.summonPigZombie");
         Boolean rst = RacePlayerService.getInstance().updateSubtract(player.getName(), amount);
         if (!rst) {
-            MessageApi.sendActionbar(player, RaceUtil.getEnergyShortageMsg(amount, racePlayer.getAmount()));
+            MessageApi.sendActionbar(player, RaceUtil.getEnergyShortageMsg(amount));
             return;
         }
 
@@ -268,16 +261,11 @@ public class GhoulEventListener implements Listener {
         if (!RaceTypeEnum.GHOUL.getType().equals(raceType)) {
             return;
         }
-        // 判断是否为食尸鬼
-        RacePlayer racePlayer = RacePlayerService.getInstance().findByPlayerName(player.getName());
-        if (racePlayer == null || !RaceTypeEnum.GHOUL.getType().equals(racePlayer.getRaceType())) {
-            return;
-        }
 
         int amount = ConfigUtil.raceConfig.getInt("ghoul.curse");
         Boolean rst = RacePlayerService.getInstance().updateSubtract(player.getName(), amount);
         if (!rst) {
-            MessageApi.sendActionbar(player, RaceUtil.getEnergyShortageMsg(amount, racePlayer.getAmount()));
+            MessageApi.sendActionbar(player, RaceUtil.getEnergyShortageMsg(amount));
             return;
         }
 

@@ -33,13 +33,11 @@ public class RaceUtil {
      * 能量不足
      *
      * @param amount   消耗值
-     * @param myAmount 我的能量
      * @return msg
      */
-    public static String getEnergyShortageMsg(Integer amount, Integer myAmount) {
+    public static String getEnergyShortageMsg(Integer amount) {
         Map<String, String> map = new HashMap<>();
         map.put("amount", amount.toString());
-        map.put("myAmount", myAmount.toString());
 
         String actionBarMsg = ConfigUtil.langConfig.getString("energyShortageMsg");
         if (actionBarMsg == null || "".equals(actionBarMsg)) {
@@ -133,11 +131,6 @@ public class RaceUtil {
             @Override
             public void run() {
                 // 判断是否为对应种族
-                String raceType = RacePlayerService.getInstance().findRaceType(player.getName());
-                if (!raceTypeEnum.getType().equals(raceType)) {
-                    return;
-                }
-
                 RacePlayer racePlayer = RacePlayerService.getInstance().findByPlayerName(player.getName());
                 if (racePlayer == null || !raceTypeEnum.getType().equals(racePlayer.getRaceType())) {
                     return;

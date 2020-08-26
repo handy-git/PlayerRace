@@ -5,7 +5,6 @@ import com.handy.lib.constants.VersionCheckEnum;
 import com.handy.lib.util.BaseUtil;
 import com.handy.playerrace.PlayerRace;
 import com.handy.playerrace.constants.RaceTypeEnum;
-import com.handy.playerrace.entity.RacePlayer;
 import com.handy.playerrace.service.RacePlayerService;
 import com.handy.playerrace.util.ConfigUtil;
 import com.handy.playerrace.util.RaceUtil;
@@ -309,16 +308,10 @@ public class WerWolfEventListener implements Listener {
             return;
         }
 
-        // 判断是否为狼人
-        RacePlayer racePlayer = RacePlayerService.getInstance().findByPlayerName(player.getName());
-        if (racePlayer == null || !RaceTypeEnum.WER_WOLF.getType().equals(racePlayer.getRaceType())) {
-            return;
-        }
-
         int amount = ConfigUtil.raceConfig.getInt("werwolf.summonWolf");
         Boolean rst = RacePlayerService.getInstance().updateSubtract(player.getName(), amount);
         if (!rst) {
-            MessageApi.sendActionbar(player, RaceUtil.getEnergyShortageMsg(amount, racePlayer.getAmount()));
+            MessageApi.sendActionbar(player, RaceUtil.getEnergyShortageMsg(amount));
             return;
         }
 
@@ -366,15 +359,10 @@ public class WerWolfEventListener implements Listener {
             return;
         }
 
-        // 判断是否为狼人
-        RacePlayer racePlayer = RacePlayerService.getInstance().findByPlayerName(player.getName());
-        if (racePlayer == null || !RaceTypeEnum.WER_WOLF.getType().equals(racePlayer.getRaceType())) {
-            return;
-        }
         int amount = ConfigUtil.raceConfig.getInt("werwolf.sprint");
         Boolean rst = RacePlayerService.getInstance().updateSubtract(player.getName(), amount);
         if (!rst) {
-            MessageApi.sendActionbar(player, RaceUtil.getEnergyShortageMsg(amount, racePlayer.getAmount()));
+            MessageApi.sendActionbar(player, RaceUtil.getEnergyShortageMsg(amount));
             return;
         }
 

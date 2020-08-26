@@ -5,7 +5,6 @@ import com.handy.lib.constants.VersionCheckEnum;
 import com.handy.lib.util.BaseUtil;
 import com.handy.playerrace.PlayerRace;
 import com.handy.playerrace.constants.RaceTypeEnum;
-import com.handy.playerrace.entity.RacePlayer;
 import com.handy.playerrace.service.RacePlayerService;
 import com.handy.playerrace.util.ConfigUtil;
 import com.handy.playerrace.util.RaceUtil;
@@ -181,16 +180,10 @@ public class DemonEventListener implements Listener {
         if (!RaceTypeEnum.DEMON.getType().equals(raceType)) {
             return;
         }
-
-        // 判断是否为恶魔
-        RacePlayer racePlayer = RacePlayerService.getInstance().findByPlayerName(player.getName());
-        if (racePlayer == null || !RaceTypeEnum.DEMON.getType().equals(racePlayer.getRaceType())) {
-            return;
-        }
         int amount = ConfigUtil.raceConfig.getInt("demon.fireBall");
         Boolean rst = RacePlayerService.getInstance().updateSubtract(player.getName(), amount);
         if (!rst) {
-            MessageApi.sendActionbar(player, RaceUtil.getEnergyShortageMsg(amount, racePlayer.getAmount()));
+            MessageApi.sendActionbar(player, RaceUtil.getEnergyShortageMsg(amount));
             return;
         }
 
@@ -253,16 +246,10 @@ public class DemonEventListener implements Listener {
         if (location.getY() >= 254.0D || !Material.AIR.equals(location.getBlock().getType())) {
             return;
         }
-        // 判断是否为恶魔
-        RacePlayer racePlayer = RacePlayerService.getInstance().findByPlayerName(player.getName());
-        if (racePlayer == null || !RaceTypeEnum.DEMON.getType().equals(racePlayer.getRaceType())) {
-            return;
-        }
-
         int amount = ConfigUtil.raceConfig.getInt("demon.web");
         Boolean rst = RacePlayerService.getInstance().updateSubtract(player.getName(), amount);
         if (!rst) {
-            MessageApi.sendActionbar(player, RaceUtil.getEnergyShortageMsg(amount, racePlayer.getAmount()));
+            MessageApi.sendActionbar(player, RaceUtil.getEnergyShortageMsg(amount));
             return;
         }
 

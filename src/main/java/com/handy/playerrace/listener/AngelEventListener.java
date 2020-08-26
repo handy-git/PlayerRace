@@ -4,7 +4,6 @@ import com.handy.lib.api.MessageApi;
 import com.handy.lib.util.BaseUtil;
 import com.handy.playerrace.PlayerRace;
 import com.handy.playerrace.constants.RaceTypeEnum;
-import com.handy.playerrace.entity.RacePlayer;
 import com.handy.playerrace.service.RacePlayerService;
 import com.handy.playerrace.util.ConfigUtil;
 import com.handy.playerrace.util.RaceUtil;
@@ -128,7 +127,7 @@ public class AngelEventListener implements Listener {
         int amount = ConfigUtil.raceConfig.getInt("angel.diaup");
         Boolean rst = RacePlayerService.getInstance().updateSubtract(player.getName(), amount);
         if (!rst) {
-            MessageApi.sendActionbar(player, RaceUtil.getEnergyShortageMsg(amount, amount));
+            MessageApi.sendActionbar(player, RaceUtil.getEnergyShortageMsg(amount));
             return;
         }
 
@@ -364,11 +363,6 @@ public class AngelEventListener implements Listener {
             return;
         }
 
-        // 判断是否为天使
-        RacePlayer racePlayer = RacePlayerService.getInstance().findByPlayerName(player.getName());
-        if (racePlayer == null || !RaceTypeEnum.ANGEL.getType().equals(racePlayer.getRaceType())) {
-            return;
-        }
         int amount = 0;
         if (Material.WHEAT.equals(item.getType())) {
             amount = ConfigUtil.raceConfig.getInt("angel.summonCow");
@@ -378,7 +372,7 @@ public class AngelEventListener implements Listener {
         }
         Boolean rst = RacePlayerService.getInstance().updateSubtract(player.getName(), amount);
         if (!rst) {
-            MessageApi.sendActionbar(player, RaceUtil.getEnergyShortageMsg(amount, racePlayer.getAmount()));
+            MessageApi.sendActionbar(player, RaceUtil.getEnergyShortageMsg(amount));
             return;
         }
 
@@ -443,16 +437,11 @@ public class AngelEventListener implements Listener {
         if (!RaceTypeEnum.ANGEL.getType().equals(raceType)) {
             return;
         }
-        // 判断是否为天使
-        RacePlayer racePlayer = RacePlayerService.getInstance().findByPlayerName(player.getName());
-        if (racePlayer == null || !RaceTypeEnum.ANGEL.getType().equals(racePlayer.getRaceType())) {
-            return;
-        }
 
         int amount = ConfigUtil.raceConfig.getInt("angel.returnValue");
         Boolean rst = RacePlayerService.getInstance().updateSubtract(player.getName(), amount);
         if (!rst) {
-            MessageApi.sendActionbar(player, RaceUtil.getEnergyShortageMsg(amount, racePlayer.getAmount()));
+            MessageApi.sendActionbar(player, RaceUtil.getEnergyShortageMsg(amount));
             return;
         }
 
@@ -516,16 +505,11 @@ public class AngelEventListener implements Listener {
         if (!RaceTypeEnum.ANGEL.getType().equals(raceType)) {
             return;
         }
-        // 判断是否为天使
-        RacePlayer racePlayer = RacePlayerService.getInstance().findByPlayerName(player.getName());
-        if (racePlayer == null || !RaceTypeEnum.ANGEL.getType().equals(racePlayer.getRaceType())) {
-            return;
-        }
 
         int amount = ConfigUtil.raceConfig.getInt("angel.returnHealth");
         Boolean rst = RacePlayerService.getInstance().updateSubtract(player.getName(), amount);
         if (!rst) {
-            MessageApi.sendActionbar(player, RaceUtil.getEnergyShortageMsg(amount, racePlayer.getAmount()));
+            MessageApi.sendActionbar(player, RaceUtil.getEnergyShortageMsg(amount));
             return;
         }
 

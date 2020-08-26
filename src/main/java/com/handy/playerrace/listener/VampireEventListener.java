@@ -472,16 +472,10 @@ public class VampireEventListener implements Listener {
             return;
         }
 
-        // 判断是否为吸血鬼
-        RacePlayer racePlayer = RacePlayerService.getInstance().findByPlayerName(player.getName());
-        if (racePlayer == null || !RaceTypeEnum.VAMPIRE.getType().equals(racePlayer.getRaceType())) {
-            return;
-        }
-
         int amount = ConfigUtil.raceConfig.getInt("vampire.hematophagia");
         Boolean rst = RacePlayerService.getInstance().updateSubtract(player.getName(), amount);
         if (!rst) {
-            MessageApi.sendActionbar(player, RaceUtil.getEnergyShortageMsg(amount, racePlayer.getAmount()));
+            MessageApi.sendActionbar(player, RaceUtil.getEnergyShortageMsg(amount));
             return;
         }
 
