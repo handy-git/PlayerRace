@@ -255,11 +255,16 @@ public class GhoulEventListener implements Listener {
         if (!RaceTypeEnum.GHOUL.getType().equals(raceType)) {
             return;
         }
+        // 判断是否为食尸鬼
+        RacePlayer racePlayer = RacePlayerService.getInstance().findByPlayerName(player.getName());
+        if (racePlayer == null || !RaceTypeEnum.GHOUL.getType().equals(racePlayer.getRaceType())) {
+            return;
+        }
 
         int amount = ConfigUtil.raceConfig.getInt("ghoul.curse");
         Boolean rst = RacePlayerService.getInstance().updateSubtract(player.getName(), amount);
         if (!rst) {
-            MessageApi.sendActionbar(player, RaceUtil.getEnergyShortageMsg(amount, amount));
+            MessageApi.sendActionbar(player, RaceUtil.getEnergyShortageMsg(amount, racePlayer.getAmount()));
             return;
         }
 

@@ -107,5 +107,17 @@ elves:
 angel:
   # 主动技能: 击飞 消耗能量值
   diaup: 20
+  # 主动技能: 召唤牛 消耗能量值
+  summonCow: 20
+  # 主动技能: 召唤猪 消耗能量值
+  summonPig: 20
+  # 主动技能: 恢复能量 消耗能量值
+  returnValue: 10
+  # 主动技能: 恢复能量 给恢复的值
+  returnAmount: 20
+  # 主动技能: 恢复生命 消耗能量值
+  returnHealth: 20
+  # 主动技能: 恢复生命 给恢复的值
+  returnHealthAmount: 2
 # 恶魔猎手
 demonHunter:

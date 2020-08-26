@@ -54,5 +54,9 @@ elves:
 angel:
   diaupMsg: "&a你被${player}击飞了"
   wearEquipmentMsg: "&a天使只能穿皮革装备"
+  returnValueMsg: "&a你消耗了${amount}能量,帮助${player}恢复了${returnAmount}能量"
+  playerReturnValueMsg: "&a你在${player}的帮助下,恢复了${amount}能量"
+  returnHealthMsg: "&a你消耗了${amount}能量,帮助${player}恢复了${returnAmount}血量"
+  playerReturnHealthMsg: "&a你在${player}的帮助下,恢复了${amount}血量"
 # 恶魔猎手
 demonHunter:

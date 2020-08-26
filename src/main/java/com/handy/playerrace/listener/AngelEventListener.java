@@ -4,24 +4,25 @@ import com.handy.lib.api.MessageApi;
 import com.handy.lib.util.BaseUtil;
 import com.handy.playerrace.PlayerRace;
 import com.handy.playerrace.constants.RaceTypeEnum;
+import com.handy.playerrace.entity.RacePlayer;
 import com.handy.playerrace.service.RacePlayerService;
 import com.handy.playerrace.util.ConfigUtil;
 import com.handy.playerrace.util.RaceUtil;
+import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.Sound;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.HumanEntity;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.inventory.InventoryAction;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
+import org.bukkit.projectiles.ProjectileSource;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
@@ -138,8 +139,6 @@ public class AngelEventListener implements Listener {
             Player entityPlayer = (Player) entity;
             entityPlayer.setVelocity(player.getLocation().getDirection().multiply(7));
             entityPlayer.setVelocity(new Vector(entityPlayer.getVelocity().getX(), 10.0D, entityPlayer.getVelocity().getZ()));
-            entityPlayer.playSound(entityPlayer.getLocation(), Sound.ENTITY_SLIME_SQUISH, 100.0F, 10.0F);
-            player.playSound(entityPlayer.getLocation(), Sound.ENTITY_SLIME_SQUISH, 100.0F, 10.0F);
             entityPlayer.setFallDistance(-100.0F);
             // 发送提醒
             String diaupMsg = BaseUtil.getLangMsg("angel.diaupMsg");
@@ -148,7 +147,6 @@ public class AngelEventListener implements Listener {
         } else {
             entity.setVelocity(player.getLocation().getDirection().multiply(7));
             entity.setVelocity(new Vector(entity.getVelocity().getX(), 3.1D, entity.getVelocity().getZ()));
-            player.playSound(entity.getLocation(), Sound.ENTITY_SLIME_SQUISH, 100.0F, 10.0F);
         }
     }
 
@@ -263,6 +261,262 @@ public class AngelEventListener implements Listener {
             return;
         }
         event.setDamage(0);
+    }
+
+
+    /**
+     * 当一个实体受到另外一个实体伤害时触发该事件
+     * 天使无法伤害人类
+     *
+     * @param event 事件
+     */
+    @EventHandler
+    public void onEntityDamageByEntityEvent(EntityDamageByEntityEvent event) {
+        Entity damager = event.getDamager();
+
+        Player player = null;
+        // 判断是否远程
+        if (damager instanceof Projectile) {
+            Projectile projectile = (Projectile) damager;
+            ProjectileSource shooter = projectile.getShooter();
+            if (shooter instanceof Player) {
+                player = (Player) shooter;
+            }
+        }
+        // 判断是否近战
+        if ((damager instanceof Player)) {
+            player = (Player) damager;
+        }
+        if (player == null) {
+            return;
+        }
+        // 被伤害者
+        Entity entity = event.getEntity();
+
+        // 判断是否为动物和玩家
+        if (!(entity instanceof Animals) && !(entity instanceof Player)) {
+            return;
+        }
+        // 判断是否为人类
+        if (entity instanceof Player) {
+            Player player1 = (Player) entity;
+            String raceType = RacePlayerService.getInstance().findRaceType(player1.getName());
+            if (RaceTypeEnum.MANKIND.getType().equals(raceType)) {
+                return;
+            }
+        }
+
+        // 判断是否为天使
+        String raceType = RacePlayerService.getInstance().findRaceType(player.getName());
+        if (!RaceTypeEnum.ANGEL.getType().equals(raceType)) {
+            return;
+        }
+        event.setDamage(0);
+    }
+
+    /**
+     * 当玩家对一个对象或空气进行交互时触发本事件.
+     * 天使主动技能-召唤动物
+     *
+     * @param event 事件
+     */
+    @EventHandler
+    public void onSummonWolf(PlayerInteractEvent event) {
+        // 判断是否左击
+        if (!Action.LEFT_CLICK_AIR.equals(event.getAction()) && !Action.LEFT_CLICK_BLOCK.equals(event.getAction())) {
+            return;
+        }
+
+        ItemStack item = event.getItem();
+        if (item == null || Material.AIR.equals(item.getType())) {
+            return;
+        }
+
+        Player player = event.getPlayer();
+
+        // 判断是否为天使
+        String raceType = RacePlayerService.getInstance().findRaceType(player.getName());
+        if (!RaceTypeEnum.ANGEL.getType().equals(raceType)) {
+            return;
+        }
+
+        // 判断是否为小麦,胡萝卜
+        if (!Material.WHEAT.equals(item.getType()) && !Material.CARROT.equals(item.getType())) {
+            return;
+        }
+
+        // 判断是否为天使
+        RacePlayer racePlayer = RacePlayerService.getInstance().findByPlayerName(player.getName());
+        if (racePlayer == null || !RaceTypeEnum.ANGEL.getType().equals(racePlayer.getRaceType())) {
+            return;
+        }
+        int amount = 0;
+        if (Material.WHEAT.equals(item.getType())) {
+            amount = ConfigUtil.raceConfig.getInt("angel.summonCow");
+        }
+        if (Material.CARROT.equals(item.getType())) {
+            amount = ConfigUtil.raceConfig.getInt("angel.summonPig");
+        }
+        Boolean rst = RacePlayerService.getInstance().updateSubtract(player.getName(), amount);
+        if (!rst) {
+            MessageApi.sendActionbar(player, RaceUtil.getEnergyShortageMsg(amount, racePlayer.getAmount()));
+            return;
+        }
+
+        // 删除物品
+        if (item.getAmount() > 1) {
+            item.setAmount(item.getAmount() - 1);
+        } else {
+            player.getInventory().remove(item);
+        }
+
+        Location location = player.getLocation();
+        // 召唤牛
+        if (Material.WHEAT.equals(item.getType())) {
+            location.getWorld().spawnEntity(location, EntityType.COW);
+        }
+        // 召唤猪
+        if (Material.CARROT.equals(item.getType())) {
+            location.getWorld().spawnEntity(location, EntityType.PIG);
+        }
+    }
+
+    /**
+     * 当一个实体受到另外一个实体伤害时触发该事件
+     * 天使主动技能: 恢复能量
+     *
+     * @param event 事件
+     */
+    @EventHandler
+    public void returnValue(EntityDamageByEntityEvent event) {
+        Entity damager = event.getDamager();
+
+        // 判断是否近战
+        if (!(damager instanceof Player)) {
+            return;
+        }
+        Entity entity = event.getEntity();
+        if (!(entity instanceof Player)) {
+            return;
+        }
+
+        Player player = (Player) damager;
+        Player playerEntity = (Player) entity;
+
+        // 判断是否拿的绿宝石
+        ItemStack item = player.getItemInHand();
+        if (!Material.EMERALD.equals(item.getType())) {
+            return;
+        }
+
+        // 判断是否为天使
+        String raceType = RacePlayerService.getInstance().findRaceType(player.getName());
+        if (!RaceTypeEnum.ANGEL.getType().equals(raceType)) {
+            return;
+        }
+        // 判断是否为天使
+        RacePlayer racePlayer = RacePlayerService.getInstance().findByPlayerName(player.getName());
+        if (racePlayer == null || !RaceTypeEnum.ANGEL.getType().equals(racePlayer.getRaceType())) {
+            return;
+        }
+
+        int amount = ConfigUtil.raceConfig.getInt("angel.returnValue");
+        Boolean rst = RacePlayerService.getInstance().updateSubtract(player.getName(), amount);
+        if (!rst) {
+            MessageApi.sendActionbar(player, RaceUtil.getEnergyShortageMsg(amount, racePlayer.getAmount()));
+            return;
+        }
+
+        // 删除物品
+        if (item.getAmount() > 1) {
+            item.setAmount(item.getAmount() - 1);
+        } else {
+            player.getInventory().remove(item);
+        }
+        int returnAmount = ConfigUtil.raceConfig.getInt("angel.returnAmount");
+        RacePlayerService.getInstance().updateAdd(playerEntity.getName(), returnAmount);
+
+        String returnValueMsg = BaseUtil.getLangMsg("angel.returnValueMsg");
+        returnValueMsg = returnValueMsg
+                .replaceAll("\\$\\{".concat("amount").concat("\\}"), amount + "")
+                .replaceAll("\\$\\{".concat("player").concat("\\}"), playerEntity.getName() + "")
+                .replaceAll("\\$\\{".concat("returnAmount").concat("\\}"), returnAmount + "");
+        MessageApi.sendActionbar(player, BaseUtil.replaceChatColor(returnValueMsg));
+
+        String playerReturnValueMsg = BaseUtil.getLangMsg("angel.playerReturnValueMsg");
+        playerReturnValueMsg = playerReturnValueMsg
+                .replaceAll("\\$\\{".concat("amount").concat("\\}"), returnAmount + "")
+                .replaceAll("\\$\\{".concat("player").concat("\\}"), player.getName() + "");
+        MessageApi.sendActionbar(playerEntity, BaseUtil.replaceChatColor(playerReturnValueMsg));
+    }
+
+    /**
+     * 当一个实体受到另外一个实体伤害时触发该事件
+     * 天使主动技能: 恢复生命
+     *
+     * @param event 事件
+     */
+    @EventHandler
+    public void returnHealth(EntityDamageByEntityEvent event) {
+        Entity damager = event.getDamager();
+
+        // 判断是否近战
+        if (!(damager instanceof Player)) {
+            return;
+        }
+        Entity entity = event.getEntity();
+        if (!(entity instanceof Player)) {
+            return;
+        }
+
+        Player player = (Player) damager;
+        Player playerEntity = (Player) entity;
+
+        // 判断是否拿的面包
+        ItemStack item = player.getItemInHand();
+        if (!Material.BREAD.equals(item.getType())) {
+            return;
+        }
+
+        // 判断是否为天使
+        String raceType = RacePlayerService.getInstance().findRaceType(player.getName());
+        if (!RaceTypeEnum.ANGEL.getType().equals(raceType)) {
+            return;
+        }
+        // 判断是否为天使
+        RacePlayer racePlayer = RacePlayerService.getInstance().findByPlayerName(player.getName());
+        if (racePlayer == null || !RaceTypeEnum.ANGEL.getType().equals(racePlayer.getRaceType())) {
+            return;
+        }
+
+        int amount = ConfigUtil.raceConfig.getInt("angel.returnHealth");
+        Boolean rst = RacePlayerService.getInstance().updateSubtract(player.getName(), amount);
+        if (!rst) {
+            MessageApi.sendActionbar(player, RaceUtil.getEnergyShortageMsg(amount, racePlayer.getAmount()));
+            return;
+        }
+
+        // 删除物品
+        if (item.getAmount() > 1) {
+            item.setAmount(item.getAmount() - 1);
+        } else {
+            player.getInventory().remove(item);
+        }
+        int returnHealthAmount = ConfigUtil.raceConfig.getInt("angel.returnHealthAmount");
+        RacePlayerService.getInstance().updateAdd(playerEntity.getName(), returnHealthAmount);
+
+        String returnHealthMsg = BaseUtil.getLangMsg("angel.returnHealthMsg");
+        returnHealthMsg = returnHealthMsg
+                .replaceAll("\\$\\{".concat("amount").concat("\\}"), amount + "")
+                .replaceAll("\\$\\{".concat("player").concat("\\}"), playerEntity.getName() + "")
+                .replaceAll("\\$\\{".concat("returnAmount").concat("\\}"), returnHealthAmount + "");
+        MessageApi.sendActionbar(player, BaseUtil.replaceChatColor(returnHealthMsg));
+
+        String playerReturnHealthMsg = BaseUtil.getLangMsg("angel.playerReturnHealthMsg");
+        playerReturnHealthMsg = playerReturnHealthMsg
+                .replaceAll("\\$\\{".concat("amount").concat("\\}"), returnHealthAmount + "")
+                .replaceAll("\\$\\{".concat("player").concat("\\}"), player.getName() + "");
+        MessageApi.sendActionbar(playerEntity, BaseUtil.replaceChatColor(playerReturnHealthMsg));
     }
 
 }
