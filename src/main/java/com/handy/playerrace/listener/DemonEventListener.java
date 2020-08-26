@@ -206,6 +206,10 @@ public class DemonEventListener implements Listener {
         Projectile projectile = (Projectile) player.getWorld().spawn(player.getEyeLocation().add(direction.getX(), direction.getY(), direction.getZ()), Fireball.class);
         projectile.setShooter(player);
         projectile.setVelocity(direction);
+
+        String langMsg = BaseUtil.getLangMsg("demon.fireBallMsg");
+        langMsg = langMsg.replaceAll("\\$\\{".concat("amount").concat("\\}"), amount + "");
+        MessageApi.sendActionbar(player, langMsg);
     }
 
     /**
@@ -276,6 +280,10 @@ public class DemonEventListener implements Listener {
         }
 
         block.getWorld().getBlockAt(location).setType(Material.valueOf(web));
+
+        String langMsg = BaseUtil.getLangMsg("demon.webMsg");
+        langMsg = langMsg.replaceAll("\\$\\{".concat("amount").concat("\\}"), amount + "");
+        MessageApi.sendActionbar(player, langMsg);
     }
 
     /**

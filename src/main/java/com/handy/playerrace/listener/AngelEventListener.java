@@ -121,7 +121,7 @@ public class AngelEventListener implements Listener {
         }
 
         // 判断是否为npc
-        if (entity.hasMetadata("NPC")){
+        if (entity.hasMetadata("NPC")) {
             return;
         }
 
@@ -149,9 +149,18 @@ public class AngelEventListener implements Listener {
             String diaupMsg = BaseUtil.getLangMsg("angel.diaupMsg");
             diaupMsg = diaupMsg.replaceAll("\\$\\{".concat("player").concat("\\}"), player.getName());
             MessageApi.sendActionbar(entityPlayer, BaseUtil.replaceChatColor(diaupMsg));
+
+            String langMsg = BaseUtil.getLangMsg("angel.diaupPlayerMsg");
+            langMsg = langMsg.replaceAll("\\$\\{".concat("amount").concat("\\}"), amount + "")
+                    .replaceAll("\\$\\{".concat("player").concat("\\}"), entityPlayer.getName() + "");
+            MessageApi.sendActionbar(player, langMsg);
         } else {
             entity.setVelocity(player.getLocation().getDirection().multiply(7));
             entity.setVelocity(new Vector(entity.getVelocity().getX(), 3.1D, entity.getVelocity().getZ()));
+
+            String langMsg = BaseUtil.getLangMsg("angel.diaupOtherMsg");
+            langMsg = langMsg.replaceAll("\\$\\{".concat("amount").concat("\\}"), amount + "");
+            MessageApi.sendActionbar(player, langMsg);
         }
     }
 
@@ -276,7 +285,7 @@ public class AngelEventListener implements Listener {
      * @param event 事件
      */
     @EventHandler
-    public void onEntityDamageByEntityEvent(EntityDamageByEntityEvent event) {
+    public void notDamagePlayer(EntityDamageByEntityEvent event) {
         Entity damager = event.getDamager();
 
         Player player = null;
@@ -298,7 +307,7 @@ public class AngelEventListener implements Listener {
         // 被伤害者
         Entity entity = event.getEntity();
         // 判断是否为npc
-        if (entity.hasMetadata("NPC")){
+        if (entity.hasMetadata("NPC")) {
             return;
         }
 
@@ -320,7 +329,8 @@ public class AngelEventListener implements Listener {
         if (!RaceTypeEnum.ANGEL.getType().equals(raceType)) {
             return;
         }
-        event.setDamage(0);
+        event.setCancelled(true);
+        MessageApi.sendActionbar(player, BaseUtil.getLangMsg("angel.notDamagePlayer"));
     }
 
     /**
@@ -383,10 +393,16 @@ public class AngelEventListener implements Listener {
         // 召唤牛
         if (Material.WHEAT.equals(item.getType())) {
             location.getWorld().spawnEntity(location, EntityType.COW);
+            String langMsg = BaseUtil.getLangMsg("angel.summonCowMsg");
+            langMsg = langMsg.replaceAll("\\$\\{".concat("amount").concat("\\}"), amount + "");
+            MessageApi.sendActionbar(player, langMsg);
         }
         // 召唤猪
         if (Material.CARROT.equals(item.getType())) {
             location.getWorld().spawnEntity(location, EntityType.PIG);
+            String langMsg = BaseUtil.getLangMsg("angel.summonPigMsg");
+            langMsg = langMsg.replaceAll("\\$\\{".concat("amount").concat("\\}"), amount + "");
+            MessageApi.sendActionbar(player, langMsg);
         }
     }
 
@@ -409,7 +425,7 @@ public class AngelEventListener implements Listener {
             return;
         }
         // 判断是否为npc
-        if (entity.hasMetadata("NPC")){
+        if (entity.hasMetadata("NPC")) {
             return;
         }
 
@@ -482,7 +498,7 @@ public class AngelEventListener implements Listener {
             return;
         }
         // 判断是否为npc
-        if (entity.hasMetadata("NPC")){
+        if (entity.hasMetadata("NPC")) {
             return;
         }
 

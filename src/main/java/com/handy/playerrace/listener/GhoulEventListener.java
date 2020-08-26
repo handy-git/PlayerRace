@@ -149,6 +149,11 @@ public class GhoulEventListener implements Listener {
 
                 player.setHealth(health);
 
+                String langMsg = BaseUtil.getLangMsg("ghoul.damageMsg");
+                langMsg = langMsg.replaceAll("\\$\\{".concat("amount").concat("\\}"), finalDamage.intValue() + "")
+                        .replaceAll("\\$\\{".concat("health").concat("\\}"), finalDamage.intValue() + "");
+                MessageApi.sendActionbar(player, langMsg);
+
                 // 如果是玩家还要扣除能量值
                 Entity entity = event.getEntity();
                 if (!(entity instanceof Player)) {
@@ -220,6 +225,10 @@ public class GhoulEventListener implements Listener {
         // 召唤猪人
         Location location = player.getLocation();
         location.getWorld().spawnEntity(location, EntityType.valueOf(entityType));
+
+        String langMsg = BaseUtil.getLangMsg("ghoul.summonPigZombieMsg");
+        langMsg = langMsg.replaceAll("\\$\\{".concat("amount").concat("\\}"), amount + "");
+        MessageApi.sendActionbar(player, langMsg);
     }
 
     /**
@@ -241,7 +250,7 @@ public class GhoulEventListener implements Listener {
             return;
         }
         // 判断是否为npc
-        if (entity.hasMetadata("NPC")){
+        if (entity.hasMetadata("NPC")) {
             return;
         }
 
@@ -285,6 +294,11 @@ public class GhoulEventListener implements Listener {
         String diaupMsg = BaseUtil.getLangMsg("ghoul.curseMsg");
         diaupMsg = diaupMsg.replaceAll("\\$\\{".concat("time").concat("\\}"), curseSecond + "");
         MessageApi.sendActionbar(playerEntity, BaseUtil.replaceChatColor(diaupMsg));
+
+        String langMsg = BaseUtil.getLangMsg("ghoul.cursePlayerMsg");
+        langMsg = langMsg.replaceAll("\\$\\{".concat("amount").concat("\\}"), amount + "")
+                .replaceAll("\\$\\{".concat("player").concat("\\}"), playerEntity.getName() + "");
+        MessageApi.sendActionbar(player, langMsg);
     }
 
 }

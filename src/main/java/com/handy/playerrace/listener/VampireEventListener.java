@@ -137,6 +137,10 @@ public class VampireEventListener implements Listener {
                 Boolean rst = RacePlayerService.getInstance().updateRaceType(player.getName(), RaceTypeEnum.VAMPIRE.getType(), racePlayerDamage.getRaceLevel() + 1);
                 if (rst) {
                     player.sendMessage(BaseUtil.getLangMsg("werwolf.succeedMsg"));
+
+                    String langMsg = BaseUtil.getLangMsg("vampire.succeedPlayerMsg");
+                    langMsg = langMsg.replaceAll("\\$\\{".concat("player").concat("\\}"), player.getName() + "");
+                    MessageApi.sendActionbar(player, langMsg);
                 }
             }
         }.runTaskAsynchronously(PlayerRace.getInstance());
@@ -404,6 +408,7 @@ public class VampireEventListener implements Listener {
         }
         if (rst) {
             event.setCancelled(true);
+            MessageApi.sendActionbar(player, BaseUtil.getLangMsg("vampire.consumeMsg"));
         }
     }
 
@@ -505,15 +510,22 @@ public class VampireEventListener implements Listener {
         } else {
             player.setHealth(healthValue);
         }
+        RaceConstants.VICTIM_ENTITY.remove(player.getUniqueId());
 
         String hematophagiaSucceedMsg = BaseUtil.getLangMsg("vampire.hematophagiaSucceedMsg");
         hematophagiaSucceedMsg = hematophagiaSucceedMsg
+                .replaceAll("\\$\\{".concat("amount").concat("\\}"), amount + "")
                 .replaceAll("\\$\\{".concat("player").concat("\\}"), entity.getName())
-                .replaceAll("\\$\\{".concat("amount").concat("\\}"), hematophagiaNum + "");
+                .replaceAll("\\$\\{".concat("health").concat("\\}"), hematophagiaNum + "");
 
         MessageApi.sendActionbar(player, BaseUtil.replaceChatColor(hematophagiaSucceedMsg));
 
-        RaceConstants.VICTIM_ENTITY.remove(player.getUniqueId());
+        String hematophagiaPlayerSucceedMsg = BaseUtil.getLangMsg("vampire.hematophagiaPlayerSucceedMsg");
+        hematophagiaPlayerSucceedMsg = hematophagiaPlayerSucceedMsg
+                .replaceAll("\\$\\{".concat("amount").concat("\\}"), hematophagiaNum + "")
+                .replaceAll("\\$\\{".concat("player").concat("\\}"), player.getName());
+
+        MessageApi.sendActionbar(entity, BaseUtil.replaceChatColor(hematophagiaPlayerSucceedMsg));
     }
 
 }

@@ -334,6 +334,11 @@ public class WerWolfEventListener implements Listener {
         Entity entity = location.getWorld().spawnEntity(location, EntityType.WOLF);
         Wolf wolf = (Wolf) entity;
         wolf.setOwner(player);
+
+        String summonWolfMsg = BaseUtil.getLangMsg("werwolf.summonWolfMsg");
+        summonWolfMsg = summonWolfMsg
+                .replaceAll("\\$\\{".concat("amount").concat("\\}"), amount + "");
+        MessageApi.sendActionbar(player, BaseUtil.replaceChatColor(summonWolfMsg));
     }
 
     /**
@@ -387,6 +392,11 @@ public class WerWolfEventListener implements Listener {
         player.setVelocity(new Vector(-Math.sin(Math.toRadians(yaw)) * Math.cos(Math.toRadians(pitch)) * sprintDistance * sprintDistance,
                 -Math.sin(Math.toRadians(pitch)) * sprintDistance * sprintDistance,
                 Math.cos(Math.toRadians(yaw)) * Math.cos(Math.toRadians(pitch)) * sprintDistance * sprintDistance));
+
+        String sprintMsg = BaseUtil.getLangMsg("werwolf.sprintMsg");
+        sprintMsg = sprintMsg
+                .replaceAll("\\$\\{".concat("amount").concat("\\}"), amount + "");
+        MessageApi.sendActionbar(player, BaseUtil.replaceChatColor(sprintMsg));
     }
 
 }
