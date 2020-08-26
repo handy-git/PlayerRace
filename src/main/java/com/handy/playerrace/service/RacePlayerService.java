@@ -1,6 +1,7 @@
 package com.handy.playerrace.service;
 
 
+import com.handy.lib.api.MessageApi;
 import com.handy.lib.api.StorageApi;
 import com.handy.lib.util.BaseUtil;
 import com.handy.lib.util.SqlManagerUtil;
@@ -377,6 +378,11 @@ public class RacePlayerService {
             SqlManagerUtil.getInstance().closeSql(conn, ps, null);
         }
         if (rst > 0) {
+            String raceMsg = BaseUtil.getLangMsg("raceMsg");
+            raceMsg = raceMsg
+                    .replaceAll("\\$\\{".concat("player").concat("\\}"), name)
+                    .replaceAll("\\$\\{".concat("race").concat("\\}"), RaceTypeEnum.getTypeName(raceType));
+            MessageApi.sendAllMessage(raceMsg);
             RaceConstants.PLAYER_RACE.remove(playerName);
         }
         return rst > 0;

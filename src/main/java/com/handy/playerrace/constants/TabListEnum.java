@@ -1,13 +1,11 @@
 package com.handy.playerrace.constants;
 
-import com.handy.lib.util.BaseUtil;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.bukkit.command.CommandSender;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -21,21 +19,11 @@ public enum TabListEnum {
     /**
      * 第一层提醒
      */
-    FIRST(Arrays.asList("give", "setBlock", "set", "setMax", "take", "viewBlock", "reload"), 0, null, 1),
+    FIRST(Arrays.asList("setRace", "reload"), 0, null, 1),
 
-    GIVE_TWO(null, 1, "give", 2),
-    GIVE_THREE(Collections.singletonList(BaseUtil.getLangMsg("tabHelp.amount")), 1, "give", 3),
+    SET_RACE_TWO(null, 1, "setRace", 2),
+    SET_RACE_THREE(RaceTypeEnum.getEnum(), 1, "setRace", 3),
 
-    SET_BLOCK_TWO(Collections.singletonList(BaseUtil.getLangMsg("tabHelp.amount")), 1, "setBlock", 2),
-
-    SET_TWO(null, 1, "set", 2),
-    SET_THREE(Collections.singletonList(BaseUtil.getLangMsg("tabHelp.amount")), 1, "set", 3),
-
-    SET_MAX_TWO(null, 1, "setMax", 2),
-    SET_MAX_THREE(Collections.singletonList(BaseUtil.getLangMsg("tabHelp.amount")), 1, "setMax", 3),
-
-    TAKE_TWO(null, 1, "take", 2),
-    TAKE_THREE(Collections.singletonList(BaseUtil.getLangMsg("tabHelp.amount")), 1, "take", 3),
     ;
 
     /**

@@ -2,6 +2,7 @@ package com.handy.playerrace.command;
 
 import com.handy.lib.util.BaseUtil;
 import com.handy.playerrace.command.admin.ReloadCommand;
+import com.handy.playerrace.command.admin.SetRaceCommand;
 import com.handy.playerrace.constants.TabListEnum;
 import com.handy.playerrace.util.ConfigUtil;
 import org.bukkit.command.Command;
@@ -34,6 +35,13 @@ public class PlayerRaceCommand implements TabExecutor {
                 }
                 ReloadCommand.getSingleton().onCommand(sender, cmd, label, args);
                 break;
+            case "setrace":
+                if (!sender.hasPermission("playerrace.setrace")) {
+                    sender.sendMessage(BaseUtil.getLangMsg("noPermission"));
+                    return true;
+                }
+                SetRaceCommand.getSingleton().onCommand(sender, cmd, label, args);
+                break;
             default:
                 return sendHelp(sender);
         }
@@ -59,7 +67,7 @@ public class PlayerRaceCommand implements TabExecutor {
      * @return
      */
     private Boolean sendHelp(CommandSender sender) {
-        if (!sender.hasPermission("playerrace.setblock")) {
+        if (!sender.hasPermission("playerrace.reload")) {
             return true;
         }
 

@@ -45,9 +45,11 @@ public class PlaceholderUtil extends PlaceholderExpansion {
         String race = RaceTypeEnum.MANKIND.getTypeName();
 
         RacePlayer racePlayer = RacePlayerService.getInstance().findByPlayerName(player.getName());
-        if (racePlayer != null && racePlayer.getMaxAmount() != null && racePlayer.getMaxAmount() != 0) {
-            maxFatigue = racePlayer.getMaxAmount();
+        if (racePlayer != null) {
             race = RaceTypeEnum.getEnum(racePlayer.getRaceType()).getTypeName();
+            if (racePlayer.getMaxAmount() != null && racePlayer.getMaxAmount() != 0) {
+                maxFatigue = racePlayer.getMaxAmount();
+            }
         }
 
         // 吸血鬼计算最大值

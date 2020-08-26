@@ -8,12 +8,21 @@ reloadMsg: "&a插件重载完成"
 placeholderAPISucceedMsg: "&a成功加载placeholderApi,启用自定义变量功能!"
 placeholderAPIFailureMsg: "&4未找到placeholderApi,未启用自定义变量功能!"
 
+# /plr 指令管理员出现的提醒
+helps:
+  - "&e&m一一一一一一一一一一一一一&f[&e玩家任务系统&f]&e&m一一一一一一一一一一一一一"
+  - "&e/plr setRace [玩家名称] [种族类型]     &f设置玩家种族"
+  - "&e/plr reload  &f重载插件"
+
+# 类型错误提醒
+typeFailureMsg: "&4类型错误"
 # 能量不足提醒
 energyShortageMsg: "&a能量不足,需要:${amount}能量,你当前能量为:${myAmount}"
 # 恢复能量提醒
 restoreEnergyMsg: "&a你恢复了 ${amount} 点能量!"
 succeedMsg: "&a命令执行成功"
 failureMsg: "&4命令执行失败"
+raceMsg: "恭喜玩家: ${player}, 成功转换为: ${race}"
 
 # 种族名称
 raceType:
