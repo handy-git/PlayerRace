@@ -52,7 +52,7 @@ public class WerWolfEventListener implements Listener {
         Player player = (Player) livingEntity;
 
         // 判断是在夜晚
-        if (BaseUtil.worldTimeIsNight(player)) {
+        if (BaseUtil.worldTimeIsNotNight(player)) {
             return;
         }
 
@@ -110,7 +110,7 @@ public class WerWolfEventListener implements Listener {
         Player player = (Player) entity;
 
         // 判断是在夜晚
-        if (BaseUtil.worldTimeIsNight(player)) {
+        if (BaseUtil.worldTimeIsNotNight(player)) {
             return;
         }
 
@@ -143,7 +143,7 @@ public class WerWolfEventListener implements Listener {
         Player player = event.getPlayer();
 
         // 判断是在夜晚
-        if (BaseUtil.worldTimeIsNight(player)) {
+        if (BaseUtil.worldTimeIsNotNight(player)) {
             return;
         }
 
@@ -189,7 +189,7 @@ public class WerWolfEventListener implements Listener {
         Player player = (Player) entity;
 
         // 判断是在夜晚
-        if (BaseUtil.worldTimeIsNight(player)) {
+        if (BaseUtil.worldTimeIsNotNight(player)) {
             return;
         }
 
@@ -234,7 +234,7 @@ public class WerWolfEventListener implements Listener {
         }
 
         // 判断是在夜晚
-        if (BaseUtil.worldTimeIsNight(player)) {
+        if (BaseUtil.worldTimeIsNotNight(player)) {
             return;
         }
 
@@ -267,7 +267,7 @@ public class WerWolfEventListener implements Listener {
         }
 
         // 判断是在夜晚
-        if (BaseUtil.worldTimeIsNight(player)) {
+        if (BaseUtil.worldTimeIsNotNight(player)) {
             return;
         }
 

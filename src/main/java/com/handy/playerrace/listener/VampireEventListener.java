@@ -494,14 +494,16 @@ public class VampireEventListener implements Listener {
         double health = entity.getHealth() - hematophagiaNum;
         if (health > 0) {
             entity.setHealth(health);
-            player.setHealth(player.getHealth() + hematophagiaNum);
         } else if (health == 0) {
             entity.setHealth(1);
-
-            player.setHealth(player.getHealth() + hematophagiaNum);
         } else {
             entity.setHealth(1);
-            player.setHealth(player.getHealth() + (hematophagiaNum - entity.getHealth()));
+        }
+        double healthValue = player.getHealth() + hematophagiaNum;
+        if (healthValue >= player.getMaxHealth()) {
+            player.setHealth(player.getMaxHealth());
+        } else {
+            player.setHealth(healthValue);
         }
 
         String hematophagiaSucceedMsg = BaseUtil.getLangMsg("vampire.hematophagiaSucceedMsg");
