@@ -52,6 +52,7 @@ demon:
 elves:
 # 天使
 angel:
+  succeedMsg: "&a你被灵魂被净化了,在蹦极中领悟天使真谛,成为了天使!"
   diaupMsg: "&a你被${player}击飞了"
   wearEquipmentMsg: "&a天使只能穿皮革装备"
   returnValueMsg: "&a你消耗了${amount}能量,帮助${player}恢复了${returnAmount}能量"

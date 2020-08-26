@@ -84,7 +84,7 @@ public class AngelEventListener implements Listener {
                 // 设置玩家种族为天使
                 Boolean rst = RacePlayerService.getInstance().updateRaceType(player.getName(), RaceTypeEnum.ANGEL.getType(), 0);
                 if (rst) {
-                    player.sendMessage(BaseUtil.getLangMsg("demon.succeedMsg"));
+                    player.sendMessage(BaseUtil.getLangMsg("angel.succeedMsg"));
                 }
             }
         }.runTaskAsynchronously(PlayerRace.getInstance());
