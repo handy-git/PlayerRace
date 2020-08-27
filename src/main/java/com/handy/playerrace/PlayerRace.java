@@ -14,7 +14,6 @@ import com.handy.playerrace.task.TaskManage;
 import com.handy.playerrace.util.ConfigUtil;
 import com.handy.playerrace.util.PlaceholderUtil;
 import com.handy.playerrace.util.RaceUtil;
-import net.citizensnpcs.api.CitizensAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -48,13 +47,6 @@ public final class PlayerRace extends JavaPlugin {
             getLogger().info(BaseUtil.getLangMsg("placeholderAPIFailureMsg"));
         } else {
             getLogger().info(BaseUtil.getLangMsg("placeholderAPISucceedMsg"));
-        }
-
-        // 加载Citizens
-        if (!hasCitizens()) {
-            getLogger().info(BaseUtil.getLangMsg("citizensFailureMsg"));
-        } else {
-            getLogger().info(BaseUtil.getLangMsg("citizensSucceedMsg"));
         }
 
         List<String> lordList = Arrays.asList(
@@ -116,15 +108,6 @@ public final class PlayerRace extends JavaPlugin {
             return true;
         }
         return false;
-    }
-
-    /**
-     * 加载Citizens
-     *
-     * @return 是否加载
-     */
-    private boolean hasCitizens() {
-        return Bukkit.getPluginManager().isPluginEnabled("Citizens");
     }
 
 }
