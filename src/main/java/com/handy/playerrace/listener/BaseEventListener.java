@@ -1,7 +1,6 @@
 package com.handy.playerrace.listener;
 
 import com.handy.lib.util.BaseUtil;
-import com.handy.playerrace.PlayerRace;
 import com.handy.playerrace.constants.RaceTypeEnum;
 import com.handy.playerrace.service.RacePlayerService;
 import com.handy.playerrace.util.ConfigUtil;
@@ -12,7 +11,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.Random;
 
@@ -61,21 +59,15 @@ public class BaseEventListener implements Listener {
             return;
         }
         Player player = event.getPlayer();
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                ItemStack itemStack = event.getItem();
-                if (!itemStack.isSimilar(RaceUtil.getMengBorneoSoup())) {
-                    return;
-                }
-                // 设置玩家种族为人类
-                Boolean rst = RacePlayerService.getInstance().updateRaceType(player.getName(), RaceTypeEnum.MANKIND.getType(), 0);
-                if (rst) {
-                    player.sendMessage(BaseUtil.getLangMsg("mankind.mengBorneoSoupMsg"));
-                    player.setHealth(0);
-                }
-
-            }
-        }.runTaskAsynchronously(PlayerRace.getInstance());
+        ItemStack itemStack = event.getItem();
+        if (!itemStack.isSimilar(RaceUtil.getMengBorneoSoup())) {
+            return;
+        }
+        // 设置玩家种族为人类
+        Boolean rst = RacePlayerService.getInstance().updateRaceType(player.getName(), RaceTypeEnum.MANKIND.getType(), 0);
+        if (rst) {
+            player.sendMessage(BaseUtil.getLangMsg("mankind.mengBorneoSoupMsg"));
+            player.setHealth(0);
+        }
     }
 }
