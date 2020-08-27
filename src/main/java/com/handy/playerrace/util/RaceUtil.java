@@ -97,6 +97,16 @@ public class RaceUtil {
     }
 
     /**
+     * 注册合成表
+     */
+    public static void registerCompound() {
+        // 孟婆汤
+        addMengBorneoSoup();
+        // 该隐之血
+        addVampire();
+    }
+
+    /**
      * 生成孟婆汤合成秘籍
      */
     public static void addMengBorneoSoup() {

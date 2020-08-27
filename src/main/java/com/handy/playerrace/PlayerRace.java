@@ -68,7 +68,7 @@ public final class PlayerRace extends JavaPlugin {
         MessageApi.initActionBar();
 
         // 注册合成表
-        RaceUtil.addVampire();
+        RaceUtil.registerCompound();
 
         //注册定时事件
         TaskManage.enableTask();
