@@ -27,4 +27,9 @@ public class RaceConstants {
      */
     public static List<PlayerCursesParam> PLAYER_CURSES = new ArrayList<>();
 
+    /**
+     * 恶魔猎手的弓类型
+     */
+    public static Map<UUID, DemonHunterBowTypeEnum> DEMON_HUNTER_BOW = new HashMap<>();
+
 }

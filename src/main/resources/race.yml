@@ -121,3 +121,9 @@ angel:
   returnHealthAmount: 2
 # 恶魔猎手
 demonHunter:
+  # 力量弓,增加伤害
+  strengthDamage: 3
+  # 火焰箭,持续燃烧时间
+  fireTime: 3
+  # 切换弓消耗能量值
+  cutBow: 5

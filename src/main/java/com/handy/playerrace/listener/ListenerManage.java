@@ -29,6 +29,8 @@ public class ListenerManage {
         plugin.getServer().getPluginManager().registerEvents(new DemonEventListener(), plugin);
         // 天使相关事件
         plugin.getServer().getPluginManager().registerEvents(new AngelEventListener(), plugin);
+        // 恶魔猎手相关事件
+        plugin.getServer().getPluginManager().registerEvents(new DemonHunterEventListener(), plugin);
     }
 
 }

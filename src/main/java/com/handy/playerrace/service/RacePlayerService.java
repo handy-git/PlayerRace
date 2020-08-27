@@ -389,6 +389,33 @@ public class RacePlayerService {
     }
 
     /**
+     * 更新种族等级
+     *
+     * @param playerName 玩家名
+     * @param raceLevel  种族等级
+     * @return
+     */
+    public Boolean updateRaceLevel(String playerName, int raceLevel) {
+        playerName = BaseUtil.toLowerCase(playerName);
+        Connection conn = null;
+        PreparedStatement ps = null;
+        int rst = 0;
+        try {
+            String selectStr = RacePlayerSqlEnum.UPDATE_BY_RACE_LEVEL.getCommand();
+            conn = SqlManagerUtil.getInstance().getConnection(PlayerRace.getInstance());
+            ps = conn.prepareStatement(selectStr);
+            ps.setInt(1, raceLevel);
+            ps.setString(2, playerName);
+            rst = ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            SqlManagerUtil.getInstance().closeSql(conn, ps, null);
+        }
+        return rst > 0;
+    }
+
+    /**
      * 增加
      *
      * @param playerUuid

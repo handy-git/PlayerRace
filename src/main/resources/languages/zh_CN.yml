@@ -39,6 +39,17 @@ raceType:
   angel: "&a天使"
   demonHunter: "&a恶魔猎手"
 
+# 恶魔猎手弓类型
+demonHunterBowType:
+  strength: "&a力量弓"
+  fire: "&a火焰弓"
+  web: "&a禁锢弓"
+
+# 人类
+mankind:
+  killMsg: "&a你击杀了一名超自然种族者,你感觉自己激发了点潜力!"
+  killsucceedMsg: "&a你又击杀了一名超自然种族者,你的潜力得到了释放,进化为恶魔猎手!"
+
 # 狼人
 werwolf:
   succeedMsg: "&a在月圆之夜,你感染了狼人的血统,获得了狼人的力量!"
@@ -89,3 +100,4 @@ angel:
   playerReturnHealthMsg: "&a你在${player}的帮助下,恢复了${amount}血量"
 # 恶魔猎手
 demonHunter:
+  cutBowMsg: "&a你消耗了${amount}能量,切换到了${type}射击模式"

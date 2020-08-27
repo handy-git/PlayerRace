@@ -79,6 +79,9 @@ public enum RacePlayerSqlEnum {
     UPDATE_BY_RACE_TYPE(
             "UPDATE `race_player` SET `race_type` = ? , `race_level` = ? , `transfer_time` = ? WHERE `player_name` = ?"
     ),
+    UPDATE_BY_RACE_LEVEL(
+            "UPDATE `race_player` SET `race_level` = ? WHERE `player_name` = ?"
+    ),
     UPDATE_ADD_BY_PLAYER_UUID(
             "UPDATE `race_player` SET `amount` = `amount` + ? WHERE `player_uuid` = ?"
     ),
