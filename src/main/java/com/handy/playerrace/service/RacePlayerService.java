@@ -10,14 +10,13 @@ import com.handy.playerrace.constants.RaceConstants;
 import com.handy.playerrace.constants.RaceTypeEnum;
 import com.handy.playerrace.constants.sql.RacePlayerSqlEnum;
 import com.handy.playerrace.entity.RacePlayer;
+import com.handy.playerrace.util.ConfigUtil;
 import lombok.val;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author hs
@@ -167,79 +166,6 @@ public class RacePlayerService {
     }
 
     /**
-     * 根据playerUuid查询
-     *
-     * @param playerUuid
-     * @return
-     */
-    public RacePlayer findByPlayerUuid(String playerUuid) {
-        Connection conn = null;
-        PreparedStatement ps = null;
-        ResultSet rst = null;
-        try {
-            String selectStr = RacePlayerSqlEnum.SELECT_BY_UUID.getCommand();
-            conn = SqlManagerUtil.getInstance().getConnection(PlayerRace.getInstance());
-            ps = conn.prepareStatement(selectStr);
-            ps.setString(1, playerUuid);
-            rst = ps.executeQuery();
-            while (rst.next()) {
-                RacePlayer racePlayer = new RacePlayer();
-                racePlayer.setId(rst.getLong(1));
-                racePlayer.setPlayerName(rst.getString(2));
-                racePlayer.setPlayerUuid(rst.getString(3));
-                racePlayer.setRaceType(rst.getString(4));
-                racePlayer.setRaceLevel(rst.getInt(5));
-                racePlayer.setAmount(rst.getInt(6));
-                racePlayer.setMaxAmount(rst.getInt(7));
-                racePlayer.setTransferTime(rst.getLong(8));
-                return racePlayer;
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            SqlManagerUtil.getInstance().closeSql(conn, ps, rst);
-        }
-        return null;
-    }
-
-    /**
-     * 查询全部
-     *
-     * @param maxFatigue 最大限制
-     * @return
-     */
-    public List<RacePlayer> findAll(Integer maxFatigue) {
-        Connection conn = null;
-        PreparedStatement ps = null;
-        ResultSet rst = null;
-        List<RacePlayer> racePlayers = new ArrayList<>();
-        try {
-            String selectStr = RacePlayerSqlEnum.SELECT_RESTORE_ALL.getCommand();
-            conn = SqlManagerUtil.getInstance().getConnection(PlayerRace.getInstance());
-            ps = conn.prepareStatement(selectStr);
-            ps.setInt(1, maxFatigue);
-            rst = ps.executeQuery();
-            while (rst.next()) {
-                RacePlayer racePlayer = new RacePlayer();
-                racePlayer.setId(rst.getLong(1));
-                racePlayer.setPlayerName(rst.getString(2));
-                racePlayer.setPlayerUuid(rst.getString(3));
-                racePlayer.setRaceType(rst.getString(4));
-                racePlayer.setRaceLevel(rst.getInt(5));
-                racePlayer.setAmount(rst.getInt(6));
-                racePlayer.setMaxAmount(rst.getInt(7));
-                racePlayer.setTransferTime(rst.getLong(8));
-                racePlayers.add(racePlayer);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            SqlManagerUtil.getInstance().closeSql(conn, ps, rst);
-        }
-        return racePlayers;
-    }
-
-    /**
      * 根据类型查询总数
      *
      * @param raceType 类型
@@ -284,6 +210,7 @@ public class RacePlayerService {
             ps = conn.prepareStatement(selectStr);
             ps.setLong(1, amount);
             ps.setString(2, playerName);
+            ps.setLong(3, amount);
             val rst = ps.executeUpdate();
             return rst > 0;
         } catch (SQLException e) {
@@ -358,6 +285,34 @@ public class RacePlayerService {
      * @return
      */
     public Boolean updateRaceType(String playerName, String raceType, int raceLevel) {
+        RaceTypeEnum raceTypeEnum = RaceTypeEnum.getEnum(raceType);
+        if (raceTypeEnum == null) {
+            return false;
+        }
+        int maxAmount = 0;
+        switch (raceTypeEnum) {
+            case WER_WOLF:
+                maxAmount = ConfigUtil.raceConfig.getInt("werwolf.maxAmount");
+                break;
+            case VAMPIRE:
+                maxAmount = ConfigUtil.raceConfig.getInt("vampire.maxAmount");
+                maxAmount = (int) Math.ceil(maxAmount * ConfigUtil.raceConfig.getDouble("vampire.energyMultiple" + "." + raceLevel));
+                break;
+            case DEMON:
+                maxAmount = ConfigUtil.raceConfig.getInt("demon.maxAmount");
+                break;
+            case ANGEL:
+                maxAmount = ConfigUtil.raceConfig.getInt("angel.maxAmount");
+                break;
+            case GHOUL:
+                maxAmount = ConfigUtil.raceConfig.getInt("ghoul.maxAmount");
+                break;
+            case DEMON_HUNTER:
+                maxAmount = ConfigUtil.raceConfig.getInt("demonHunter.maxAmount");
+                break;
+            default:
+                break;
+        }
         String name = playerName;
         playerName = BaseUtil.toLowerCase(playerName);
         Connection conn = null;
@@ -369,8 +324,9 @@ public class RacePlayerService {
             ps = conn.prepareStatement(selectStr);
             ps.setString(1, raceType);
             ps.setInt(2, raceLevel);
-            ps.setLong(3, System.currentTimeMillis());
-            ps.setString(4, playerName);
+            ps.setInt(3, maxAmount);
+            ps.setLong(4, System.currentTimeMillis());
+            ps.setString(5, playerName);
             rst = ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -379,8 +335,7 @@ public class RacePlayerService {
         }
         if (rst > 0) {
             String raceMsg = BaseUtil.getLangMsg("raceMsg");
-            raceMsg = raceMsg
-                    .replaceAll("\\$\\{".concat("player").concat("\\}"), name)
+            raceMsg = raceMsg.replaceAll("\\$\\{".concat("player").concat("\\}"), name)
                     .replaceAll("\\$\\{".concat("race").concat("\\}"), RaceTypeEnum.getTypeName(raceType));
             MessageApi.sendAllMessage(raceMsg);
             RaceConstants.PLAYER_RACE.remove(playerName);
@@ -413,112 +368,6 @@ public class RacePlayerService {
             SqlManagerUtil.getInstance().closeSql(conn, ps, null);
         }
         return rst > 0;
-    }
-
-    /**
-     * 增加
-     *
-     * @param playerUuid
-     * @param amount
-     * @return
-     */
-    public Boolean updateAddByUuid(String playerUuid, Integer amount) {
-        Connection conn = null;
-        PreparedStatement ps = null;
-        try {
-            String selectStr = RacePlayerSqlEnum.UPDATE_ADD_BY_PLAYER_UUID.getCommand();
-            conn = SqlManagerUtil.getInstance().getConnection(PlayerRace.getInstance());
-            ps = conn.prepareStatement(selectStr);
-            ps.setLong(1, amount);
-            ps.setString(2, playerUuid);
-            val rst = ps.executeUpdate();
-            return rst > 0;
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            SqlManagerUtil.getInstance().closeSql(conn, ps, null);
-        }
-        return false;
-    }
-
-    /**
-     * 减少
-     *
-     * @param playerUuid
-     * @param amount
-     * @return
-     */
-    public Boolean updateSubtractByUuid(String playerUuid, Integer amount) {
-        Connection conn = null;
-        PreparedStatement ps = null;
-        try {
-            String selectStr = RacePlayerSqlEnum.UPDATE_SUBTRACT_BY_PLAYER_UUID.getCommand();
-            conn = SqlManagerUtil.getInstance().getConnection(PlayerRace.getInstance());
-            ps = conn.prepareStatement(selectStr);
-            ps.setInt(1, amount);
-            ps.setString(2, playerUuid);
-            ps.setInt(3, amount);
-            val rst = ps.executeUpdate();
-            return rst > 0;
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            SqlManagerUtil.getInstance().closeSql(conn, ps, null);
-        }
-        return false;
-    }
-
-    /**
-     * 设置
-     *
-     * @param playerUuid
-     * @param amount
-     * @return
-     */
-    public Boolean updateByUuid(String playerUuid, Integer amount) {
-        Connection conn = null;
-        PreparedStatement ps = null;
-        try {
-            String selectStr = RacePlayerSqlEnum.UPDATE_BY_PLAYER_UUID.getCommand();
-            conn = SqlManagerUtil.getInstance().getConnection(PlayerRace.getInstance());
-            ps = conn.prepareStatement(selectStr);
-            ps.setInt(1, amount);
-            ps.setString(2, playerUuid);
-            val rst = ps.executeUpdate();
-            return rst > 0;
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            SqlManagerUtil.getInstance().closeSql(conn, ps, null);
-        }
-        return false;
-    }
-
-    /**
-     * 设置最大值
-     *
-     * @param playerName
-     * @param maxAmount
-     * @return
-     */
-    public Boolean updateMaxAmount(String playerName, Integer maxAmount) {
-        playerName = BaseUtil.toLowerCase(playerName);
-        Connection conn = null;
-        PreparedStatement ps = null;
-        try {
-            String selectStr = RacePlayerSqlEnum.UPDATE_MAX_AMOUNT_BY_PLAYER_NAME.getCommand();
-            conn = SqlManagerUtil.getInstance().getConnection(PlayerRace.getInstance());
-            ps = conn.prepareStatement(selectStr);
-            ps.setInt(1, maxAmount);
-            ps.setString(2, playerName);
-            val rst = ps.executeUpdate();
-            return rst > 0;
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            SqlManagerUtil.getInstance().closeSql(conn, ps, null);
-        }
-        return false;
     }
 
 }

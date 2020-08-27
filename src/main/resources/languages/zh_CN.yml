@@ -35,7 +35,6 @@ raceType:
   vampire: "&a吸血鬼"
   ghoul: "&a食尸鬼"
   demon: "&a恶魔"
-  elves: "&a精灵"
   angel: "&a天使"
   demonHunter: "&a恶魔猎手"
 
@@ -82,8 +81,6 @@ demon:
   wearEquipmentMsg: "&a恶魔只能穿锁链装备"
   fireBallMsg: "&a你消耗了${amount}能量,发射了火焰弹"
   webMsg: "&a你消耗了${amount}能量,召唤出了蜘蛛网"
-# 精灵
-elves:
 # 天使
 angel:
   succeedMsg: "&a你被灵魂被净化了,在蹦极中领悟天使真谛,成为了天使!"

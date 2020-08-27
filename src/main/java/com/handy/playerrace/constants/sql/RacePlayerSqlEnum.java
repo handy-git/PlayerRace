@@ -52,23 +52,17 @@ public enum RacePlayerSqlEnum {
     SELECT_ALL(
             "SELECT * FROM `race_player`"
     ),
-    SELECT_RESTORE_ALL(
-            "SELECT * FROM `race_player` WHERE `max_amount` = 0 AND `amount` != ? UNION SELECT * FROM `race_player` WHERE `max_amount` != 0 AND `amount` < `max_amount`"
-    ),
     SELECT_BY_NAME(
             "SELECT * FROM `race_player` WHERE `player_name` = ?"
     ),
     SELECT_RACE_TYPE_BY_NAME(
             "SELECT `race_type` FROM `race_player` WHERE `player_name` = ?"
     ),
-    SELECT_BY_UUID(
-            "SELECT * FROM `race_player` WHERE `player_uuid` = ?"
-    ),
     SELECT_COUNT_BY_RACE_TYPE(
             "SELECT count(*) FROM `race_player` WHERE `race_type` = ?"
     ),
     UPDATE_ADD_BY_PLAYER_NAME(
-            "UPDATE `race_player` SET `amount` = `amount` + ? WHERE `player_name` = ?"
+            "UPDATE `race_player` SET `amount` = `amount` + ? WHERE `player_name` = ? AND `amount` + ? <= `max_amount`"
     ),
     UPDATE_SUBTRACT_BY_PLAYER_NAME(
             "UPDATE `race_player` SET `amount` = `amount` - ? WHERE `player_name` = ? AND `amount` - ? >= 0"
@@ -77,22 +71,10 @@ public enum RacePlayerSqlEnum {
             "UPDATE `race_player` SET `amount` = ? WHERE `player_name` = ?"
     ),
     UPDATE_BY_RACE_TYPE(
-            "UPDATE `race_player` SET `race_type` = ? , `race_level` = ? , `transfer_time` = ? WHERE `player_name` = ?"
+            "UPDATE `race_player` SET `race_type` = ? , `race_level` = ? , `max_amount`= ?, `transfer_time` = ? WHERE `player_name` = ?"
     ),
     UPDATE_BY_RACE_LEVEL(
             "UPDATE `race_player` SET `race_level` = ? WHERE `player_name` = ?"
-    ),
-    UPDATE_ADD_BY_PLAYER_UUID(
-            "UPDATE `race_player` SET `amount` = `amount` + ? WHERE `player_uuid` = ?"
-    ),
-    UPDATE_SUBTRACT_BY_PLAYER_UUID(
-            "UPDATE `race_player` SET `amount` = `amount` - ? WHERE `player_uuid` = ?  AND `amount` - ? >= 0"
-    ),
-    UPDATE_BY_PLAYER_UUID(
-            "UPDATE `race_player` SET `amount` = ? WHERE `player_uuid` = ?"
-    ),
-    UPDATE_MAX_AMOUNT_BY_PLAYER_NAME(
-            "UPDATE `race_player` SET `max_amount` = ? WHERE `player_name` = ?"
     ),
     ;
 

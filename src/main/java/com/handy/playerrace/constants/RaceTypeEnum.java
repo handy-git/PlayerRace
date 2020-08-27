@@ -18,19 +18,17 @@ public enum RaceTypeEnum {
     /**
      * 种族类型
      */
-    MANKIND("mankind", BaseUtil.getLangMsg("raceType.mankind"), 0L),
-    WER_WOLF("wer_wolf", BaseUtil.getLangMsg("raceType.werwolf"), 1L),
-    VAMPIRE("vampire", BaseUtil.getLangMsg("raceType.vampire"), 2L),
-    GHOUL("ghoul", BaseUtil.getLangMsg("raceType.ghoul"), 3L),
-    DEMON("demon", BaseUtil.getLangMsg("raceType.demon"), 4L),
-    ELVES("elves", BaseUtil.getLangMsg("raceType.elves"), 5L),
-    ANGEL("angel", BaseUtil.getLangMsg("raceType.angel"), 6L),
-    DEMON_HUNTER("demon_hunter", BaseUtil.getLangMsg("raceType.demonHunter"), 7L),
+    MANKIND("mankind", BaseUtil.getLangMsg("raceType.mankind")),
+    WER_WOLF("wer_wolf", BaseUtil.getLangMsg("raceType.werwolf")),
+    VAMPIRE("vampire", BaseUtil.getLangMsg("raceType.vampire")),
+    GHOUL("ghoul", BaseUtil.getLangMsg("raceType.ghoul")),
+    DEMON("demon", BaseUtil.getLangMsg("raceType.demon")),
+    ANGEL("angel", BaseUtil.getLangMsg("raceType.angel")),
+    DEMON_HUNTER("demon_hunter", BaseUtil.getLangMsg("raceType.demonHunter")),
     ;
 
     private final String type;
     private final String typeName;
-    private final Long typeId;
 
     public static RaceTypeEnum getEnum(String type) {
         for (RaceTypeEnum raceTypeEnum : RaceTypeEnum.values()) {
@@ -53,24 +51,6 @@ public enum RaceTypeEnum {
         for (RaceTypeEnum raceTypeEnum : RaceTypeEnum.values()) {
             if (raceTypeEnum.getType().equals(type)) {
                 return raceTypeEnum.getTypeName();
-            }
-        }
-        return null;
-    }
-
-    public static Long getTypeId(String type) {
-        for (RaceTypeEnum raceTypeEnum : RaceTypeEnum.values()) {
-            if (raceTypeEnum.getType().equals(type)) {
-                return raceTypeEnum.getTypeId();
-            }
-        }
-        return null;
-    }
-
-    public static String getType(Long typeId) {
-        for (RaceTypeEnum raceTypeEnum : RaceTypeEnum.values()) {
-            if (raceTypeEnum.getTypeId().equals(typeId)) {
-                return raceTypeEnum.getType();
             }
         }
         return null;
