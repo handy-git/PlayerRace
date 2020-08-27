@@ -110,7 +110,7 @@ public class RaceUtil {
      * 生成孟婆汤合成秘籍
      */
     public static void addMengBorneoSoup() {
-        ItemStack itemStack = getItemStack();
+        ItemStack itemStack = getMengBorneoSoup();
         ShapedRecipe identifyRecipe;
         if (VersionCheckEnum.getEnum().getVersionId() < VersionCheckEnum.V_1_13.getVersionId()) {
             identifyRecipe = new ShapedRecipe(itemStack);
