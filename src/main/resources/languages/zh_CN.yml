@@ -44,6 +44,8 @@ demonHunterBowType:
 mankind:
   killMsg: "&a你击杀了一名超自然种族者,你感觉自己激发了点潜力!"
   killsucceedMsg: "&a你又击杀了一名超自然种族者,你的潜力得到了释放,进化为恶魔猎手!"
+  bookSucceedMsg: "&a意外之喜,您发现一本蕴含着神秘力量的知识之书"
+  mengBorneoSoupMsg: "&a你喝下了孟婆汤,忘记了今生今世,重新投胎为人"
 
 # 狼人
 werwolf:

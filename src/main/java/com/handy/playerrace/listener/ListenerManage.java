@@ -19,6 +19,9 @@ public class ListenerManage {
         // 玩家退出服务器事件清理缓存
         plugin.getServer().getPluginManager().registerEvents(new PlayerQuitEventListener(), plugin);
 
+        // 恢复人类事件
+        plugin.getServer().getPluginManager().registerEvents(new BaseEventListener(), plugin);
+
         // 狼人相关事件
         plugin.getServer().getPluginManager().registerEvents(new WerWolfEventListener(), plugin);
         // 吸血鬼相关事件
