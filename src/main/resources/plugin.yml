@@ -14,7 +14,6 @@ permissions:
     description: §a超自然种族插件
     children:
       playerrace.reload: true
-      playerrace.vip: true
       playerrace.setrace: true
   playerrace.reload:
     description: §a重载插件
