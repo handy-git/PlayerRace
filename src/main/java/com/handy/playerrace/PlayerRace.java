@@ -5,7 +5,6 @@ import com.handy.lib.api.MessageApi;
 import com.handy.lib.api.StorageApi;
 import com.handy.lib.bstats.bukkit.Metrics;
 import com.handy.lib.util.BaseUtil;
-import com.handy.lib.util.HandyHttpUtil;
 import com.handy.lib.util.SqlManagerUtil;
 import com.handy.playerrace.command.PlayerRaceCommand;
 import com.handy.playerrace.listener.ListenerManage;
@@ -81,7 +80,7 @@ public final class PlayerRace extends JavaPlugin {
             CheckVersionApi.checkVersion(this, null, "https://api.github.com/repos/handy-git/PlayerRaceVersion/releases/latest");
         }
         // 进行验签
-        HandyHttpUtil.verifySign(this, "PlayerRace", "1296322710519025664", ConfigUtil.config.getString("sign"));
+        // HandyHttpUtil.verifySign(this, "PlayerRace", "1296322710519025664", ConfigUtil.config.getString("sign"));
     }
 
     @Override
