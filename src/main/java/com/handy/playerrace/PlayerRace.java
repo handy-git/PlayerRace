@@ -79,8 +79,6 @@ public final class PlayerRace extends JavaPlugin {
         if (ConfigUtil.config.getBoolean("isCheckUpdate")) {
             CheckVersionApi.checkVersion(this, null, "https://api.github.com/repos/handy-git/PlayerRaceVersion/releases/latest");
         }
-        // 进行验签
-        // HandyHttpUtil.verifySign(this, "PlayerRace", "1296322710519025664", ConfigUtil.config.getString("sign"));
     }
 
     @Override

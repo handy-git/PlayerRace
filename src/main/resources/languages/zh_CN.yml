@@ -10,7 +10,7 @@ placeholderAPIFailureMsg: "&4未找到placeholderApi,未启用自定义变量功
 
 # /plr 指令管理员出现的提醒
 helps:
-  - "&e&m一一一一一一一一一一一一一&f[&e玩家任务系统&f]&e&m一一一一一一一一一一一一一"
+  - "&e&m一一一一一一一一一一一一一&f[&ePlayerRace&f]&e&m一一一一一一一一一一一一一"
   - "&e/plr setRace [玩家名称] [种族类型]     &f设置玩家种族"
   - "&e/plr reload  &f重载插件"
 
