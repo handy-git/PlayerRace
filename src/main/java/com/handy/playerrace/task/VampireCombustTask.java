@@ -6,7 +6,6 @@ import com.handy.playerrace.PlayerRace;
 import com.handy.playerrace.constants.RaceTypeEnum;
 import com.handy.playerrace.entity.RacePlayer;
 import com.handy.playerrace.service.RacePlayerService;
-import com.handy.playerrace.util.RaceUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;

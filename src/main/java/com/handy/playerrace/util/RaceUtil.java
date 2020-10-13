@@ -1,5 +1,6 @@
 package com.handy.playerrace.util;
 
+import com.google.common.collect.Maps;
 import com.handy.lib.api.MessageApi;
 import com.handy.lib.constants.VersionCheckEnum;
 import com.handy.lib.util.BaseUtil;
@@ -18,7 +19,6 @@ import org.bukkit.inventory.meta.KnowledgeBookMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -36,7 +36,7 @@ public class RaceUtil {
      * @return msg
      */
     public static String getEnergyShortageMsg(Integer amount) {
-        Map<String, String> map = new HashMap<>();
+        Map<String, String> map = Maps.newHashMapWithExpectedSize(1);
         map.put("amount", amount.toString());
 
         String actionBarMsg = ConfigUtil.langConfig.getString("energyShortageMsg");
@@ -133,7 +133,7 @@ public class RaceUtil {
     /**
      * 获取孟婆汤物品
      *
-     * @return
+     * @return 物品
      */
     public static ItemStack getMengBorneoSoup() {
         Integer versionId = VersionCheckEnum.getEnum().getVersionId();
@@ -160,6 +160,8 @@ public class RaceUtil {
 
     /**
      * 知识之书-孟婆汤合成配方
+     *
+     * @return 知识之书
      */
     public static ItemStack getMengBorneoSoupBook() {
         if (VersionCheckEnum.getEnum().getVersionId() < VersionCheckEnum.V_1_13.getVersionId()) {
@@ -202,7 +204,7 @@ public class RaceUtil {
     /**
      * 获取该隐物品
      *
-     * @return
+     * @return 该隐物品
      */
     public static ItemStack getItemStack() {
         Integer versionId = VersionCheckEnum.getEnum().getVersionId();

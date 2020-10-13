@@ -4,6 +4,7 @@ import com.handy.lib.api.CheckVersionApi;
 import com.handy.lib.api.MessageApi;
 import com.handy.lib.api.StorageApi;
 import com.handy.lib.bstats.bukkit.Metrics;
+import com.handy.lib.constants.BaseConstants;
 import com.handy.lib.util.BaseUtil;
 import com.handy.lib.util.SqlManagerUtil;
 import com.handy.playerrace.command.PlayerRaceCommand;
@@ -20,8 +21,9 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
+ * 主类
+ *
  * @author hs
- * @Description: {}
  * @date 2020/3/23 13:52
  */
 public final class PlayerRace extends JavaPlugin {
@@ -61,7 +63,7 @@ public final class PlayerRace extends JavaPlugin {
             getLogger().info(lord);
         }
         getLogger().info("§a已成功载入服务器！");
-        getLogger().info("§aauthor:handy QQ群:1064982471");
+        getLogger().info("§aAuthor:handy QQ群:1064982471");
 
         // 注册消息
         MessageApi.initActionBar();
@@ -86,13 +88,12 @@ public final class PlayerRace extends JavaPlugin {
         // 关闭数据源
         SqlManagerUtil.getInstance().close();
         getLogger().info("§a已成功卸载！");
-        getLogger().info("§aauthor:handy QQ群:1064982471");
+        getLogger().info("§aAuthor:handy QQ群:1064982471");
     }
 
     public static PlayerRace getInstance() {
         return instance;
     }
-
 
     /**
      * 加载Placeholder
@@ -100,7 +101,7 @@ public final class PlayerRace extends JavaPlugin {
      * @return 是否加载
      */
     public boolean lorePlaceholder() {
-        if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
+        if (Bukkit.getPluginManager().getPlugin(BaseConstants.PLACEHOLDER_API) != null) {
             new PlaceholderUtil(this).register();
             return true;
         }

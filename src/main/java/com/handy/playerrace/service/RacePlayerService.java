@@ -3,6 +3,7 @@ package com.handy.playerrace.service;
 
 import com.handy.lib.api.MessageApi;
 import com.handy.lib.api.StorageApi;
+import com.handy.lib.constants.BaseConstants;
 import com.handy.lib.util.BaseUtil;
 import com.handy.lib.util.SqlManagerUtil;
 import com.handy.playerrace.PlayerRace;
@@ -11,7 +12,6 @@ import com.handy.playerrace.constants.RaceTypeEnum;
 import com.handy.playerrace.constants.sql.RacePlayerSqlEnum;
 import com.handy.playerrace.entity.RacePlayer;
 import com.handy.playerrace.util.ConfigUtil;
-import lombok.val;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -19,8 +19,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
+ * 种族方法
+ *
  * @author hs
- * @Description: {}
  * @date 2020/7/13 14:30
  */
 public class RacePlayerService {
@@ -35,37 +36,32 @@ public class RacePlayerService {
         return SingletonHolder.INSTANCE;
     }
 
-
     /**
      * 建表
-     *
-     * @return
      */
-    public Boolean create() {
+    public void create() {
         Connection conn = null;
         PreparedStatement ps = null;
         try {
             conn = SqlManagerUtil.getInstance().getConnection(PlayerRace.getInstance());
             String sql = RacePlayerSqlEnum.CREATE_SQ_LITE.getCommand();
-            if ("MySQL".equals(StorageApi.storageConfig.getString("storage-method"))) {
+            if (BaseConstants.MYSQL.equals(StorageApi.storageConfig.getString(BaseConstants.STORAGE_METHOD))) {
                 sql = RacePlayerSqlEnum.CREATE_MYSQL.getCommand();
             }
             ps = conn.prepareStatement(sql);
-            val rst = ps.executeUpdate();
-            return rst > 0;
+            ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
             SqlManagerUtil.getInstance().closeSql(conn, ps, null);
         }
-        return false;
     }
 
     /**
      * 新增
      *
      * @param racePlayer 数据
-     * @return
+     * @return true 成功
      */
     public Boolean add(RacePlayer racePlayer) {
         Connection conn = null;
@@ -81,8 +77,7 @@ public class RacePlayerService {
             ps.setInt(5, racePlayer.getAmount());
             ps.setInt(6, racePlayer.getMaxAmount() != null ? racePlayer.getMaxAmount() : 0);
             ps.setLong(7, racePlayer.getTransferTime() != null ? racePlayer.getTransferTime() : 0L);
-            val rst = ps.executeUpdate();
-            return rst > 0;
+            return ps.executeUpdate() > 0;
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -94,8 +89,8 @@ public class RacePlayerService {
     /**
      * 根据playerName查询
      *
-     * @param playerName
-     * @return
+     * @param playerName 玩家名
+     * @return 种族
      */
     public RacePlayer findByPlayerName(String playerName) {
         playerName = BaseUtil.toLowerCase(playerName);
@@ -132,8 +127,8 @@ public class RacePlayerService {
     /**
      * 根据playerName查询种族
      *
-     * @param playerName
-     * @return
+     * @param playerName 玩家名
+     * @return 种族名
      */
     public String findRaceType(String playerName) {
         playerName = BaseUtil.toLowerCase(playerName);
@@ -169,7 +164,7 @@ public class RacePlayerService {
      * 根据类型查询总数
      *
      * @param raceType 类型
-     * @return
+     * @return 总数
      */
     public Integer findCount(String raceType) {
         Connection conn = null;
@@ -196,9 +191,9 @@ public class RacePlayerService {
     /**
      * 增加
      *
-     * @param playerName
-     * @param amount
-     * @return
+     * @param playerName 玩家名
+     * @param amount     数量
+     * @return true 成功
      */
     public Boolean updateAdd(String playerName, Integer amount) {
         playerName = BaseUtil.toLowerCase(playerName);
@@ -211,8 +206,7 @@ public class RacePlayerService {
             ps.setLong(1, amount);
             ps.setString(2, playerName);
             ps.setLong(3, amount);
-            val rst = ps.executeUpdate();
-            return rst > 0;
+            return ps.executeUpdate() > 0;
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -224,9 +218,9 @@ public class RacePlayerService {
     /**
      * 减少
      *
-     * @param playerName
-     * @param amount
-     * @return
+     * @param playerName 玩家名
+     * @param amount     数量
+     * @return true 成功
      */
     public Boolean updateSubtract(String playerName, Integer amount) {
         playerName = BaseUtil.toLowerCase(playerName);
@@ -239,8 +233,7 @@ public class RacePlayerService {
             ps.setInt(1, amount);
             ps.setString(2, playerName);
             ps.setInt(3, amount);
-            val rst = ps.executeUpdate();
-            return rst > 0;
+            return ps.executeUpdate() > 0;
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -252,9 +245,9 @@ public class RacePlayerService {
     /**
      * 设置
      *
-     * @param playerName
-     * @param amount
-     * @return
+     * @param playerName 玩家名
+     * @param amount     数量
+     * @return true 成功
      */
     public Boolean update(String playerName, Integer amount) {
         playerName = BaseUtil.toLowerCase(playerName);
@@ -266,8 +259,7 @@ public class RacePlayerService {
             ps = conn.prepareStatement(selectStr);
             ps.setInt(1, amount);
             ps.setString(2, playerName);
-            val rst = ps.executeUpdate();
-            return rst > 0;
+            return ps.executeUpdate() > 0;
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -282,7 +274,7 @@ public class RacePlayerService {
      * @param playerName 玩家名
      * @param raceType   种族类型
      * @param raceLevel  种族等级
-     * @return
+     * @return true 成功
      */
     public Boolean updateRaceType(String playerName, String raceType, int raceLevel) {
         RaceTypeEnum raceTypeEnum = RaceTypeEnum.getEnum(raceType);
@@ -348,7 +340,7 @@ public class RacePlayerService {
      *
      * @param playerName 玩家名
      * @param raceLevel  种族等级
-     * @return
+     * @return true 成功
      */
     public Boolean updateRaceLevel(String playerName, int raceLevel) {
         playerName = BaseUtil.toLowerCase(playerName);

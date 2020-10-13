@@ -13,7 +13,7 @@ import org.bukkit.entity.Player;
  * @date 2020/3/26 18:38
  */
 public class PlaceholderUtil extends PlaceholderExpansion {
-    private PlayerRace plugin;
+    private final PlayerRace plugin;
 
     public PlaceholderUtil(PlayerRace plugin) {
         this.plugin = plugin;
@@ -22,7 +22,7 @@ public class PlaceholderUtil extends PlaceholderExpansion {
     /**
      * 变量前缀
      *
-     * @return
+     * @return 结果
      */
     @Override
     public String getIdentifier() {
@@ -32,9 +32,9 @@ public class PlaceholderUtil extends PlaceholderExpansion {
     /**
      * 注册变量
      *
-     * @param player
-     * @param identifier
-     * @return
+     * @param player     玩家
+     * @param identifier 变量
+     * @return 结果
      */
     @Override
     public String onPlaceholderRequest(Player player, String identifier) {
@@ -79,7 +79,7 @@ public class PlaceholderUtil extends PlaceholderExpansion {
      * 因为这是一个内部类，
      * 你必须重写这个方法，让PlaceholderAPI知道不要注销你的扩展类
      *
-     * @return
+     * @return 结果
      */
     @Override
     public boolean persist() {
@@ -90,7 +90,7 @@ public class PlaceholderUtil extends PlaceholderExpansion {
      * 因为这是一个内部类，所以不需要进行这种检查
      * 我们可以简单地返回{@code true}
      *
-     * @return
+     * @return 结果
      */
     @Override
     public boolean canRegister() {
@@ -100,7 +100,7 @@ public class PlaceholderUtil extends PlaceholderExpansion {
     /**
      * 作者
      *
-     * @return
+     * @return 结果
      */
     @Override
     public String getAuthor() {
@@ -110,7 +110,7 @@ public class PlaceholderUtil extends PlaceholderExpansion {
     /**
      * 版本
      *
-     * @return
+     * @return 结果
      */
     @Override
     public String getVersion() {
