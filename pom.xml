@@ -16,7 +16,7 @@
         <spigot-api.vesion>1.16.2-R0.1-SNAPSHOT</spigot-api.vesion>
         <placeholderapi.version>2.10.5</placeholderapi.version>
         <lombok.version>1.18.8</lombok.version>
-        <HandyLib.version>1.0.3</HandyLib.version>
+        <HandyLib.version>1.0.5</HandyLib.version>
     </properties>
 
     <repositories>
