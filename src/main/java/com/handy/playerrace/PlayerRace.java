@@ -6,6 +6,7 @@ import com.handy.lib.api.StorageApi;
 import com.handy.lib.bstats.bukkit.Metrics;
 import com.handy.lib.constants.BaseConstants;
 import com.handy.lib.util.BaseUtil;
+import com.handy.lib.util.MetricsUtil;
 import com.handy.lib.util.SqlManagerUtil;
 import com.handy.playerrace.command.PlayerRaceCommand;
 import com.handy.playerrace.listener.ListenerManage;
@@ -75,7 +76,7 @@ public final class PlayerRace extends JavaPlugin {
         TaskManage.enableTask();
 
         // 进行插件使用数据统计
-        new Metrics(this, 8605);
+        MetricsUtil.addMetrics(this, 8605);
 
         // 版本更新检查
         if (ConfigUtil.config.getBoolean("isCheckUpdate")) {
