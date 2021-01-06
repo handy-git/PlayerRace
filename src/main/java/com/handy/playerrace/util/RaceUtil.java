@@ -1,6 +1,5 @@
 package com.handy.playerrace.util;
 
-import com.google.common.collect.Maps;
 import com.handy.lib.api.MessageApi;
 import com.handy.lib.constants.VersionCheckEnum;
 import com.handy.lib.util.BaseUtil;
@@ -19,6 +18,7 @@ import org.bukkit.inventory.meta.KnowledgeBookMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -36,7 +36,7 @@ public class RaceUtil {
      * @return msg
      */
     public static String getEnergyShortageMsg(Integer amount) {
-        Map<String, String> map = Maps.newHashMapWithExpectedSize(1);
+        Map<String, String> map = new HashMap<>();
         map.put("amount", amount.toString());
 
         String actionBarMsg = ConfigUtil.langConfig.getString("energyShortageMsg");
@@ -112,20 +112,27 @@ public class RaceUtil {
     public static void addMengBorneoSoup() {
         ItemStack itemStack = getMengBorneoSoup();
         ShapedRecipe identifyRecipe;
+
+
+        Material gunpowder = BaseUtil.getMaterial("GUNPOWDER");
+        Material mushroomStew = BaseUtil.getMaterial("MUSHROOM_STEW");
         if (VersionCheckEnum.getEnum().getVersionId() < VersionCheckEnum.V_1_13.getVersionId()) {
             identifyRecipe = new ShapedRecipe(itemStack);
+            mushroomStew = BaseUtil.getMaterial("MUSHROOM_SOUP");
+            gunpowder = BaseUtil.getMaterial("SULPHUR");
         } else {
             identifyRecipe = new ShapedRecipe(new NamespacedKey(PlayerRace.getInstance(), "mengBorneoSoup"), itemStack);
         }
+
         identifyRecipe.shape("ABC", "DEF", "GHL");
         identifyRecipe.setIngredient('A', Material.APPLE);
-        identifyRecipe.setIngredient('B', Material.GUNPOWDER);
+        identifyRecipe.setIngredient('B', gunpowder);
         identifyRecipe.setIngredient('C', Material.WHEAT);
         identifyRecipe.setIngredient('D', Material.EMERALD);
-        identifyRecipe.setIngredient('E', Material.MUSHROOM_STEW);
+        identifyRecipe.setIngredient('E', mushroomStew);
         identifyRecipe.setIngredient('F', Material.EMERALD);
         identifyRecipe.setIngredient('G', Material.CARROT);
-        identifyRecipe.setIngredient('H', Material.GUNPOWDER);
+        identifyRecipe.setIngredient('H', gunpowder);
         identifyRecipe.setIngredient('L', Material.POTATO);
         Bukkit.addRecipe(identifyRecipe);
     }
@@ -137,11 +144,12 @@ public class RaceUtil {
      */
     public static ItemStack getMengBorneoSoup() {
         Integer versionId = VersionCheckEnum.getEnum().getVersionId();
-        String material = "MUSHROOM_STEW";
+
+        Material mushroomStew = BaseUtil.getMaterial("MUSHROOM_STEW");
         if (versionId < VersionCheckEnum.V_1_13.getVersionId()) {
-            material = "MUSHROOM_SOUP";
+            mushroomStew = BaseUtil.getMaterial("MUSHROOM_SOUP");
         }
-        ItemStack itemStack = new ItemStack(Material.valueOf(material));
+        ItemStack itemStack = new ItemStack(mushroomStew);
         ItemMeta itemMeta = itemStack.getItemMeta();
         if (itemMeta == null) {
             return itemStack;
@@ -184,8 +192,16 @@ public class RaceUtil {
      * 生成该隐之血合成秘籍
      */
     public static void addVampire() {
+        Integer versionId = VersionCheckEnum.getEnum().getVersionId();
+
         ItemStack itemStack = getItemStack();
         ShapedRecipe identifyRecipe;
+
+        Material mushroomStew = BaseUtil.getMaterial("MUSHROOM_STEW");
+        if (versionId < VersionCheckEnum.V_1_13.getVersionId()) {
+            mushroomStew = BaseUtil.getMaterial("MUSHROOM_SOUP");
+        }
+
         if (VersionCheckEnum.getEnum().getVersionId() < VersionCheckEnum.V_1_13.getVersionId()) {
             identifyRecipe = new ShapedRecipe(itemStack);
         } else {
@@ -196,7 +212,7 @@ public class RaceUtil {
         identifyRecipe.setIngredient('B', Material.DIAMOND);
         identifyRecipe.setIngredient('C', Material.EMERALD);
         identifyRecipe.setIngredient('D', Material.NETHER_STAR);
-        identifyRecipe.setIngredient('E', Material.MUSHROOM_STEW);
+        identifyRecipe.setIngredient('E', mushroomStew);
         identifyRecipe.setIngredient('F', Material.NETHER_STAR);
         Bukkit.addRecipe(identifyRecipe);
     }
@@ -208,11 +224,11 @@ public class RaceUtil {
      */
     public static ItemStack getItemStack() {
         Integer versionId = VersionCheckEnum.getEnum().getVersionId();
-        String material = "MUSHROOM_STEW";
+        Material mushroomStew = BaseUtil.getMaterial("MUSHROOM_STEW");
         if (versionId < VersionCheckEnum.V_1_13.getVersionId()) {
-            material = "MUSHROOM_SOUP";
+            mushroomStew = BaseUtil.getMaterial("MUSHROOM_SOUP");
         }
-        ItemStack itemStack = new ItemStack(Material.valueOf(material));
+        ItemStack itemStack = new ItemStack(mushroomStew);
         ItemMeta itemMeta = itemStack.getItemMeta();
         if (itemMeta == null) {
             return itemStack;

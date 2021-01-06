@@ -1,6 +1,7 @@
 package com.handy.playerrace.task;
 
 import com.handy.lib.api.MessageApi;
+import com.handy.lib.constants.VersionCheckEnum;
 import com.handy.lib.util.BaseUtil;
 import com.handy.playerrace.PlayerRace;
 import com.handy.playerrace.constants.RaceTypeEnum;
@@ -52,7 +53,13 @@ public class VampireCombustTask {
                     }
                     // 判断带没有金头盔
                     ItemStack helmet = player.getInventory().getHelmet();
-                    if (helmet != null && Material.GOLDEN_HELMET.equals(helmet.getType())) {
+
+                    Integer versionId = VersionCheckEnum.getEnum().getVersionId();
+                    Material goldenHelmet = BaseUtil.getMaterial("GOLDEN_HELMET");
+                    if (versionId < VersionCheckEnum.V_1_13.getVersionId()) {
+                        goldenHelmet = BaseUtil.getMaterial("GOLD_HELMET");
+                    }
+                    if (helmet != null && goldenHelmet.equals(helmet.getType())) {
                         continue;
                     }
                     // 判断头顶是否有方块
