@@ -1,4 +1,6 @@
-# 我的世界Minecraft 玩家超自然种族 PlayerRace 插件 
+# 我的世界Minecraft 
+
+### 玩家超自然种族 PlayerRace 插件 
 
 [MCBBS发布地址](https://www.mcbbs.net/thread-1149860-1-1.html)
 
