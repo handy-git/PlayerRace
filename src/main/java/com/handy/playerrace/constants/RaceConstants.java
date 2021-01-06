@@ -15,12 +15,12 @@ public class RaceConstants {
     /**
      * 玩家种族缓存
      */
-    public static Map<String, String> PLAYER_RACE = new HashMap();
+    public static Map<String, String> PLAYER_RACE = new HashMap<>();
 
     /**
      * 吸血鬼主动技能吸血缓存
      */
-    public static Map<UUID, Player> VICTIM_ENTITY = new HashMap();
+    public static Map<UUID, Player> VICTIM_ENTITY = new HashMap<>();
 
     /**
      * 被诅咒的玩家
