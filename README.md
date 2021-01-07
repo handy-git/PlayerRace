@@ -8,5 +8,7 @@
 
 ##### [下载地址](https://gitee.com/handy-git/PlayerRace/releases)
 
+##### [提bug](https://gitee.com/handy-git/PlayerRace/issues)
+
 ##### 如果本插件帮助到了您,希望点个右上角的star就是对作者最大的支持了~感谢 :smile: 
 ![输入图片说明](https://images.gitee.com/uploads/images/2021/0106/165200_722a497b_1604115.png "13.png")
