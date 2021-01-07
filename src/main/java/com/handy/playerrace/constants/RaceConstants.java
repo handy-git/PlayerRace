@@ -10,7 +10,7 @@ import java.util.*;
  * @Description: {}
  * @date 2020/8/21 17:58
  */
-public class RaceConstants {
+public abstract class RaceConstants {
 
     /**
      * 玩家种族缓存
@@ -31,5 +31,10 @@ public class RaceConstants {
      * 恶魔猎手的弓类型
      */
     public static Map<UUID, DemonHunterBowTypeEnum> DEMON_HUNTER_BOW = new HashMap<>();
+
+    /**
+     * 检查更新的版本url
+     */
+    public final static String CHECK_VERSION_URL = "https://gitee.com/api/v5/repos/handy-git/PlayerRace/releases/latest";
 
 }

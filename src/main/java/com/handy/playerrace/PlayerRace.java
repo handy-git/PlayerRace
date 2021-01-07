@@ -3,12 +3,12 @@ package com.handy.playerrace;
 import com.handy.lib.api.CheckVersionApi;
 import com.handy.lib.api.MessageApi;
 import com.handy.lib.api.StorageApi;
-import com.handy.lib.bstats.bukkit.Metrics;
 import com.handy.lib.constants.BaseConstants;
 import com.handy.lib.util.BaseUtil;
 import com.handy.lib.util.MetricsUtil;
 import com.handy.lib.util.SqlManagerUtil;
 import com.handy.playerrace.command.PlayerRaceCommand;
+import com.handy.playerrace.constants.RaceConstants;
 import com.handy.playerrace.listener.ListenerManage;
 import com.handy.playerrace.service.RacePlayerService;
 import com.handy.playerrace.task.TaskManage;
@@ -80,7 +80,7 @@ public final class PlayerRace extends JavaPlugin {
 
         // 版本更新检查
         if (ConfigUtil.config.getBoolean("isCheckUpdate")) {
-            CheckVersionApi.checkVersion(this, null, "https://api.github.com/repos/handy-git/PlayerRaceVersion/releases/latest");
+            CheckVersionApi.checkVersion(this, null, RaceConstants.CHECK_VERSION_URL);
         }
     }
 
