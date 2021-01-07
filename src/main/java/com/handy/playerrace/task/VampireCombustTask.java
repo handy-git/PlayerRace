@@ -55,11 +55,11 @@ public class VampireCombustTask {
                     ItemStack helmet = player.getInventory().getHelmet();
 
                     Integer versionId = VersionCheckEnum.getEnum().getVersionId();
-                    Material goldenHelmet = BaseUtil.getMaterial("GOLDEN_HELMET");
+                    String goldenHelmetStr = "GOLDEN_HELMET";
                     if (versionId < VersionCheckEnum.V_1_13.getVersionId()) {
-                        goldenHelmet = BaseUtil.getMaterial("GOLD_HELMET");
+                        goldenHelmetStr = "GOLD_HELMET";
                     }
-                    if (helmet != null && goldenHelmet.equals(helmet.getType())) {
+                    if (helmet != null && BaseUtil.getMaterial(goldenHelmetStr).equals(helmet.getType())) {
                         continue;
                     }
                     // 判断头顶是否有方块
