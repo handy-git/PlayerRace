@@ -318,7 +318,7 @@ public class AngelEventListener implements Listener {
         if (entity instanceof Player) {
             Player player1 = (Player) entity;
             String raceType = RacePlayerService.getInstance().findRaceType(player1.getName());
-            if (RaceTypeEnum.MANKIND.getType().equals(raceType)) {
+            if (!RaceTypeEnum.MANKIND.getType().equals(raceType)) {
                 return;
             }
         }
