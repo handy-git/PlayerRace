@@ -29,7 +29,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 /**
  * @author hs
  * @Description: {恶魔猎手事件}
- * @da2020/8/27 11:01
+ * @date 2020/8/27 11:01
  */
 public class DemonHunterEventListener implements Listener {
 
@@ -68,13 +68,13 @@ public class DemonHunterEventListener implements Listener {
                     // 设置玩家种族为恶魔猎手
                     Boolean rst = RacePlayerService.getInstance().updateRaceType(player.getName(), RaceTypeEnum.DEMON_HUNTER.getType(), 0);
                     if (rst) {
-                        player.sendMessage(BaseUtil.getLangMsg("mankind.killsucceedMsg"));
+                        killer.sendMessage(BaseUtil.getLangMsg("mankind.killsucceedMsg"));
                     }
                 } else {
                     // 设置人类等级提升
                     Boolean rst = RacePlayerService.getInstance().updateRaceLevel(player.getName(), racePlayer.getRaceLevel() + 1);
                     if (rst) {
-                        player.sendMessage(BaseUtil.getLangMsg("mankind.killMsg"));
+                        killer.sendMessage(BaseUtil.getLangMsg("mankind.killMsg"));
                     }
                 }
             }
