@@ -134,8 +134,8 @@ public class GhoulEventListener implements Listener {
         new BukkitRunnable() {
             @Override
             public void run() {
-                Double finalDamage = event.getFinalDamage();
-                Boolean rst = RacePlayerService.getInstance().updateSubtract(player.getName(), finalDamage.intValue());
+                double finalDamage = event.getFinalDamage();
+                Boolean rst = RacePlayerService.getInstance().updateSubtract(player.getName(), (int) finalDamage);
                 if (!rst) {
                     return;
                 }
@@ -149,8 +149,8 @@ public class GhoulEventListener implements Listener {
                 player.setHealth(health);
 
                 String langMsg = BaseUtil.getLangMsg("ghoul.damageMsg");
-                langMsg = langMsg.replaceAll("\\$\\{".concat("amount").concat("\\}"), finalDamage.intValue() + "")
-                        .replaceAll("\\$\\{".concat("health").concat("\\}"), finalDamage.intValue() + "");
+                langMsg = langMsg.replaceAll("\\$\\{".concat("amount").concat("\\}"), (int) finalDamage + "")
+                        .replaceAll("\\$\\{".concat("health").concat("\\}"), (int) finalDamage + "");
                 MessageApi.sendActionbar(player, langMsg);
 
                 // 如果是玩家还要扣除能量值
