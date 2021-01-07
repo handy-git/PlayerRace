@@ -520,7 +520,14 @@ public class AngelEventListener implements Listener {
             player.getInventory().remove(item);
         }
         int returnHealthAmount = ConfigUtil.raceConfig.getInt("angel.returnHealthAmount");
-        RacePlayerService.getInstance().updateAdd(playerEntity.getName(), returnHealthAmount);
+
+
+        double health = player.getHealth();
+        double newHealTh = health + returnHealthAmount;
+        if (newHealTh > player.getMaxHealth()) {
+            newHealTh = player.getMaxHealth();
+        }
+        player.setHealth(newHealTh);
 
         String returnHealthMsg = BaseUtil.getLangMsg("angel.returnHealthMsg");
         returnHealthMsg = returnHealthMsg
