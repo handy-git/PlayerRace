@@ -25,7 +25,6 @@ public class PlayerCursesTask {
         new BukkitRunnable() {
             @Override
             public void run() {
-                // 下架的配件直接删除
                 Iterator<PlayerCursesParam> iterator = RaceConstants.PLAYER_CURSES.iterator();
                 while (iterator.hasNext()) {
                     PlayerCursesParam playerCursesParam = iterator.next();
