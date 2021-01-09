@@ -304,6 +304,12 @@ public class AngelEventListener implements Listener {
         if (player == null) {
             return;
         }
+        // 判断是否拿的面包和绿宝石
+        ItemStack item = player.getItemInHand();
+        if (Material.BREAD.equals(item.getType()) || Material.EMERALD.equals(item.getType())) {
+            return;
+        }
+
         // 被伤害者
         Entity entity = event.getEntity();
         // 判断是否为npc
