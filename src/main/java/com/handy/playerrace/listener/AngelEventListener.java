@@ -1,6 +1,7 @@
 package com.handy.playerrace.listener;
 
 import com.handy.lib.api.MessageApi;
+import com.handy.lib.constants.VersionCheckEnum;
 import com.handy.lib.util.BaseUtil;
 import com.handy.playerrace.PlayerRace;
 import com.handy.playerrace.constants.RaceTypeEnum;
@@ -358,16 +359,23 @@ public class AngelEventListener implements Listener {
             return;
         }
 
-        // 判断是否为小麦,胡萝卜
-        if (!Material.WHEAT.equals(item.getType()) && !Material.CARROT.equals(item.getType())) {
+        // 胡萝卜
+        String materialStr = "CARROT";
+        if (VersionCheckEnum.getEnum().getVersionId() < VersionCheckEnum.V_1_13.getVersionId()) {
+            materialStr = "CARROT_ITEM";
+        }
+        Material carrotMaterial = BaseUtil.getMaterial(materialStr);
+
+        Material material = item.getType();
+        if (!Material.WHEAT.equals(material) && !carrotMaterial.equals(material)) {
             return;
         }
 
         int amount = 0;
-        if (Material.WHEAT.equals(item.getType())) {
+        if (Material.WHEAT.equals(material)) {
             amount = ConfigUtil.raceConfig.getInt("angel.summonCow");
         }
-        if (Material.CARROT.equals(item.getType())) {
+        if (carrotMaterial.equals(material)) {
             amount = ConfigUtil.raceConfig.getInt("angel.summonPig");
         }
         Boolean rst = RacePlayerService.getInstance().updateSubtract(player.getName(), amount);
@@ -392,7 +400,7 @@ public class AngelEventListener implements Listener {
             MessageApi.sendActionbar(player, langMsg);
         }
         // 召唤猪
-        if (Material.CARROT.equals(item.getType())) {
+        if (carrotMaterial.equals(item.getType())) {
             location.getWorld().spawnEntity(location, EntityType.PIG);
             String langMsg = BaseUtil.getLangMsg("angel.summonPigMsg");
             langMsg = langMsg.replaceAll("\\$\\{".concat("amount").concat("\\}"), amount + "");

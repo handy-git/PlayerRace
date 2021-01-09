@@ -2,6 +2,7 @@ package com.handy.playerrace.listener;
 
 import com.handy.lib.util.HandyHttpUtil;
 import com.handy.playerrace.PlayerRace;
+import com.handy.playerrace.constants.RaceConstants;
 import com.handy.playerrace.constants.RaceTypeEnum;
 import com.handy.playerrace.entity.RacePlayer;
 import com.handy.playerrace.service.RacePlayerService;
@@ -54,7 +55,7 @@ public class PlayerJoinEventListener implements Listener {
         if (!ConfigUtil.config.getBoolean("isCheckUpdateToOpMsg")) {
             return;
         }
-        HandyHttpUtil.checkVersion(PlayerRace.getInstance(), event.getPlayer(), "https://api.github.com/repos/handy-git/PlayerRaceVersion/releases/latest");
+        HandyHttpUtil.checkVersion(PlayerRace.getInstance(), event.getPlayer(), RaceConstants.CHECK_VERSION_URL);
     }
 
 }
