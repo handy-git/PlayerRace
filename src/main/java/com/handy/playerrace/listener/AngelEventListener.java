@@ -452,6 +452,8 @@ public class AngelEventListener implements Listener {
             return;
         }
 
+        event.setCancelled(true);
+
         int amount = ConfigUtil.raceConfig.getInt("angel.returnValue");
         Boolean rst = RacePlayerService.getInstance().updateSubtract(player.getName(), amount);
         if (!rst) {
@@ -465,6 +467,7 @@ public class AngelEventListener implements Listener {
         } else {
             player.getInventory().remove(item);
         }
+
         int returnAmount = ConfigUtil.raceConfig.getInt("angel.returnAmount");
         RacePlayerService.getInstance().updateAdd(playerEntity.getName(), returnAmount);
 
@@ -520,6 +523,8 @@ public class AngelEventListener implements Listener {
             return;
         }
 
+        event.setCancelled(true);
+
         int amount = ConfigUtil.raceConfig.getInt("angel.returnHealth");
         Boolean rst = RacePlayerService.getInstance().updateSubtract(player.getName(), amount);
         if (!rst) {
@@ -533,15 +538,14 @@ public class AngelEventListener implements Listener {
         } else {
             player.getInventory().remove(item);
         }
+
         int returnHealthAmount = ConfigUtil.raceConfig.getInt("angel.returnHealthAmount");
-
-
-        double health = player.getHealth();
+        double health = playerEntity.getHealth();
         double newHealTh = health + returnHealthAmount;
-        if (newHealTh > player.getMaxHealth()) {
-            newHealTh = player.getMaxHealth();
+        if (newHealTh > playerEntity.getMaxHealth()) {
+            newHealTh = playerEntity.getMaxHealth();
         }
-        player.setHealth(newHealTh);
+        playerEntity.setHealth(newHealTh);
 
         String returnHealthMsg = BaseUtil.getLangMsg("angel.returnHealthMsg");
         returnHealthMsg = returnHealthMsg
