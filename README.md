@@ -4,7 +4,7 @@
 
 ##### [MCBBS发布地址](https://www.mcbbs.net/thread-1149860-1-1.html)
 
-##### [文档地址](https://gitee.com/handy-git/PlayerRace/wikis)
+##### [文档地址](https://gitee.com/handy-git/PlayerRace/wikis/pages)
 
 ##### [下载地址](https://gitee.com/handy-git/PlayerRace/releases)
 
