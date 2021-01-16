@@ -13,6 +13,7 @@ helps:
   - "&e&m一一一一一一一一一一一一一&f[&ePlayerRace&f]&e&m一一一一一一一一一一一一一"
   - "&e/plr setRace [玩家名称] [种族类型]     &f设置玩家种族"
   - "&e/plr reload  &f重载插件"
+  - "&e/plr getHelpBook  &f获取玩家对应种族的帮助之书"
 
 # 类型错误提醒
 typeFailureMsg: "&4类型错误"
@@ -22,6 +23,7 @@ energyShortageMsg: "&a能量不足,需要:${amount}能量"
 restoreEnergyMsg: "&a你恢复了 ${amount} 点能量!"
 succeedMsg: "&a命令执行成功"
 failureMsg: "&4命令执行失败"
+noPlayerFailureMsg: "&4该命令只能玩家执行"
 raceMsg: "恭喜玩家: ${player}, 成功转换为: ${race}"
 
 # 种族名称

@@ -97,6 +97,7 @@ public class VampireEventListener implements Listener {
                 Boolean rst = RacePlayerService.getInstance().updateRaceType(player.getName(), RaceTypeEnum.VAMPIRE.getType(), 1);
                 if (rst) {
                     player.sendMessage(BaseUtil.getLangMsg("vampire.ancestorSucceedMsg"));
+                    player.getInventory().addItem(RaceUtil.getVampireRaceHelpBook());
                 }
 
             }
@@ -137,7 +138,7 @@ public class VampireEventListener implements Listener {
                 Boolean rst = RacePlayerService.getInstance().updateRaceType(player.getName(), RaceTypeEnum.VAMPIRE.getType(), racePlayerDamage.getRaceLevel() + 1);
                 if (rst) {
                     player.sendMessage(BaseUtil.getLangMsg("werwolf.succeedMsg"));
-
+                    player.getInventory().addItem(RaceUtil.getVampireRaceHelpBook());
                     String langMsg = BaseUtil.getLangMsg("vampire.succeedPlayerMsg");
                     langMsg = langMsg.replaceAll("\\$\\{".concat("player").concat("\\}"), player.getName() + "");
                     MessageApi.sendActionbar(player, langMsg);

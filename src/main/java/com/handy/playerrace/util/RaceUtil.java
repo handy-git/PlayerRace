@@ -13,6 +13,7 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
+import org.bukkit.inventory.meta.BookMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.KnowledgeBookMeta;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -263,6 +264,50 @@ public class RaceUtil {
         bookMeta.addRecipe(new NamespacedKey(PlayerRace.getInstance(), "vampire"));
         //设置Meta数据
         book.setItemMeta(bookMeta);
+        return book;
+    }
+
+    /**
+     * 获取种族帮助之书
+     *
+     * @return 种族帮助之书
+     */
+    public static ItemStack getVampireRaceHelpBook() {
+        ItemStack book = new ItemStack(Material.WRITTEN_BOOK);
+        BookMeta bookmeta = (BookMeta) book.getItemMeta();
+        // 调用  BookMeta 类的方法 setAuthor() 填写作者
+        bookmeta.setAuthor("丶米饭");
+        // 调用  BookMeta 类的方法 setTitle() 设置书的标题
+        bookmeta.setTitle("玩家种族帮助手册");
+        // 使用StringBuilder类快速便捷文本内容
+        StringBuilder text = new StringBuilder();
+        text.append("吸血鬼\n一种害怕阳光,但是拥有强大力量的黑暗生物。\n");
+        text.append("始祖来源： 使用道具 **该隐之血** , 第一个使用的人类,将会变为吸血鬼始祖。\n");
+        text.append("后裔来源:  人类被吸血鬼击杀会被转换为吸血鬼,但是种族之力会降低。\n");
+        text.append("种族天赋:\n");
+        text.append("1. 等级加成: 血统越纯净的吸血鬼,能量值越高\n");
+        text.append("2. 时间加成: 越古老的吸血鬼, 攻守能力加成越高\n");
+        text.append("3. 会随着时间缓慢恢复能量值\n");
+        text.append("被动技能:\n");
+        text.append("1. 水下伤害减少\n");
+        text.append("2. 快速回血\n");
+        text.append("3. 近战攻击力提升\n");
+        text.append("4. 防御力提升\n");
+        text.append("5. 与一切怪物休战\n");
+        text.append("6. 掉落无伤\n");
+        text.append("主动技能:\n");
+        text.append("1. 手持红石粉左击 消耗一定能量值,可以对视线范围内上一次攻击的玩家进行吸血(不会导致对手死亡)\n");
+        text.append("种族弱点:\n");
+        text.append("1. 阳光下不带金头盔会被燃烧\n");
+        text.append("2. 受到木制武器的伤害大幅提升\n");
+        text.append("3. 只能吃 生肉 来吸血生存,其他任何食物都无法下嘴\n");
+        //将这些内容写入新的一页
+        //注意，每页最多256个字符，每本书最多50页
+        bookmeta.addPage(text.toString());
+        //设置书的类型为原著
+        bookmeta.setGeneration(BookMeta.Generation.ORIGINAL);
+        //完成BookMeta编写
+        book.setItemMeta(bookmeta);
         return book;
     }
 

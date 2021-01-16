@@ -1,5 +1,5 @@
 name: PlayerRace
-version: 1.0.4
+version: 1.0.5
 main: com.handy.playerrace.PlayerRace
 api-version: "1.13"
 author: handy
@@ -15,9 +15,13 @@ permissions:
     children:
       playerrace.reload: true
       playerrace.setrace: true
+      playerrace.gethelpbook: true
   playerrace.reload:
     description: §a重载插件
     default: op
   playerrace.setrace:
     description: §a设置玩家种族
     default: op
+  playerrace.gethelpbook:
+    description: §a获取玩家种族帮助之书
+    default: true

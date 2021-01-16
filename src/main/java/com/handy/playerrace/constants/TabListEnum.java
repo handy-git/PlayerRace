@@ -19,7 +19,7 @@ public enum TabListEnum {
     /**
      * 第一层提醒
      */
-    FIRST(Arrays.asList("setRace", "reload"), 0, null, 1),
+    FIRST(Arrays.asList("setRace", "reload", "getHelpBook"), 0, null, 1),
 
     SET_RACE_TWO(null, 1, "setRace", 2),
     SET_RACE_THREE(RaceTypeEnum.getEnum(), 1, "setRace", 3),
