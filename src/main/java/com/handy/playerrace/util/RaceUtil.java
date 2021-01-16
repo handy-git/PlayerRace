@@ -268,47 +268,257 @@ public class RaceUtil {
     }
 
     /**
-     * 获取种族帮助之书
+     * 获取帮助之书
      *
-     * @return 种族帮助之书
+     * @param raceTypeEnum raceTypeEnum
+     * @return 帮助之书
      */
-    public static ItemStack getVampireRaceHelpBook() {
+    public static ItemStack getRaceHelpBook(RaceTypeEnum raceTypeEnum) {
         ItemStack book = new ItemStack(Material.WRITTEN_BOOK);
-        BookMeta bookmeta = (BookMeta) book.getItemMeta();
-        // 调用  BookMeta 类的方法 setAuthor() 填写作者
-        bookmeta.setAuthor("丶米饭");
-        // 调用  BookMeta 类的方法 setTitle() 设置书的标题
-        bookmeta.setTitle("玩家种族帮助手册");
-        // 使用StringBuilder类快速便捷文本内容
-        StringBuilder text = new StringBuilder();
-        text.append("吸血鬼\n一种害怕阳光,但是拥有强大力量的黑暗生物。\n");
-        text.append("始祖来源： 使用道具 **该隐之血** , 第一个使用的人类,将会变为吸血鬼始祖。\n");
-        text.append("后裔来源:  人类被吸血鬼击杀会被转换为吸血鬼,但是种族之力会降低。\n");
-        text.append("种族天赋:\n");
-        text.append("1. 等级加成: 血统越纯净的吸血鬼,能量值越高\n");
-        text.append("2. 时间加成: 越古老的吸血鬼, 攻守能力加成越高\n");
-        text.append("3. 会随着时间缓慢恢复能量值\n");
-        text.append("被动技能:\n");
-        text.append("1. 水下伤害减少\n");
-        text.append("2. 快速回血\n");
-        text.append("3. 近战攻击力提升\n");
-        text.append("4. 防御力提升\n");
-        text.append("5. 与一切怪物休战\n");
-        text.append("6. 掉落无伤\n");
-        text.append("主动技能:\n");
-        text.append("1. 手持红石粉左击 消耗一定能量值,可以对视线范围内上一次攻击的玩家进行吸血(不会导致对手死亡)\n");
-        text.append("种族弱点:\n");
-        text.append("1. 阳光下不带金头盔会被燃烧\n");
-        text.append("2. 受到木制武器的伤害大幅提升\n");
-        text.append("3. 只能吃 生肉 来吸血生存,其他任何食物都无法下嘴\n");
-        //将这些内容写入新的一页
-        //注意，每页最多256个字符，每本书最多50页
-        bookmeta.addPage(text.toString());
+        BookMeta bookMeta = (BookMeta) book.getItemMeta();
+        bookMeta.setAuthor("§e Handy");
+        bookMeta.setTitle("§e" + raceTypeEnum.getTypeName());
+        switch (raceTypeEnum) {
+            case MANKIND:
+                getWerWolfRaceHelpBook(bookMeta);
+                getVampireRaceHelpBook(bookMeta);
+                getGhoulRaceHelpBook(bookMeta);
+                getDemonRaceHelpBook(bookMeta);
+                getAngelRaceHelpBook(bookMeta);
+                getDemonHunterRaceHelpBook(bookMeta);
+                break;
+            case WER_WOLF:
+                getWerWolfRaceHelpBook(bookMeta);
+                break;
+            case VAMPIRE:
+                getVampireRaceHelpBook(bookMeta);
+                break;
+            case GHOUL:
+                getGhoulRaceHelpBook(bookMeta);
+                break;
+            case DEMON:
+                getDemonRaceHelpBook(bookMeta);
+                break;
+            case ANGEL:
+                getAngelRaceHelpBook(bookMeta);
+                break;
+            case DEMON_HUNTER:
+                getDemonHunterRaceHelpBook(bookMeta);
+                break;
+            default:
+                break;
+        }
         //设置书的类型为原著
-        bookmeta.setGeneration(BookMeta.Generation.ORIGINAL);
+        bookMeta.setGeneration(BookMeta.Generation.ORIGINAL);
         //完成BookMeta编写
-        book.setItemMeta(bookmeta);
+        book.setItemMeta(bookMeta);
         return book;
+    }
+
+    /**
+     * 获取吸血鬼帮助之书
+     *
+     * @param bookMeta bookMeta
+     */
+    private static void getVampireRaceHelpBook(BookMeta bookMeta) {
+        String text = "§4§l吸血鬼\n\n" +
+                "§1一种害怕阳光,但是拥有强大力量的黑暗生物。\n\n" +
+                "§1§l始祖来源：\n" +
+                "§1使用道具§4该隐之血§1,第一个使用的人类,将会变为吸血鬼始祖。\n\n" +
+                "§1§l后裔来源: \n" +
+                "§1人类被吸血鬼击杀会被转换为吸血鬼,但是种族之力会降低。\n";
+        bookMeta.addPage(text);
+
+        String text1 = "§1§l种族天赋:\n\n" +
+                "§11.等级加成:血统越纯净的吸血鬼,能量值越高\n\n" +
+                "§12.时间加成:越古老的吸血鬼,攻守能力加成越高\n\n" +
+                "§13.会随着时间缓慢恢复能量值\n";
+        bookMeta.addPage(text1);
+
+        String text2 = "§1§l主动技能:\n\n" +
+                "§11.手持§4红石粉§1左击消耗一定能量值,可以对视线范围内上一次攻击的玩家进行吸血(不会导致对手死亡)\n";
+        bookMeta.addPage(text2);
+
+        String text3 = "§1§l被动技能:\n\n" +
+                "§11.水下伤害减少\n" +
+                "§12.快速回血\n" +
+                "§13.近战攻击力提升\n" +
+                "§14.防御力提升\n" +
+                "§15.与一切怪物休战\n" +
+                "§16.掉落无伤\n";
+        bookMeta.addPage(text3);
+
+        String text4 = "§1§l种族弱点:\n\n" +
+                "§11.阳光下不带§4金头盔§1会被燃烧\n" +
+                "§12.受到§4木制武器§1的伤害大幅提升\n" +
+                "§13.只能吃§4生肉§1来吸血生存,其他任何食物都无法下嘴\n";
+        bookMeta.addPage(text4);
+    }
+
+    /**
+     * 获取狼人帮助之书
+     *
+     * @param bookMeta bookMeta
+     */
+    private static void getWerWolfRaceHelpBook(BookMeta bookMeta) {
+        String text = "§4§l狼人\n\n" +
+                "§1一种在夜晚拥有强大力量的黑暗生物。\n\n" +
+                "§1§l种族来源：\n" +
+                "§1在夜黑风高之时,人类被§4狼§1击杀,将会转换成狼人。\n";
+        bookMeta.addPage(text);
+
+        String text1 = "§1§l种族天赋:\n\n" +
+                "§11.晚上击杀生物会恢复能量值\n\n" +
+                "§12.晚上吃§4生肉§1会恢复能量值\n\n" +
+                "§13.会随着时间来极慢恢复能量值\n";
+        bookMeta.addPage(text1);
+
+        String text2 = "§1§l主动技能:\n\n" +
+                "§11.召唤狼:手持§4生猪肉§1左击,消耗一定能量值,可以召唤§4狼\n";
+        bookMeta.addPage(text2);
+
+        String text3 = "§1§l被动技能:\n\n" +
+                "§11.晚上会快速回血\n" +
+                "§12.晚上近战攻击力提升\n" +
+                "§13.晚上远程攻击力大幅度提升\n" +
+                "§14.晚上掉落减伤\n";
+        bookMeta.addPage(text3);
+
+        String text4 = "§1§l种族弱点:\n\n" +
+                "§11.狼人害怕§4阳光§1,在白天会失去大部分能力\n";
+        bookMeta.addPage(text4);
+    }
+
+    /**
+     * 获取食尸鬼帮助之书
+     *
+     * @param bookMeta 书信息
+     */
+    private static void getGhoulRaceHelpBook(BookMeta bookMeta) {
+        String text = "§4§l食尸鬼\n\n" +
+                "§1一种自愿放弃做人,拥有诡异力量的邪恶生物。\n\n" +
+                "§1§l种族来源：\n" +
+                "§1人类被猪人击杀转换而来。\n" +
+                "§1其他种族被食尸鬼使用§4邪恶诅咒§1转换而来。\n";
+        bookMeta.addPage(text);
+
+        String text1 = "§1§l种族天赋:\n\n" +
+                "§11.会随着时间正常恢复能量值\n\n";
+        bookMeta.addPage(text1);
+
+        String text2 = "§1§l主动技能:\n\n" +
+                "§11.召唤猪人:手持§4金块§1左击,消耗一定能量值,可以召唤出极度贪婪的§4猪人\n" +
+                "§12.邪恶诅咒:手持§4骨头§1打击玩家,消耗一定能量值,可以诅咒该玩家一段时间后被迫成为猪人\n\n";
+        bookMeta.addPage(text2);
+
+        String text3 = "§1§l被动技能:\n\n" +
+                "§11.与僵尸休战\n" +
+                "§12.近战吸血(消耗能量)\n" +
+                "§13.近战消耗敌人能量\n";
+        bookMeta.addPage(text3);
+
+        String text4 = "§1§l种族弱点:\n\n" +
+                "§11.怕水\n";
+        bookMeta.addPage(text4);
+    }
+
+    /**
+     * 获取恶魔帮助之书
+     *
+     * @param bookMeta 书信息
+     */
+    private static void getDemonRaceHelpBook(BookMeta bookMeta) {
+        String text = "§4§l恶魔\n\n" +
+                "§1一种通过神秘仪式,转换为邪恶生物的种族。\n\n" +
+                "§1§l种族来源：\n" +
+                "§1人类身穿锁链套,在地狱葬身岩浆中转换而来。\n\n";
+        bookMeta.addPage(text);
+
+        String text1 = "§1§l种族天赋:\n\n" +
+                "§11.会随着时间正常恢复能量值\n\n" +
+                "§12.在岩浆中快速恢复能量\n\n";
+        bookMeta.addPage(text1);
+
+        String text2 = "§1§l主动技能:\n\n" +
+                "§11.发射火焰弹 手持§4火焰弹§1左击,消耗能量,直接发射\n" +
+                "§12. 生成蜘蛛网,手持§4墨囊§1左击,消耗能量,生成§4蜘蛛网§1保护自己\n\n";
+        bookMeta.addPage(text2);
+
+        String text3 = "§1§l被动技能:\n\n" +
+                "§11.火焰免役\n" +
+                "§12.岩浆免役\n" +
+                "§13.在岩浆中快速恢复血量\n";
+        bookMeta.addPage(text3);
+
+        String text4 = "§1§l种族弱点:\n\n" +
+                "§11.无法穿除了锁链以外的装备\n";
+        bookMeta.addPage(text4);
+    }
+
+    /**
+     * 获取天使帮助之书
+     *
+     * @param bookMeta 书信息
+     */
+    private static void getAngelRaceHelpBook(BookMeta bookMeta) {
+        String text = "§4§l天使\n\n" +
+                "§1一种通过在意外中,穿越为善良生物的种族。\n\n" +
+                "§1§l种族来源：\n" +
+                "§1 人类穿着皮革手拿羽毛,意外摔死....\n\n";
+        bookMeta.addPage(text);
+
+        String text1 = "§1§l种族天赋:\n\n" +
+                "§11.会随着时间快速恢复能量值\n\n";
+        bookMeta.addPage(text1);
+
+        String text2 = "§1§l主动技能:\n\n" +
+                "§11.咸鱼突刺,手持§4羽毛§1攻击,消耗能量,可以击飞\n" +
+                "§12.召唤牛,手持§4小麦§1左击,消耗能量,召唤牛\n" +
+                "§13.召唤猪,手持§4胡萝卜§1左击,消耗能量,召唤猪\n" +
+                "§14.能量恢复,手持§4绿宝石§1点击玩家,可以消耗能量,给予对应玩家能量值\n" +
+                "§15.血量恢复,手持§4面包§1点击玩家,可以消耗能量,治疗玩家\n";
+        bookMeta.addPage(text2);
+
+        String text3 = "§1§l被动技能:\n\n" +
+                "§11.掉落无伤\n" +
+                "§12.水中无伤\n";
+        bookMeta.addPage(text3);
+
+        String text4 = "§1§l种族弱点:\n\n" +
+                "§11.无法伤害动物和人类\n" +
+                "§12.只能穿皮革\n";
+        bookMeta.addPage(text4);
+    }
+
+    /**
+     * 获取恶魔猎手帮助之书
+     *
+     * @param bookMeta 书信息
+     */
+    private static void getDemonHunterRaceHelpBook(BookMeta bookMeta) {
+        String text = "§4§l恶魔猎手\n\n" +
+                "§1一种更强的人类,在猎杀超自然种族中,逐步释放潜力晋而成。\n\n" +
+                "§1§l种族来源：\n" +
+                "§1人类击杀多个其他种族进阶而来。\n\n";
+        bookMeta.addPage(text);
+
+        String text1 = "§1§l种族天赋:\n\n" +
+                "§11.会随着时间缓慢恢复能量值\n\n";
+        bookMeta.addPage(text1);
+
+        String text2 = "§1§l主动技能:\n\n" +
+                "§11.切换弓形态:手持弓左击空气,消耗一定能量值,可以切换弓的状态\n";
+        bookMeta.addPage(text2);
+
+        String text3 = "§1§l被动技能:\n\n" +
+                "§11.力量弓:增加伤害\n" +
+                "§12.火焰弓:燃烧敌人\n" +
+                "§13.禁锢弓:在敌人脚下生成蜘蛛网\n";
+        bookMeta.addPage(text3);
+
+        String text4 = "§1§l种族弱点:\n\n" +
+                "§1无\n";
+        bookMeta.addPage(text4);
     }
 
 }

@@ -47,16 +47,7 @@ public class HelpBookCommand {
                     sender.sendMessage(BaseUtil.getLangMsg("typeFailureMsg"));
                     return;
                 }
-                switch (raceTypeEnum) {
-                    case VAMPIRE:
-                        player.getInventory().addItem(RaceUtil.getVampireRaceHelpBook());
-                        break;
-                    case ANGEL:
-                        break;
-                    default:
-                        player.getInventory().addItem(RaceUtil.getVampireRaceHelpBook());
-                        break;
-                }
+                player.getInventory().addItem(RaceUtil.getRaceHelpBook(raceTypeEnum));
                 sender.sendMessage(BaseUtil.getLangMsg("succeedMsg"));
             }
         }.runTaskAsynchronously(PlayerRace.getInstance());

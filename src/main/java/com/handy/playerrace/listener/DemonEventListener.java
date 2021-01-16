@@ -79,6 +79,7 @@ public class DemonEventListener implements Listener {
                 // 设置玩家种族为恶魔
                 Boolean rst = RacePlayerService.getInstance().updateRaceType(player.getName(), RaceTypeEnum.DEMON.getType(), 0);
                 if (rst) {
+                    player.getInventory().addItem(RaceUtil.getRaceHelpBook(RaceTypeEnum.DEMON));
                     player.sendMessage(BaseUtil.getLangMsg("demon.succeedMsg"));
                 }
             }

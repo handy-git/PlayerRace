@@ -79,6 +79,7 @@ public class WerWolfEventListener implements Listener {
                 // 设置玩家种族为狼人
                 Boolean rst = RacePlayerService.getInstance().updateRaceType(player.getName(), RaceTypeEnum.WER_WOLF.getType(), 0);
                 if (rst) {
+                    player.getInventory().addItem(RaceUtil.getRaceHelpBook(RaceTypeEnum.WER_WOLF));
                     player.sendMessage(BaseUtil.getLangMsg("werwolf.succeedMsg"));
                 }
             }
