@@ -309,7 +309,9 @@ public class RaceUtil {
                 break;
         }
         //设置书的类型为原著
-        bookMeta.setGeneration(BookMeta.Generation.ORIGINAL);
+        if (VersionCheckEnum.getEnum().getVersionId() > VersionCheckEnum.V_1_8.getVersionId()) {
+            bookMeta.setGeneration(BookMeta.Generation.ORIGINAL);
+        }
         //完成BookMeta编写
         book.setItemMeta(bookMeta);
         return book;
