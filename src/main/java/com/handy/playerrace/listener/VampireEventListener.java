@@ -386,6 +386,12 @@ public class VampireEventListener implements Listener {
             return;
         }
 
+        // 判断是否孟婆汤
+        ItemStack itemStack = event.getItem();
+        if (itemStack.isSimilar(RaceUtil.getMengBorneoSoup())) {
+            return;
+        }
+
         Material itemStackType = event.getItem().getType();
 
         List<String> materials = new ArrayList<>();
@@ -500,11 +506,9 @@ public class VampireEventListener implements Listener {
             entity.setHealth(1);
         }
         double healthValue = player.getHealth() + hematophagiaNum;
-        if (healthValue >= player.getMaxHealth()) {
-            player.setHealth(player.getMaxHealth());
-        } else {
-            player.setHealth(healthValue);
-        }
+
+        player.setHealth(Math.min(healthValue, player.getMaxHealth()));
+
         RaceConstants.VICTIM_ENTITY.remove(player.getUniqueId());
 
         String hematophagiaSucceedMsg = BaseUtil.getLangMsg("vampire.hematophagiaSucceedMsg");
