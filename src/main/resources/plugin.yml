@@ -16,6 +16,7 @@ permissions:
       playerrace.reload: true
       playerrace.setrace: true
       playerrace.gethelpbook: true
+      playerrace.getmengborneosoup: true
   playerrace.reload:
     description: §a重载插件
     default: op
@@ -25,3 +26,6 @@ permissions:
   playerrace.gethelpbook:
     description: §a获取玩家种族帮助之书
     default: true
+  playerrace.getmengborneosoup:
+    description: §a获取孟婆汤
+    default: op

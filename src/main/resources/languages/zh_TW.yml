@@ -13,6 +13,8 @@ helps:
   - "&e&m一一一一一一一一一一一一一&f[&ePlayerRace&f]&e&m一一一一一一一一一一一一一"
   - "&e/plr setRace [玩家名稱] [種族類型]     &f設置玩家種族"
   - "&e/plr reload  &f重載插件"
+  - "&e/plr getHelpBook  &f獲取玩家對應種族的幫助之書"
+  - "&e/plr getMengBorneoSoup  &f獲取孟婆湯"
 
 # 類型錯誤提醒
 typeFailureMsg: "&4類型錯誤"

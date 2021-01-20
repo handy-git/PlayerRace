@@ -2,6 +2,7 @@ package com.handy.playerrace.command;
 
 import com.handy.lib.util.BaseUtil;
 import com.handy.playerrace.command.admin.HelpBookCommand;
+import com.handy.playerrace.command.admin.MengBorneoSoupCommand;
 import com.handy.playerrace.command.admin.ReloadCommand;
 import com.handy.playerrace.command.admin.SetRaceCommand;
 import com.handy.playerrace.constants.TabListEnum;
@@ -49,6 +50,13 @@ public class PlayerRaceCommand implements TabExecutor {
                     return true;
                 }
                 HelpBookCommand.getSingleton().onCommand(sender, cmd, label, args);
+                break;
+            case "getmengborneosoup":
+                if (!sender.hasPermission("playerrace.getmengborneosoup")) {
+                    sender.sendMessage(BaseUtil.getLangMsg("noPermission"));
+                    return true;
+                }
+                MengBorneoSoupCommand.getSingleton().onCommand(sender, cmd, label, args);
                 break;
             default:
                 return sendHelp(sender);

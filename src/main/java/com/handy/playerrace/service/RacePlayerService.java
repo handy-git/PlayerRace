@@ -28,12 +28,10 @@ public class RacePlayerService {
     private RacePlayerService() {
     }
 
-    private static class SingletonHolder {
-        private static final RacePlayerService INSTANCE = new RacePlayerService();
-    }
+    private static final RacePlayerService INSTANCE = new RacePlayerService();
 
     public static RacePlayerService getInstance() {
-        return SingletonHolder.INSTANCE;
+        return INSTANCE;
     }
 
     /**
@@ -243,22 +241,46 @@ public class RacePlayerService {
     }
 
     /**
-     * 设置
+     * 根据名称设置数量
      *
      * @param playerName 玩家名
      * @param amount     数量
      * @return true 成功
      */
-    public Boolean update(String playerName, Integer amount) {
+    public Boolean updateAmountByPlayerName(String playerName, Integer amount) {
         playerName = BaseUtil.toLowerCase(playerName);
         Connection conn = null;
         PreparedStatement ps = null;
         try {
-            String selectStr = RacePlayerSqlEnum.UPDATE_BY_PLAYER_NAME.getCommand();
+            String selectStr = RacePlayerSqlEnum.UPDATE_AMOUNT_BY_PLAYER_NAME.getCommand();
             conn = SqlManagerUtil.getInstance().getConnection(PlayerRace.getInstance());
             ps = conn.prepareStatement(selectStr);
             ps.setInt(1, amount);
             ps.setString(2, playerName);
+            return ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            SqlManagerUtil.getInstance().closeSql(conn, ps, null);
+        }
+        return false;
+    }
+
+    /**
+     * 根据id置数量
+     *
+     * @param racePlayer 信息
+     * @return true 成功
+     */
+    public Boolean updateAmountById(RacePlayer racePlayer) {
+        Connection conn = null;
+        PreparedStatement ps = null;
+        try {
+            String selectStr = RacePlayerSqlEnum.UPDATE_AMOUNT_BY_ID.getCommand();
+            conn = SqlManagerUtil.getInstance().getConnection(PlayerRace.getInstance());
+            ps = conn.prepareStatement(selectStr);
+            ps.setInt(1, racePlayer.getAmount());
+            ps.setLong(2, racePlayer.getId());
             return ps.executeUpdate() > 0;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -317,8 +339,9 @@ public class RacePlayerService {
             ps.setString(1, raceType);
             ps.setInt(2, raceLevel);
             ps.setInt(3, maxAmount);
-            ps.setLong(4, System.currentTimeMillis());
-            ps.setString(5, playerName);
+            ps.setInt(4, maxAmount);
+            ps.setLong(5, System.currentTimeMillis());
+            ps.setString(6, playerName);
             rst = ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();

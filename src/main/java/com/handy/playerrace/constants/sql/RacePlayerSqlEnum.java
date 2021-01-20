@@ -67,11 +67,14 @@ public enum RacePlayerSqlEnum {
     UPDATE_SUBTRACT_BY_PLAYER_NAME(
             "UPDATE `race_player` SET `amount` = `amount` - ? WHERE `player_name` = ? AND `amount` - ? >= 0"
     ),
-    UPDATE_BY_PLAYER_NAME(
+    UPDATE_AMOUNT_BY_PLAYER_NAME(
             "UPDATE `race_player` SET `amount` = ? WHERE `player_name` = ?"
     ),
+    UPDATE_AMOUNT_BY_ID(
+            "UPDATE `race_player` SET `amount` = ? WHERE `id` = ?"
+    ),
     UPDATE_BY_RACE_TYPE(
-            "UPDATE `race_player` SET `race_type` = ? , `race_level` = ? , `max_amount`= ?, `transfer_time` = ? WHERE `player_name` = ?"
+            "UPDATE `race_player` SET `race_type` = ? , `race_level` = ? , `amount` = ? , `max_amount`= ?, `transfer_time` = ? WHERE `player_name` = ?"
     ),
     UPDATE_BY_RACE_LEVEL(
             "UPDATE `race_player` SET `race_level` = ? WHERE `player_name` = ?"

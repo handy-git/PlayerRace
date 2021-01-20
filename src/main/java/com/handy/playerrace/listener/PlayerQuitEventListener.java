@@ -17,7 +17,7 @@ public class PlayerQuitEventListener implements Listener {
     /**
      * 玩家离开服务器事件.
      *
-     * @param event
+     * @param event 离开事件
      */
     @EventHandler
     public void onPlayerJoin(PlayerQuitEvent event) {
@@ -27,7 +27,7 @@ public class PlayerQuitEventListener implements Listener {
     /**
      * 玩家被服务器踢出事件.
      *
-     * @param event
+     * @param event 踢出事件
      */
     @EventHandler
     public void onPlayerKick(PlayerKickEvent event) {
@@ -39,4 +39,5 @@ public class PlayerQuitEventListener implements Listener {
         RaceConstants.PLAYER_RACE.remove(player.getName().toLowerCase());
         RaceConstants.DEMON_HUNTER_BOW.remove(player.getUniqueId());
     }
+
 }

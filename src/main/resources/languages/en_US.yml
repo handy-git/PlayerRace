@@ -13,6 +13,8 @@ helps:
   - "&e&e&m一一一一一一一一一一一一一&f[&ePlayerRace&f]&e&m一一一一一一一一一一一一一"
   - "&e/plr setRace [player name] [race type] &f set player race."
   - "&e/plr reload &f reload plugin"
+  - "&e/plr getHelpBook &f Get the book of help for the player's corresponding race"
+  - "&e/plr getMengBorneoSoup &f getMengBorneoSoup"
 
 # Type error alert
 typeFailureMsg: "&4 type error"

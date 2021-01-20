@@ -14,6 +14,7 @@ helps:
   - "&e/plr setRace [玩家名称] [种族类型]     &f设置玩家种族"
   - "&e/plr reload  &f重载插件"
   - "&e/plr getHelpBook  &f获取玩家对应种族的帮助之书"
+  - "&e/plr getMengBorneoSoup  &f获取孟婆汤"
 
 # 类型错误提醒
 typeFailureMsg: "&4类型错误"

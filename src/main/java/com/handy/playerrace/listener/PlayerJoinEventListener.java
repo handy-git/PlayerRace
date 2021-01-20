@@ -1,5 +1,6 @@
 package com.handy.playerrace.listener;
 
+import com.handy.lib.util.BaseUtil;
 import com.handy.lib.util.HandyHttpUtil;
 import com.handy.playerrace.PlayerRace;
 import com.handy.playerrace.constants.RaceConstants;
@@ -23,7 +24,7 @@ public class PlayerJoinEventListener implements Listener {
     /**
      * 玩家加入初始化种族
      *
-     * @param event
+     * @param event 进入事件
      */
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
@@ -31,22 +32,25 @@ public class PlayerJoinEventListener implements Listener {
         new BukkitRunnable() {
             @Override
             public void run() {
-                RacePlayer racePlayer = RacePlayerService.getInstance().findByPlayerName(player.getName());
+                String playerName = BaseUtil.toLowerCase(player.getName());
+                RacePlayer racePlayer = RacePlayerService.getInstance().findByPlayerName(playerName);
                 if (racePlayer != null) {
                     return;
                 }
                 racePlayer = new RacePlayer();
-                racePlayer.setPlayerName(player.getName());
+                racePlayer.setPlayerName(playerName);
                 racePlayer.setPlayerUuid(player.getUniqueId().toString());
                 racePlayer.setRaceType(RaceTypeEnum.MANKIND.getType());
-                racePlayer.setAmount(ConfigUtil.config.getInt("maxFatigue"));
+                racePlayer.setAmount(0);
+                racePlayer.setMaxAmount(0);
+                racePlayer.setTransferTime(0L);
                 RacePlayerService.getInstance().add(racePlayer);
             }
         }.runTaskAsynchronously(PlayerRace.getInstance());
     }
 
     /**
-     * op加入发送更新提醒
+     * op加入发送更新提醒 进入事件
      *
      * @param event
      */
