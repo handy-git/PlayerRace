@@ -53,7 +53,7 @@ public class FindRaceCommand {
                 for (Player player : Bukkit.getOnlinePlayers()) {
                     RaceTypeEnum anEnum = RaceTypeEnum.getEnum(RacePlayerService.getInstance().findRaceType(player.getName()));
                     if (anEnum != null) {
-                        sender.sendMessage(args[1] + ": " + anEnum.getTypeName());
+                        sender.sendMessage(player.getName() + ": " + anEnum.getTypeName());
                     }
                 }
             }
