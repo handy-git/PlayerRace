@@ -15,6 +15,7 @@ helps:
   - "&e/plr reload &f reload plugin"
   - "&e/plr getHelpBook &f Get the book of help for the player's corresponding race"
   - "&e/plr getMengBorneoSoup &f getMengBorneoSoup"
+  - "&e/plr findCount (race type) &f get the number of corresponding races"
 
 # Type error alert
 typeFailureMsg: "&4 type error"

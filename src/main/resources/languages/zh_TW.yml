@@ -15,6 +15,7 @@ helps:
   - "&e/plr reload  &f重載插件"
   - "&e/plr getHelpBook  &f獲取玩家對應種族的幫助之書"
   - "&e/plr getMengBorneoSoup  &f獲取孟婆湯"
+  - "&e/plr findCount (種族類型) &f獲取對應種族的數量"
 
 # 類型錯誤提醒
 typeFailureMsg: "&4類型錯誤"

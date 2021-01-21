@@ -1,5 +1,5 @@
 name: PlayerRace
-version: 1.0.6
+version: 1.0.7
 main: com.handy.playerrace.PlayerRace
 api-version: "1.13"
 author: handy
@@ -17,6 +17,7 @@ permissions:
       playerrace.setrace: true
       playerrace.gethelpbook: true
       playerrace.getmengborneosoup: true
+      playerrace.findcount: true
   playerrace.reload:
     description: §a重载插件
     default: op
@@ -28,4 +29,7 @@ permissions:
     default: true
   playerrace.getmengborneosoup:
     description: §a获取孟婆汤
+    default: op
+  playerrace.findcount:
+    description: §a获取对应种族的玩家数量
     default: op

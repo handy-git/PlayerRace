@@ -19,10 +19,13 @@ public enum TabListEnum {
     /**
      * 第一层提醒
      */
-    FIRST(Arrays.asList("setRace", "reload", "getHelpBook","getMengBorneoSoup"), 0, null, 1),
+    FIRST(Arrays.asList("setRace", "reload", "getHelpBook", "getMengBorneoSoup", "findCount"), 0, null, 1),
 
     SET_RACE_TWO(null, 1, "setRace", 2),
     SET_RACE_THREE(RaceTypeEnum.getEnum(), 1, "setRace", 3),
+
+
+    FIND_COUNT_TWO(RaceTypeEnum.getEnum(), 1, "findCount", 2),
 
     ;
 

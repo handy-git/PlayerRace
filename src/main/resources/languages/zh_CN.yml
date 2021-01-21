@@ -15,6 +15,7 @@ helps:
   - "&e/plr reload  &f重载插件"
   - "&e/plr getHelpBook  &f获取玩家对应种族的帮助之书"
   - "&e/plr getMengBorneoSoup  &f获取孟婆汤"
+  - "&e/plr findCount (种族类型) &f获取对应种族的数量"
 
 # 类型错误提醒
 typeFailureMsg: "&4类型错误"
