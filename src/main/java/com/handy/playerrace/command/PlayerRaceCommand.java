@@ -62,6 +62,13 @@ public class PlayerRaceCommand implements TabExecutor {
                 }
                 FindCountCommand.getSingleton().onCommand(sender, cmd, label, args);
                 break;
+            case "findrace":
+                if (!sender.hasPermission("playerrace.findrace")) {
+                    sender.sendMessage(BaseUtil.getLangMsg("noPermission"));
+                    return true;
+                }
+                FindRaceCommand.getSingleton().onCommand(sender, cmd, label, args);
+                break;
             default:
                 return sendHelp(sender);
         }

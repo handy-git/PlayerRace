@@ -18,6 +18,7 @@ permissions:
       playerrace.gethelpbook: true
       playerrace.getmengborneosoup: true
       playerrace.findcount: true
+      playerrace.findrace: true
   playerrace.reload:
     description: §a重载插件
     default: op
@@ -32,4 +33,7 @@ permissions:
     default: op
   playerrace.findcount:
     description: §a获取对应种族的玩家数量
+    default: op
+  playerrace.findrace:
+    description: §a获取玩家的种族
     default: op
