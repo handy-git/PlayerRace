@@ -41,11 +41,16 @@ public class GhoulWaterDamageTask {
 
                     double health = player.getHealth() - waterDamage;
                     if (health < 0) {
-                        health = 0;
+                        new BukkitRunnable() {
+                            @Override
+                            public void run() {
+                                player.setHealth(0);
+                            }
+                        }.runTask(PlayerRace.getInstance());
+                    } else {
+                        player.setHealth(health);
+                        MessageApi.sendActionbar(player, BaseUtil.getLangMsg("ghoul.waterDamageMsg"));
                     }
-                    player.setHealth(health);
-
-                    MessageApi.sendActionbar(player, BaseUtil.getLangMsg("ghoul.waterDamageMsg"));
                 }
             }
         }.runTaskTimerAsynchronously(PlayerRace.getInstance(), 0, 20);
