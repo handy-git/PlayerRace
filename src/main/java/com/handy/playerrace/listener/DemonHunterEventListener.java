@@ -1,5 +1,7 @@
 package com.handy.playerrace.listener;
 
+import com.bekvon.bukkit.residence.Residence;
+import com.bekvon.bukkit.residence.protection.ClaimedResidence;
 import com.handy.lib.api.MessageApi;
 import com.handy.lib.constants.VersionCheckEnum;
 import com.handy.lib.util.BaseUtil;
@@ -132,6 +134,15 @@ public class DemonHunterEventListener implements Listener {
                     web = "COBWEB";
                 }
                 Location location = entity.getLocation();
+
+                // 判断是否领地
+                if (PlayerRace.getResidenceApi() != null) {
+                    ClaimedResidence res = Residence.getInstance().getResidenceManager().getByLoc(location);
+                    if (res != null) {
+                        return;
+                    }
+                }
+
                 location.getWorld().getBlockAt(location).setType(Material.valueOf(web));
                 break;
             default:

@@ -1,10 +1,10 @@
 name: PlayerRace
-version: 1.0.8
+version: 1.0.9
 main: com.handy.playerrace.PlayerRace
 api-version: "1.13"
 author: handy
 description: 一款有点好用的超自然种族插件
-softdepend: [PlaceholderAPI,Citizens]
+softdepend: [PlaceholderAPI,Citizens,Residence]
 commands:
   playerrace:
     description: §a超自然种族插件

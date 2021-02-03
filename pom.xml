@@ -6,7 +6,7 @@
 
     <groupId>com.handy.playerrace</groupId>
     <artifactId>PlayerRace</artifactId>
-    <version>1.0.8</version>
+    <version>1.0.9</version>
     <packaging>jar</packaging>
     <name>PlayerRace</name>
     <description>一款有点好用的超自然种族插件</description>
@@ -17,6 +17,7 @@
         <placeholderapi.version>2.10.5</placeholderapi.version>
         <lombok.version>1.18.8</lombok.version>
         <HandyLib.version>1.0.6</HandyLib.version>
+        <residence.version>4.9.2.4</residence.version>
     </properties>
 
     <repositories>
@@ -43,6 +44,11 @@
             <artifactId>placeholderapi</artifactId>
             <version>${placeholderapi.version}</version>
             <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.bekvon.bukkit.residence</groupId>
+            <artifactId>Residence</artifactId>
+            <version>${residence.version}</version>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>

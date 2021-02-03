@@ -1,5 +1,7 @@
 package com.handy.playerrace;
 
+import com.bekvon.bukkit.residence.Residence;
+import com.bekvon.bukkit.residence.api.ResidenceApi;
 import com.handy.lib.api.CheckVersionApi;
 import com.handy.lib.api.MessageApi;
 import com.handy.lib.api.StorageApi;
@@ -29,6 +31,7 @@ import java.util.List;
  */
 public final class PlayerRace extends JavaPlugin {
     private static PlayerRace instance;
+    private static ResidenceApi resApi;
 
     @Override
     public void onEnable() {
@@ -96,6 +99,10 @@ public final class PlayerRace extends JavaPlugin {
         return instance;
     }
 
+    public static ResidenceApi getResidenceApi() {
+        return resApi;
+    }
+
     /**
      * 加载Placeholder
      *
@@ -107,6 +114,19 @@ public final class PlayerRace extends JavaPlugin {
             return true;
         }
         return false;
+    }
+
+    /**
+     * 加载Residence
+     *
+     * @return true 加载成功
+     */
+    public boolean loreResidence() {
+        if (getServer().getPluginManager().getPlugin("Residence") == null) {
+            return false;
+        }
+        resApi = Residence.getInstance().getAPI();
+        return true;
     }
 
 }
