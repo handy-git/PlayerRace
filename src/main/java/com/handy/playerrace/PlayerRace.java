@@ -53,6 +53,8 @@ public final class PlayerRace extends JavaPlugin {
         } else {
             getLogger().info(BaseUtil.getLangMsg("placeholderAPISucceedMsg"));
         }
+        // 加载领地
+        loreResidence();
 
         List<String> lordList = Arrays.asList(
                 "",
