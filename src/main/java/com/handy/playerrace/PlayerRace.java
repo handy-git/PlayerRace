@@ -120,15 +120,15 @@ public final class PlayerRace extends JavaPlugin {
 
     /**
      * 加载Residence
-     *
-     * @return true 加载成功
      */
-    public boolean loreResidence() {
+    public void loreResidence() {
         if (getServer().getPluginManager().getPlugin("Residence") == null) {
-            return false;
+            return;
+        }
+        if (Residence.getInstance() == null) {
+            return;
         }
         resApi = Residence.getInstance().getAPI();
-        return true;
     }
 
 }
