@@ -4,7 +4,7 @@ main: com.handy.playerrace.PlayerRace
 api-version: "1.13"
 author: handy
 description: 一款有点好用的超自然种族插件
-softdepend: [PlaceholderAPI, Residence]
+softdepend: [Residence,PlaceholderAPI]
 commands:
   playerrace:
     description: §a超自然种族插件
