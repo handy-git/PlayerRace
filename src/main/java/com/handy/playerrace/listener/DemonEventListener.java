@@ -6,6 +6,7 @@ import com.handy.lib.api.MessageApi;
 import com.handy.lib.constants.VersionCheckEnum;
 import com.handy.lib.util.BaseUtil;
 import com.handy.playerrace.PlayerRace;
+import com.handy.playerrace.constants.RaceConstants;
 import com.handy.playerrace.constants.RaceTypeEnum;
 import com.handy.playerrace.service.RacePlayerService;
 import com.handy.playerrace.util.ConfigUtil;
@@ -279,7 +280,7 @@ public class DemonEventListener implements Listener {
         }
 
         block.getWorld().getBlockAt(location).setType(Material.valueOf(web));
-
+        RaceConstants.LOCATIONS.add(location);
         String langMsg = BaseUtil.getLangMsg("demon.webMsg");
         langMsg = langMsg.replaceAll("\\$\\{".concat("amount").concat("\\}"), amount + "");
         MessageApi.sendActionbar(player, langMsg);

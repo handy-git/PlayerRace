@@ -143,8 +143,8 @@ public class DemonHunterEventListener implements Listener {
                         return;
                     }
                 }
-
                 location.getWorld().getBlockAt(location).setType(Material.valueOf(web));
+                RaceConstants.LOCATIONS.add(location);
                 break;
             default:
                 break;

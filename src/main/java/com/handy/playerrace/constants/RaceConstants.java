@@ -1,6 +1,7 @@
 package com.handy.playerrace.constants;
 
 import com.handy.playerrace.param.PlayerCursesParam;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 import java.util.*;
@@ -26,6 +27,11 @@ public abstract class RaceConstants {
      * 被诅咒的玩家
      */
     public static List<PlayerCursesParam> PLAYER_CURSES = new ArrayList<>();
+
+    /**
+     * 蜘蛛网地点
+     */
+    public static List<Location> LOCATIONS = new ArrayList<>();
 
     /**
      * 恶魔猎手的弓类型
