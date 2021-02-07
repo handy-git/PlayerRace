@@ -121,6 +121,12 @@ public class DemonHunterEventListener implements Listener {
             return;
         }
         Entity entity = event.getEntity();
+
+        // 判断是否为npc
+        if (entity.hasMetadata("NPC")) {
+            return;
+        }
+
         switch (demonHunterBowTypeEnum) {
             case STRENGTH:
                 event.setDamage(event.getDamage() + ConfigUtil.raceConfig.getInt("demonHunter.strengthDamage"));
