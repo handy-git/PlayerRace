@@ -9,8 +9,8 @@ placeholderAPISucceedMsg: "&a successfully loaded placeholderApi, custom variabl
 placeholderAPIFailureMsg: "&4PlaceholderApi not found, custom variables not enabled!"
 
 # Residence reminder
-ResidenceSucceedMsg: "&a successfully loaded Residence,compatible territory!"
-ResidenceFailureMsg: "&4Residence not found, compatible territory!"
+ResidenceSucceedMsg: "&a successfully loaded Residence,compatible territory enabled!"
+ResidenceFailureMsg: "&4Residence not found, compatible territory not enabled!"
 
 # /plr Command administrator appearance alert
 helps:

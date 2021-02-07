@@ -9,8 +9,8 @@ placeholderAPISucceedMsg: "&a成功加載placeholderApi,啟用自定義變量功
 placeholderAPIFailureMsg: "&4未找到placeholderApi,未啟用自定義變量功能!"
 
 # Residence提醒
-ResidenceSucceedMsg: "&a成功加載Residence,兼容領地!"
-ResidenceFailureMsg: "&4未找到Residence,兼容領地!"
+ResidenceSucceedMsg: "&a成功加載Residence,啟用兼容領地!"
+ResidenceFailureMsg: "&4未找到Residence,未啟用兼容領地!"
 
 # /plr 指令管理員出現的提醒
 helps:
