@@ -126,7 +126,7 @@ public final class PlayerRace extends JavaPlugin {
      * 加载Residence
      */
     public boolean loreResidence() {
-        if (Bukkit.getPluginManager().getPlugin("Residence") != null) {
+        if (Bukkit.getPluginManager().isPluginEnabled("Residence")) {
             if (Residence.getInstance() == null) {
                 return false;
             }
