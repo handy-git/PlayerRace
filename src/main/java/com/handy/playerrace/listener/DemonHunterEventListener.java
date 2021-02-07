@@ -149,8 +149,11 @@ public class DemonHunterEventListener implements Listener {
                         return;
                     }
                 }
-                location.getWorld().getBlockAt(location).setType(Material.valueOf(web));
-                RaceConstants.LOCATIONS.add(location);
+                // 如果是空气才能生成网
+                if (Material.AIR.equals(location.getWorld().getBlockAt(location).getType())) {
+                    location.getWorld().getBlockAt(location).setType(Material.valueOf(web));
+                    RaceConstants.LOCATIONS.add(location);
+                }
                 break;
             default:
                 break;
