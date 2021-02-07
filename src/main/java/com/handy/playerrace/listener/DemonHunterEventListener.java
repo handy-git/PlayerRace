@@ -69,14 +69,14 @@ public class DemonHunterEventListener implements Listener {
                 // 击杀超过3人,进行转换
                 if (racePlayer.getRaceLevel() >= 3) {
                     // 设置玩家种族为恶魔猎手
-                    Boolean rst = RacePlayerService.getInstance().updateRaceType(player.getName(), RaceTypeEnum.DEMON_HUNTER.getType(), 0);
+                    Boolean rst = RacePlayerService.getInstance().updateRaceType(killer.getName(), RaceTypeEnum.DEMON_HUNTER.getType(), 0);
                     if (rst) {
-                        player.getInventory().addItem(RaceUtil.getRaceHelpBook(RaceTypeEnum.DEMON_HUNTER));
+                        killer.getInventory().addItem(RaceUtil.getRaceHelpBook(RaceTypeEnum.DEMON_HUNTER));
                         killer.sendMessage(BaseUtil.getLangMsg("mankind.killsucceedMsg"));
                     }
                 } else {
                     // 设置人类等级提升
-                    Boolean rst = RacePlayerService.getInstance().updateRaceLevel(player.getName(), racePlayer.getRaceLevel() + 1);
+                    Boolean rst = RacePlayerService.getInstance().updateRaceLevel(killer.getName(), racePlayer.getRaceLevel() + 1);
                     if (rst) {
                         killer.sendMessage(BaseUtil.getLangMsg("mankind.killMsg"));
                     }
