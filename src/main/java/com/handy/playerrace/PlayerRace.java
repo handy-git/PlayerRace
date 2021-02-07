@@ -54,7 +54,11 @@ public final class PlayerRace extends JavaPlugin {
             getLogger().info(BaseUtil.getLangMsg("placeholderAPISucceedMsg"));
         }
         // 加载领地
-        loreResidence();
+        if (!loreResidence()) {
+            getLogger().info(BaseUtil.getLangMsg("ResidenceFailureMsg"));
+        } else {
+            getLogger().info(BaseUtil.getLangMsg("ResidenceSucceedMsg"));
+        }
 
         List<String> lordList = Arrays.asList(
                 "",
@@ -121,14 +125,15 @@ public final class PlayerRace extends JavaPlugin {
     /**
      * 加载Residence
      */
-    public void loreResidence() {
+    public boolean loreResidence() {
         if (getServer().getPluginManager().getPlugin("Residence") == null) {
-            return;
+            if (Residence.getInstance() == null) {
+                return false;
+            }
+            resApi = Residence.getInstance().getAPI();
+            return true;
         }
-        if (Residence.getInstance() == null) {
-            return;
-        }
-        resApi = Residence.getInstance().getAPI();
+        return false;
     }
 
 }

@@ -8,6 +8,10 @@ reloadMsg: "&a插件重載完成"
 placeholderAPISucceedMsg: "&a成功加載placeholderApi,啟用自定義變量功能!"
 placeholderAPIFailureMsg: "&4未找到placeholderApi,未啟用自定義變量功能!"
 
+# Residence提醒
+ResidenceSucceedMsg: "&a成功加載Residence,兼容領地!"
+ResidenceFailureMsg: "&4未找到Residence,兼容領地!"
+
 # /plr 指令管理員出現的提醒
 helps:
   - "&e&m一一一一一一一一一一一一一&f[&ePlayerRace&f]&e&m一一一一一一一一一一一一一"

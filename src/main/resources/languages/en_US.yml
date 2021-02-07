@@ -8,6 +8,10 @@ reloadMsg: "&a plugin reload complete"
 placeholderAPISucceedMsg: "&a successfully loaded placeholderApi, custom variables enabled!"
 placeholderAPIFailureMsg: "&4PlaceholderApi not found, custom variables not enabled!"
 
+# Residence reminder
+ResidenceSucceedMsg: "&a successfully loaded Residence,compatible territory!"
+ResidenceFailureMsg: "&4Residence not found, compatible territory!"
+
 # /plr Command administrator appearance alert
 helps:
   - "&e&e&m一一一一一一一一一一一一一&f[&ePlayerRace&f]&e&m一一一一一一一一一一一一一"
