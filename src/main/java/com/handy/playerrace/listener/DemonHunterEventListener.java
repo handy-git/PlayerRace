@@ -24,6 +24,7 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.projectiles.ProjectileSource;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -217,6 +218,35 @@ public class DemonHunterEventListener implements Listener {
                 MessageApi.sendActionbar(player, BaseUtil.replaceChatColor(cutBowMsg));
             }
         }.runTaskAsynchronously(PlayerRace.getInstance());
+    }
+
+
+    /**
+     * 当玩家消耗完物品时, 此事件将触发 例如:(食物, 药水, 牛奶桶).
+     * 人类吃牛奶处理诅咒
+     *
+     * @param event 事件
+     */
+    @EventHandler
+    public void consume(PlayerItemConsumeEvent event) {
+        // 事件是否被取消
+        if (event.isCancelled()) {
+            return;
+        }
+        Player player = event.getPlayer();
+        // 判断是否为人类
+        String raceType = RacePlayerService.getInstance().findRaceType(player.getName());
+        if (!RaceTypeEnum.MANKIND.getType().equals(raceType)) {
+            return;
+        }
+        // 判断是否牛奶
+        Material milkBucket = Material.MILK_BUCKET;
+        if (!event.getItem().getType().equals(milkBucket)) {
+            return;
+        }
+        if (BaseUtil.collIsNotEmpty(RaceConstants.PLAYER_CURSES)) {
+            RaceConstants.PLAYER_CURSES.removeIf(playerCursesParam -> playerCursesParam.getPlayer().equals(player));
+        }
     }
 
 }

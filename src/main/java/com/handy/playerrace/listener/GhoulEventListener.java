@@ -263,6 +263,12 @@ public class GhoulEventListener implements Listener {
             return;
         }
 
+        // 判断被转换的玩家是否是人类
+        String playerEntityRaceType = RacePlayerService.getInstance().findRaceType(playerEntity.getName());
+        if (!RaceTypeEnum.MANKIND.getType().equals(playerEntityRaceType)) {
+            return;
+        }
+
         int amount = ConfigUtil.raceConfig.getInt("ghoul.curse");
         Boolean rst = RacePlayerService.getInstance().updateSubtract(player.getName(), amount);
         if (!rst) {
