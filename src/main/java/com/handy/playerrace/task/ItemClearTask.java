@@ -28,6 +28,7 @@ public class ItemClearTask {
                     iterator.remove();
                 }
             }
-        }.runTaskTimerAsynchronously(PlayerRace.getInstance(), 0, 20 * 60);
+        }.runTaskTimer(PlayerRace.getInstance(), 0, 20 * 60);
     }
+
 }
