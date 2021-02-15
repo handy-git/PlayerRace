@@ -33,9 +33,9 @@ public class ReloadCommand {
         new BukkitRunnable() {
             @Override
             public void run() {
-                ConfigUtil.lordConfig();
-                ConfigUtil.lordLangConfig();
-                ConfigUtil.lordRaceConfig();
+                ConfigUtil.loadConfig();
+                ConfigUtil.loadLangConfig();
+                ConfigUtil.loadRaceConfig();
                 sender.sendMessage(BaseUtil.getLangMsg("reloadMsg"));
             }
         }.runTaskAsynchronously(PlayerRace.getInstance());

@@ -30,17 +30,17 @@ public class ConfigUtil {
         }
 
         // 加载config
-        lordConfig();
+        loadConfig();
         // 加载语言文件
-        lordLangConfig();
+        loadLangConfig();
         // 加载种族配置
-        lordRaceConfig();
+        loadRaceConfig();
     }
 
     /**
      * 加载config
      */
-    public static void lordConfig() {
+    public static void loadConfig() {
         // 读取信息
         PlayerRace.getInstance().reloadConfig();
         // 加载config
@@ -50,7 +50,7 @@ public class ConfigUtil {
     /**
      * 加载lang文件
      */
-    public static void lordLangConfig() {
+    public static void loadLangConfig() {
         File langFile = new File(PlayerRace.getInstance().getDataFolder(), "languages/" + config.getString("language") + ".yml");
         if (!(langFile.exists())) {
             PlayerRace.getInstance().saveResource("languages/" + config.getString("language") + ".yml", false);
@@ -62,7 +62,7 @@ public class ConfigUtil {
     /**
      * 加载race文件
      */
-    public static void lordRaceConfig() {
+    public static void loadRaceConfig() {
         File raceFile = new File(PlayerRace.getInstance().getDataFolder(), "race.yml");
         if (!(raceFile.exists())) {
             PlayerRace.getInstance().saveResource("race.yml", false);

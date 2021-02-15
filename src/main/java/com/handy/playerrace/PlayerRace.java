@@ -48,13 +48,13 @@ public final class PlayerRace extends JavaPlugin {
         ListenerManage.enableListener(this);
 
         // 加载PlaceholderApi
-        if (!lorePlaceholder()) {
+        if (!loadPlaceholder()) {
             getLogger().info(BaseUtil.getLangMsg("placeholderAPIFailureMsg"));
         } else {
             getLogger().info(BaseUtil.getLangMsg("placeholderAPISucceedMsg"));
         }
         // 加载领地
-        if (!loreResidence()) {
+        if (!loadResidence()) {
             getLogger().info(BaseUtil.getLangMsg("ResidenceFailureMsg"));
         } else {
             getLogger().info(BaseUtil.getLangMsg("ResidenceSucceedMsg"));
@@ -114,7 +114,7 @@ public final class PlayerRace extends JavaPlugin {
      *
      * @return 是否加载
      */
-    public boolean lorePlaceholder() {
+    public boolean loadPlaceholder() {
         if (Bukkit.getPluginManager().getPlugin(BaseConstants.PLACEHOLDER_API) != null) {
             new PlaceholderUtil(this).register();
             return true;
@@ -125,7 +125,7 @@ public final class PlayerRace extends JavaPlugin {
     /**
      * 加载Residence
      */
-    public boolean loreResidence() {
+    public boolean loadResidence() {
         if (Bukkit.getPluginManager().isPluginEnabled("Residence")) {
             if (Residence.getInstance() == null) {
                 return false;
