@@ -15,8 +15,8 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <spigot-api.vesion>1.12.2-R0.1-SNAPSHOT</spigot-api.vesion>
         <placeholderapi.version>2.10.5</placeholderapi.version>
-        <lombok.version>1.18.8</lombok.version>
-        <HandyLib.version>1.0.6</HandyLib.version>
+        <lombok.version>1.18.18</lombok.version>
+        <HandyLib.version>1.1.0</HandyLib.version>
         <residence.version>4.9.2.4</residence.version>
     </properties>
 
