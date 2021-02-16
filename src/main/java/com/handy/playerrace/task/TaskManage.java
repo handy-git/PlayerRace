@@ -23,7 +23,7 @@ public class TaskManage {
         // 运行异步转换种族
         PlayerCursesTask.setPlayerCursesTask();
 
-        // 运行异步清理蜘蛛网
+        // 同步定时清理生成出来的蜘蛛网
         ItemClearTask.setItemClearTask();
     }
 

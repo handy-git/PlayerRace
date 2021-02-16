@@ -18,7 +18,7 @@ import java.util.Iterator;
 public class ItemClearTask {
 
     /**
-     * 异步对清理生成出来的蜘蛛网
+     * 同步定时清理生成出来的蜘蛛网
      */
     public static void setItemClearTask() {
         new BukkitRunnable() {
