@@ -305,11 +305,6 @@ public class AngelEventListener implements Listener {
         if (player == null) {
             return;
         }
-        // 判断是否拿的面包和绿宝石
-        ItemStack item = player.getItemInHand();
-        if (Material.BREAD.equals(item.getType()) || Material.EMERALD.equals(item.getType())) {
-            return;
-        }
 
         // 被伤害者
         Entity entity = event.getEntity();
@@ -322,12 +317,19 @@ public class AngelEventListener implements Listener {
         if (!(entity instanceof Animals) && !(entity instanceof Player)) {
             return;
         }
+
         // 判断是否为人类
         if (entity instanceof Player) {
             Player player1 = (Player) entity;
             String raceType = RacePlayerService.getInstance().findRaceType(player1.getName());
             if (!RaceTypeEnum.MANKIND.getType().equals(raceType)) {
                 return;
+            } else {
+                // 判断是否拿的面包和绿宝石
+                ItemStack item = player.getItemInHand();
+                if (Material.BREAD.equals(item.getType()) || Material.EMERALD.equals(item.getType())) {
+                    return;
+                }
             }
         }
 
