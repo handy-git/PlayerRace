@@ -38,9 +38,6 @@ public class PlaceholderUtil extends PlaceholderExpansion {
      */
     @Override
     public String onPlaceholderRequest(Player player, String identifier) {
-        if (player == null || !player.isOnline()) {
-            return "";
-        }
         int maxFatigue = ConfigUtil.config.getInt("maxFatigue");
         String race = RaceTypeEnum.MANKIND.getTypeName();
 
