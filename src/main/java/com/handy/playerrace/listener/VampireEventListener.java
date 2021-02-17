@@ -1,5 +1,7 @@
 package com.handy.playerrace.listener;
 
+import com.bekvon.bukkit.residence.Residence;
+import com.bekvon.bukkit.residence.protection.ClaimedResidence;
 import com.handy.lib.api.MessageApi;
 import com.handy.lib.constants.VersionCheckEnum;
 import com.handy.lib.util.BaseUtil;
@@ -477,6 +479,19 @@ public class VampireEventListener implements Listener {
         if (entity == null || !player.canSee(entity)) {
             MessageApi.sendActionbar(player, BaseUtil.getLangMsg("vampire.noTarget"));
             return;
+        }
+
+        // 判断是否为npc
+        if (entity.hasMetadata("NPC")) {
+            return;
+        }
+
+        // 判断是否领地
+        if (PlayerRace.getResidenceApi() != null) {
+            ClaimedResidence res = Residence.getInstance().getResidenceManager().getByLoc(entity.getPlayer());
+            if (res != null) {
+                return;
+            }
         }
 
         int amount = ConfigUtil.raceConfig.getInt("vampire.hematophagia");
