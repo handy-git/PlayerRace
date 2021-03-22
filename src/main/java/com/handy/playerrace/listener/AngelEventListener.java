@@ -4,7 +4,9 @@ import com.handy.lib.api.MessageApi;
 import com.handy.lib.constants.VersionCheckEnum;
 import com.handy.lib.util.BaseUtil;
 import com.handy.playerrace.PlayerRace;
+import com.handy.playerrace.constants.RaceConstants;
 import com.handy.playerrace.constants.RaceTypeEnum;
+import com.handy.playerrace.entity.RacePlayer;
 import com.handy.playerrace.service.RacePlayerService;
 import com.handy.playerrace.util.ConfigUtil;
 import com.handy.playerrace.util.RaceUtil;
@@ -40,7 +42,7 @@ public class AngelEventListener implements Listener {
      * @param event 事件
      */
     @EventHandler
-    public void playerToDemon(EntityDeathEvent event) {
+    public void onEntityDeath(EntityDeathEvent event) {
         LivingEntity livingEntity = event.getEntity();
         if (!(livingEntity instanceof Player)) {
             return;
@@ -60,15 +62,15 @@ public class AngelEventListener implements Listener {
         // 判断是否为皮革装备
         PlayerInventory inventory = player.getInventory();
         ItemStack helmet = inventory.getHelmet();
-        ItemStack chestplate = inventory.getChestplate();
+        ItemStack chestPlate = inventory.getChestplate();
         ItemStack leggings = inventory.getLeggings();
         ItemStack boots = inventory.getBoots();
 
-        if (helmet == null || chestplate == null || leggings == null || boots == null) {
+        if (helmet == null || chestPlate == null || leggings == null || boots == null) {
             return;
         }
 
-        if (!Material.LEATHER_HELMET.equals(helmet.getType()) || !Material.LEATHER_CHESTPLATE.equals(chestplate.getType())
+        if (!Material.LEATHER_HELMET.equals(helmet.getType()) || !Material.LEATHER_CHESTPLATE.equals(chestPlate.getType())
                 || !Material.LEATHER_LEGGINGS.equals(leggings.getType()) || !Material.LEATHER_BOOTS.equals(boots.getType())) {
             return;
         }
@@ -76,9 +78,8 @@ public class AngelEventListener implements Listener {
         new BukkitRunnable() {
             @Override
             public void run() {
-                // 判断玩家是否有种族
-                String raceType = RacePlayerService.getInstance().findRaceType(player.getName());
-                if (!RaceTypeEnum.MANKIND.getType().equals(raceType)) {
+                // 判断玩家是否是人类
+                if (!RaceUtil.isRaceType(RaceTypeEnum.MANKIND, player.getName())) {
                     return;
                 }
                 // 设置玩家种族为天使
@@ -98,16 +99,16 @@ public class AngelEventListener implements Listener {
      * @param event 事件
      */
     @EventHandler
-    public void diaup(EntityDamageByEntityEvent event) {
-        Entity damager = event.getDamager();
+    public void onEntityDamageByEntity(EntityDamageByEntityEvent event) {
+        Entity damage = event.getDamager();
         Entity entity = event.getEntity();
 
         // 判断是否近战
-        if (!(damager instanceof Player)) {
+        if (!(damage instanceof Player)) {
             return;
         }
 
-        Player player = (Player) damager;
+        Player player = (Player) damage;
 
         // 判断是否拿的羽毛
         ItemStack item = player.getItemInHand();
@@ -115,9 +116,8 @@ public class AngelEventListener implements Listener {
             return;
         }
 
-        // 判断是否为天使
-        String raceType = RacePlayerService.getInstance().findRaceType(player.getName());
-        if (!RaceTypeEnum.ANGEL.getType().equals(raceType)) {
+        // 判断玩家是否为天使
+        if (!RaceUtil.isRaceType(RaceTypeEnum.ANGEL, player.getName())) {
             return;
         }
 
@@ -180,8 +180,7 @@ public class AngelEventListener implements Listener {
         Player player = (Player) whoClicked;
 
         // 判断是否为天使
-        String raceType = RacePlayerService.getInstance().findRaceType(player.getName());
-        if (!RaceTypeEnum.ANGEL.getType().equals(raceType)) {
+        if (!RaceUtil.isRaceType(RaceTypeEnum.ANGEL, player.getName())) {
             return;
         }
 
@@ -244,12 +243,12 @@ public class AngelEventListener implements Listener {
         }
 
         // 判断是否为天使
-        String raceType = RacePlayerService.getInstance().findRaceType(player.getName());
-        if (!RaceTypeEnum.ANGEL.getType().equals(raceType)) {
+        if (!RaceUtil.isRaceType(RaceTypeEnum.ANGEL, player.getName())) {
             return;
         }
         event.setCancelled(true);
     }
+
 
     /**
      * 储存伤害事件的数据
@@ -271,8 +270,7 @@ public class AngelEventListener implements Listener {
         }
 
         // 判断是否为天使
-        String raceType = RacePlayerService.getInstance().findRaceType(player.getName());
-        if (!RaceTypeEnum.ANGEL.getType().equals(raceType)) {
+        if (!RaceUtil.isRaceType(RaceTypeEnum.ANGEL, player.getName())) {
             return;
         }
         event.setDamage(0);
@@ -334,8 +332,7 @@ public class AngelEventListener implements Listener {
         }
 
         // 判断是否为天使
-        String raceType = RacePlayerService.getInstance().findRaceType(player.getName());
-        if (!RaceTypeEnum.ANGEL.getType().equals(raceType)) {
+        if (!RaceUtil.isRaceType(RaceTypeEnum.ANGEL, player.getName())) {
             return;
         }
         event.setCancelled(true);
@@ -363,8 +360,7 @@ public class AngelEventListener implements Listener {
         Player player = event.getPlayer();
 
         // 判断是否为天使
-        String raceType = RacePlayerService.getInstance().findRaceType(player.getName());
-        if (!RaceTypeEnum.ANGEL.getType().equals(raceType)) {
+        if (!RaceUtil.isRaceType(RaceTypeEnum.ANGEL, player.getName())) {
             return;
         }
 
@@ -450,8 +446,7 @@ public class AngelEventListener implements Listener {
         }
 
         // 判断是否为天使
-        String raceType = RacePlayerService.getInstance().findRaceType(player.getName());
-        if (!RaceTypeEnum.ANGEL.getType().equals(raceType)) {
+        if (!RaceUtil.isRaceType(RaceTypeEnum.ANGEL, player.getName())) {
             return;
         }
 
@@ -521,8 +516,7 @@ public class AngelEventListener implements Listener {
         }
 
         // 判断是否为天使
-        String raceType = RacePlayerService.getInstance().findRaceType(player.getName());
-        if (!RaceTypeEnum.ANGEL.getType().equals(raceType)) {
+        if (!RaceUtil.isRaceType(RaceTypeEnum.ANGEL, player.getName())) {
             return;
         }
 

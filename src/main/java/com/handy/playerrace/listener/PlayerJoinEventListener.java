@@ -35,6 +35,7 @@ public class PlayerJoinEventListener implements Listener {
                 String playerName = BaseUtil.toLowerCase(player.getName());
                 RacePlayer racePlayer = RacePlayerService.getInstance().findByPlayerName(playerName);
                 if (racePlayer != null) {
+                    RaceConstants.PLAYER_RACE.put(playerName, racePlayer);
                     return;
                 }
                 racePlayer = new RacePlayer();
@@ -45,6 +46,7 @@ public class PlayerJoinEventListener implements Listener {
                 racePlayer.setMaxAmount(0);
                 racePlayer.setTransferTime(0L);
                 RacePlayerService.getInstance().add(racePlayer);
+                RaceConstants.PLAYER_RACE.put(playerName, racePlayer);
             }
         }.runTaskAsynchronously(PlayerRace.getInstance());
     }
@@ -52,7 +54,7 @@ public class PlayerJoinEventListener implements Listener {
     /**
      * op加入发送更新提醒 进入事件
      *
-     * @param event
+     * @param event 事件
      */
     @EventHandler
     public void onOpPlayerJoin(PlayerJoinEvent event) {

@@ -55,13 +55,12 @@ public class DemonHunterEventListener implements Listener {
             @Override
             public void run() {
                 // 判断被击杀者是否为为其他种族
-                String raceType = RacePlayerService.getInstance().findRaceType(player.getName());
-                if (RaceTypeEnum.MANKIND.getType().equals(raceType)) {
+                if (RaceUtil.isRaceType(RaceTypeEnum.MANKIND, player.getName())) {
                     return;
                 }
 
                 // 判断击杀者是不是人类
-                RacePlayer racePlayer = RacePlayerService.getInstance().findByPlayerName(killer.getName());
+                RacePlayer racePlayer = RaceConstants.PLAYER_RACE.get(killer.getName());
                 if (racePlayer == null || !RaceTypeEnum.MANKIND.getType().equals(racePlayer.getRaceType())) {
                     return;
                 }
@@ -110,8 +109,7 @@ public class DemonHunterEventListener implements Listener {
         }
 
         // 判断是否为恶魔猎手
-        String raceType = RacePlayerService.getInstance().findRaceType(player.getName());
-        if (!RaceTypeEnum.DEMON_HUNTER.getType().equals(raceType)) {
+        if (!RaceUtil.isRaceType(RaceTypeEnum.DEMON_HUNTER, player.getName())) {
             return;
         }
 
@@ -180,8 +178,7 @@ public class DemonHunterEventListener implements Listener {
         Player player = event.getPlayer();
 
         // 判断是否为恶魔猎手
-        String raceType = RacePlayerService.getInstance().findRaceType(player.getName());
-        if (!RaceTypeEnum.DEMON_HUNTER.getType().equals(raceType)) {
+        if (!RaceUtil.isRaceType(RaceTypeEnum.DEMON_HUNTER, player.getName())) {
             return;
         }
 
@@ -244,8 +241,7 @@ public class DemonHunterEventListener implements Listener {
         }
         Player player = event.getPlayer();
         // 判断是否为人类
-        String raceType = RacePlayerService.getInstance().findRaceType(player.getName());
-        if (!RaceTypeEnum.MANKIND.getType().equals(raceType)) {
+        if (!RaceUtil.isRaceType(RaceTypeEnum.MANKIND, player.getName())) {
             return;
         }
         // 判断是否牛奶

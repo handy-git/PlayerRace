@@ -130,16 +130,10 @@ public class RacePlayerService {
      */
     public String findRaceType(String playerName) {
         playerName = BaseUtil.toLowerCase(playerName);
-
-        String raceType = RaceConstants.PLAYER_RACE.get(playerName);
-        if (raceType != null) {
-            return raceType;
-        }
-
         Connection conn = null;
         PreparedStatement ps = null;
         ResultSet rst = null;
-        raceType = RaceTypeEnum.MANKIND.getType();
+        String raceType = null;
         try {
             String selectStr = RacePlayerSqlEnum.SELECT_RACE_TYPE_BY_NAME.getCommand();
             conn = SqlManagerUtil.getInstance().getConnection(PlayerRace.getInstance());
@@ -154,7 +148,6 @@ public class RacePlayerService {
         } finally {
             SqlManagerUtil.getInstance().closeSql(conn, ps, rst);
         }
-        RaceConstants.PLAYER_RACE.put(playerName, raceType);
         return raceType;
     }
 
@@ -353,7 +346,7 @@ public class RacePlayerService {
             raceMsg = raceMsg.replaceAll("\\$\\{".concat("player").concat("\\}"), name)
                     .replaceAll("\\$\\{".concat("race").concat("\\}"), RaceTypeEnum.getTypeName(raceType));
             MessageApi.sendAllMessage(raceMsg);
-            RaceConstants.PLAYER_RACE.remove(playerName);
+            RaceConstants.PLAYER_RACE.put(playerName, this.findByPlayerName(playerName));
         }
         return rst > 0;
     }

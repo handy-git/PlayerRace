@@ -36,7 +36,7 @@ public enum RaceTypeEnum {
                 return raceTypeEnum;
             }
         }
-        return null;
+        return MANKIND;
     }
 
     public static List<String> getEnum() {

@@ -62,8 +62,7 @@ public class GhoulEventListener implements Listener {
             @Override
             public void run() {
                 // 判断玩家是否有种族
-                String raceType = RacePlayerService.getInstance().findRaceType(player.getName());
-                if (!RaceTypeEnum.MANKIND.getType().equals(raceType)) {
+                if (!RaceUtil.isRaceType(RaceTypeEnum.MANKIND, player.getName())) {
                     return;
                 }
                 // 设置玩家种族为食尸鬼
@@ -94,8 +93,7 @@ public class GhoulEventListener implements Listener {
         Player player = (Player) target;
 
         // 判断是否为食尸鬼
-        String raceType = RacePlayerService.getInstance().findRaceType(player.getName());
-        if (!RaceTypeEnum.GHOUL.getType().equals(raceType)) {
+        if (!RaceUtil.isRaceType(RaceTypeEnum.GHOUL, player.getName())) {
             return;
         }
 
@@ -126,8 +124,7 @@ public class GhoulEventListener implements Listener {
         }
 
         // 判断是否为食尸鬼
-        String raceType = RacePlayerService.getInstance().findRaceType(player.getName());
-        if (!RaceTypeEnum.GHOUL.getType().equals(raceType)) {
+        if (!RaceUtil.isRaceType(RaceTypeEnum.GHOUL, player.getName())) {
             return;
         }
 
@@ -192,8 +189,7 @@ public class GhoulEventListener implements Listener {
         Player player = event.getPlayer();
 
         // 判断是否为食尸鬼
-        String raceType = RacePlayerService.getInstance().findRaceType(player.getName());
-        if (!RaceTypeEnum.GHOUL.getType().equals(raceType)) {
+        if (!RaceUtil.isRaceType(RaceTypeEnum.GHOUL, player.getName())) {
             return;
         }
 
@@ -258,14 +254,12 @@ public class GhoulEventListener implements Listener {
         }
 
         // 判断是否为食尸鬼
-        String raceType = RacePlayerService.getInstance().findRaceType(player.getName());
-        if (!RaceTypeEnum.GHOUL.getType().equals(raceType)) {
+        if (!RaceUtil.isRaceType(RaceTypeEnum.GHOUL, player.getName())) {
             return;
         }
 
         // 判断被转换的玩家是否是人类
-        String playerEntityRaceType = RacePlayerService.getInstance().findRaceType(playerEntity.getName());
-        if (!RaceTypeEnum.MANKIND.getType().equals(playerEntityRaceType)) {
+        if (!RaceUtil.isRaceType(RaceTypeEnum.MANKIND, playerEntity.getName())) {
             return;
         }
 

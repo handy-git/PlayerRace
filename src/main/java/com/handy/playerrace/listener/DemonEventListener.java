@@ -75,8 +75,7 @@ public class DemonEventListener implements Listener {
             @Override
             public void run() {
                 // 判断玩家是否有种族
-                String raceType = RacePlayerService.getInstance().findRaceType(player.getName());
-                if (!RaceTypeEnum.MANKIND.getType().equals(raceType)) {
+                if (!RaceUtil.isRaceType(RaceTypeEnum.MANKIND, player.getName())) {
                     return;
                 }
                 // 设置玩家种族为恶魔
@@ -109,8 +108,7 @@ public class DemonEventListener implements Listener {
         }
 
         // 判断是否为恶魔
-        String raceType = RacePlayerService.getInstance().findRaceType(player.getName());
-        if (!RaceTypeEnum.DEMON.getType().equals(raceType)) {
+        if (!RaceUtil.isRaceType(RaceTypeEnum.DEMON, player.getName())) {
             return;
         }
         event.setDamage(0);
@@ -136,8 +134,7 @@ public class DemonEventListener implements Listener {
         }
 
         // 判断是否为恶魔
-        String raceType = RacePlayerService.getInstance().findRaceType(player.getName());
-        if (!RaceTypeEnum.DEMON.getType().equals(raceType)) {
+        if (!RaceUtil.isRaceType(RaceTypeEnum.DEMON, player.getName())) {
             return;
         }
         event.setDamage(0);
@@ -180,8 +177,7 @@ public class DemonEventListener implements Listener {
         Player player = event.getPlayer();
 
         // 判断是否为恶魔
-        String raceType = RacePlayerService.getInstance().findRaceType(player.getName());
-        if (!RaceTypeEnum.DEMON.getType().equals(raceType)) {
+        if (!RaceUtil.isRaceType(RaceTypeEnum.DEMON, player.getName())) {
             return;
         }
         int amount = ConfigUtil.raceConfig.getInt("demon.fireBall");
@@ -200,7 +196,7 @@ public class DemonEventListener implements Listener {
 
         // 发射火焰弹
         Vector direction = player.getEyeLocation().getDirection().multiply(10);
-        Projectile projectile = (Projectile) player.getWorld().spawn(player.getEyeLocation().add(direction.getX(), direction.getY(), direction.getZ()), Fireball.class);
+        Projectile projectile = player.getWorld().spawn(player.getEyeLocation().add(direction.getX(), direction.getY(), direction.getZ()), Fireball.class);
         projectile.setShooter(player);
         projectile.setVelocity(direction);
 
@@ -234,8 +230,7 @@ public class DemonEventListener implements Listener {
         Player player = event.getPlayer();
 
         // 判断是否为恶魔
-        String raceType = RacePlayerService.getInstance().findRaceType(player.getName());
-        if (!RaceTypeEnum.DEMON.getType().equals(raceType)) {
+        if (!RaceUtil.isRaceType(RaceTypeEnum.DEMON, player.getName())) {
             return;
         }
 
@@ -301,8 +296,7 @@ public class DemonEventListener implements Listener {
         Player player = (Player) whoClicked;
 
         // 判断是否为恶魔
-        String raceType = RacePlayerService.getInstance().findRaceType(player.getName());
-        if (!RaceTypeEnum.DEMON.getType().equals(raceType)) {
+        if (!RaceUtil.isRaceType(RaceTypeEnum.DEMON, player.getName())) {
             return;
         }
 

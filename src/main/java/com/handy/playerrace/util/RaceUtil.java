@@ -4,6 +4,7 @@ import com.handy.lib.api.MessageApi;
 import com.handy.lib.constants.VersionCheckEnum;
 import com.handy.lib.util.BaseUtil;
 import com.handy.playerrace.PlayerRace;
+import com.handy.playerrace.constants.RaceConstants;
 import com.handy.playerrace.constants.RaceTypeEnum;
 import com.handy.playerrace.entity.RacePlayer;
 import com.handy.playerrace.service.RacePlayerService;
@@ -29,6 +30,36 @@ import java.util.Map;
  * @date 2020/8/20 15:15
  */
 public class RaceUtil {
+
+    /**
+     * 判断是否对应种族类型
+     *
+     * @param raceTypeEnum 类型
+     * @param playerName   玩家名
+     * @return RacePlayer
+     */
+    public static RacePlayer isRaceTypeAndGetRace(RaceTypeEnum raceTypeEnum, String playerName) {
+        RacePlayer racePlayer = RaceConstants.PLAYER_RACE.get(playerName.toLowerCase());
+        if (racePlayer == null) {
+            return null;
+        }
+        return raceTypeEnum.getType().equals(racePlayer.getRaceType()) ? racePlayer : null;
+    }
+
+    /**
+     * 判断是否对应种族类型
+     *
+     * @param raceTypeEnum 类型
+     * @param playerName   玩家名
+     * @return true/是
+     */
+    public static boolean isRaceType(RaceTypeEnum raceTypeEnum, String playerName) {
+        RacePlayer racePlayer = RaceConstants.PLAYER_RACE.get(playerName.toLowerCase());
+        if (racePlayer == null) {
+            return false;
+        }
+        return raceTypeEnum.getType().equals(racePlayer.getRaceType()) ;
+    }
 
     /**
      * 能量不足

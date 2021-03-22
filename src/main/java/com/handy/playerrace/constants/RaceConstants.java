@@ -1,5 +1,6 @@
 package com.handy.playerrace.constants;
 
+import com.handy.playerrace.entity.RacePlayer;
 import com.handy.playerrace.param.PlayerCursesParam;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -16,7 +17,7 @@ public abstract class RaceConstants {
     /**
      * 玩家种族缓存
      */
-    public static Map<String, String> PLAYER_RACE = new HashMap<>();
+    public static Map<String, RacePlayer> PLAYER_RACE = new HashMap<>();
 
     /**
      * 吸血鬼主动技能吸血缓存

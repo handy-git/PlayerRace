@@ -81,12 +81,15 @@ public class VampireEventListener implements Listener {
                     return;
                 }
                 // 判断是否为人类或者吸血鬼
-                String raceType = RacePlayerService.getInstance().findRaceType(player.getName());
-                if (!RaceTypeEnum.MANKIND.getType().equals(raceType) && !RaceTypeEnum.VAMPIRE.getType().equals(raceType)) {
+                RacePlayer racePlayer = RaceConstants.PLAYER_RACE.get(player.getName().toLowerCase());
+                if (racePlayer == null){
+                    return;
+                }
+                if (!RaceTypeEnum.MANKIND.getType().equals(racePlayer.getRaceType()) && !RaceTypeEnum.VAMPIRE.getType().equals(racePlayer.getRaceType())) {
                     return;
                 }
                 // 判断是否已经是吸血鬼了
-                if (RaceTypeEnum.VAMPIRE.getType().equals(raceType)) {
+                if (RaceTypeEnum.VAMPIRE.getType().equals(racePlayer.getRaceType())) {
                     RaceUtil.restoreEnergy(player, RaceTypeEnum.VAMPIRE, ConfigUtil.raceConfig.getInt("vampire.cainBlood"));
                     return;
                 }
@@ -125,13 +128,12 @@ public class VampireEventListener implements Listener {
             @Override
             public void run() {
                 // 判断是否为人类
-                String raceType = RacePlayerService.getInstance().findRaceType(player.getName());
-                if (!RaceTypeEnum.MANKIND.getType().equals(raceType)) {
+                if (!RaceUtil.isRaceType(RaceTypeEnum.MANKIND, player.getName())) {
                     return;
                 }
 
                 // 判断击杀者是不是吸血鬼
-                RacePlayer racePlayerDamage = RacePlayerService.getInstance().findByPlayerName(killer.getName());
+                RacePlayer racePlayerDamage = RaceConstants.PLAYER_RACE.get(killer.getName().toLowerCase());
                 if (racePlayerDamage == null || !RaceTypeEnum.VAMPIRE.getType().equals(racePlayerDamage.getRaceType())) {
                     return;
                 }
@@ -157,20 +159,15 @@ public class VampireEventListener implements Listener {
      */
     @EventHandler
     public void onEntityDamageByEntityEvent(EntityDamageByEntityEvent event) {
-        Entity damager = event.getDamager();
-        if (!(damager instanceof Player)) {
+        Entity damage = event.getDamager();
+        if (!(damage instanceof Player)) {
             return;
         }
-        Player player = (Player) damager;
+        Player player = (Player) damage;
 
         // 判断是否为吸血鬼
-        String raceType = RacePlayerService.getInstance().findRaceType(player.getName());
-        if (!RaceTypeEnum.VAMPIRE.getType().equals(raceType)) {
-            return;
-        }
-        // 判断是否为吸血鬼
-        RacePlayer racePlayer = RacePlayerService.getInstance().findByPlayerName(player.getName());
-        if (racePlayer == null || !RaceTypeEnum.VAMPIRE.getType().equals(racePlayer.getRaceType())) {
+        RacePlayer racePlayer = RaceUtil.isRaceTypeAndGetRace(RaceTypeEnum.VAMPIRE, player.getName());
+        if (racePlayer == null) {
             return;
         }
 
@@ -209,8 +206,8 @@ public class VampireEventListener implements Listener {
         Player player = (Player) entity;
 
         // 判断是否为吸血鬼
-        String raceType = RacePlayerService.getInstance().findRaceType(player.getName());
-        if (!RaceTypeEnum.VAMPIRE.getType().equals(raceType)) {
+        RacePlayer racePlayer = RaceUtil.isRaceTypeAndGetRace(RaceTypeEnum.VAMPIRE, player.getName());
+        if (racePlayer == null) {
             return;
         }
 
@@ -232,11 +229,6 @@ public class VampireEventListener implements Listener {
             }
         }
 
-        // 判断是否为吸血鬼
-        RacePlayer racePlayer = RacePlayerService.getInstance().findByPlayerName(player.getName());
-        if (racePlayer == null || !RaceTypeEnum.VAMPIRE.getType().equals(racePlayer.getRaceType())) {
-            return;
-        }
         // 伤害减少倍数
         double damageModifier = ConfigUtil.raceConfig.getDouble("vampire.defenseBonus");
 
@@ -306,8 +298,8 @@ public class VampireEventListener implements Listener {
         Player player = (Player) entity;
 
         // 判断是否为吸血鬼
-        String raceType = RacePlayerService.getInstance().findRaceType(player.getName());
-        if (!RaceTypeEnum.VAMPIRE.getType().equals(raceType)) {
+        RacePlayer racePlayer = RaceUtil.isRaceTypeAndGetRace(RaceTypeEnum.VAMPIRE, player.getName());
+        if (racePlayer == null) {
             return;
         }
         event.setAmount(event.getAmount() + ConfigUtil.raceConfig.getInt("vampire.regainHealth"));
@@ -334,8 +326,8 @@ public class VampireEventListener implements Listener {
         }
 
         // 判断是否为吸血鬼
-        String raceType = RacePlayerService.getInstance().findRaceType(player.getName());
-        if (!RaceTypeEnum.VAMPIRE.getType().equals(raceType)) {
+        RacePlayer racePlayer = RaceUtil.isRaceTypeAndGetRace(RaceTypeEnum.VAMPIRE, player.getName());
+        if (racePlayer == null) {
             return;
         }
         event.setDamage(event.getDamage() - ConfigUtil.raceConfig.getInt("vampire.drowning"));
@@ -361,8 +353,8 @@ public class VampireEventListener implements Listener {
         }
 
         // 判断是否为吸血鬼
-        String raceType = RacePlayerService.getInstance().findRaceType(player.getName());
-        if (!RaceTypeEnum.VAMPIRE.getType().equals(raceType)) {
+        RacePlayer racePlayer = RaceUtil.isRaceTypeAndGetRace(RaceTypeEnum.VAMPIRE, player.getName());
+        if (racePlayer == null) {
             return;
         }
         event.setCancelled(true);
@@ -383,8 +375,8 @@ public class VampireEventListener implements Listener {
         Player player = event.getPlayer();
 
         // 判断是否为吸血鬼
-        String raceType = RacePlayerService.getInstance().findRaceType(player.getName());
-        if (!RaceTypeEnum.VAMPIRE.getType().equals(raceType)) {
+        RacePlayer racePlayer = RaceUtil.isRaceTypeAndGetRace(RaceTypeEnum.VAMPIRE, player.getName());
+        if (racePlayer == null) {
             return;
         }
 
@@ -439,8 +431,8 @@ public class VampireEventListener implements Listener {
         Player player = (Player) entity;
 
         // 判断是否为吸血鬼
-        String raceType = RacePlayerService.getInstance().findRaceType(player.getName());
-        if (!RaceTypeEnum.VAMPIRE.getType().equals(raceType)) {
+        RacePlayer racePlayer = RaceUtil.isRaceTypeAndGetRace(RaceTypeEnum.VAMPIRE, player.getName());
+        if (racePlayer == null) {
             return;
         }
         event.setCancelled(true);
@@ -463,8 +455,8 @@ public class VampireEventListener implements Listener {
         Player player = event.getPlayer();
 
         // 判断是否为吸血鬼
-        String raceType = RacePlayerService.getInstance().findRaceType(player.getName());
-        if (!RaceTypeEnum.VAMPIRE.getType().equals(raceType)) {
+        RacePlayer racePlayer = RaceUtil.isRaceTypeAndGetRace(RaceTypeEnum.VAMPIRE, player.getName());
+        if (racePlayer == null) {
             return;
         }
 
