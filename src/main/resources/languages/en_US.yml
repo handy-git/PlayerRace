@@ -23,6 +23,7 @@ helps:
   - "&e/plr findRace (player name) &f get player's race, default to see all online players without player name"
   - "&e[]required ()optional"
 
+paramFailureMsg: "&4 Parameter Error"
 # Type error alert
 typeFailureMsg: "&4 type error"
 # Low energy alert

@@ -23,6 +23,7 @@ helps:
   - "&e/plr findRace (玩家名稱) &f獲取玩家的種族,不填玩家名默認查看全部在線玩家"
   - "&e[]必填 ()選填"
 
+paramFailureMsg: "&4參數錯誤"
 # 類型錯誤提醒
 typeFailureMsg: "&4類型錯誤"
 # 能量不足提醒
