@@ -3,6 +3,7 @@ package com.handy.playerrace.task;
 import com.handy.lib.api.MessageApi;
 import com.handy.lib.constants.VersionCheckEnum;
 import com.handy.lib.util.BaseUtil;
+import com.handy.lib.util.ItemStackUtil;
 import com.handy.playerrace.PlayerRace;
 import com.handy.playerrace.constants.RaceTypeEnum;
 import com.handy.playerrace.entity.RacePlayer;
@@ -15,8 +16,6 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 /**
  * @author hs
- * @Description: {}
- * @date 2020/8/21 10:51
  */
 public class VampireCombustTask {
 
@@ -43,7 +42,7 @@ public class VampireCombustTask {
                     }
 
                     // 判断是否为白天并且为晴天
-                    if (BaseUtil.playerTimeIsNether(player) || BaseUtil.worldTimeIsNight(player) || BaseUtil.worldIsStorm(player)) {
+                    if (BaseUtil.playerWorldIsNotNether(player) || BaseUtil.worldTimeIsNight(player) || BaseUtil.worldIsStorm(player)) {
                         continue;
                     }
                     // 判断玩家是不是在水中
@@ -59,7 +58,7 @@ public class VampireCombustTask {
                     if (versionId < VersionCheckEnum.V_1_13.getVersionId()) {
                         goldenHelmetStr = "GOLD_HELMET";
                     }
-                    if (helmet != null && BaseUtil.getMaterial(goldenHelmetStr).equals(helmet.getType())) {
+                    if (helmet != null && ItemStackUtil.getMaterial(goldenHelmetStr).equals(helmet.getType())) {
                         continue;
                     }
                     // 判断头顶是否有方块

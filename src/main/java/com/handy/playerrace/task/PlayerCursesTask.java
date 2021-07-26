@@ -15,8 +15,6 @@ import java.util.Iterator;
 
 /**
  * @author hs
- * @Description: {}
- * @date 2020/8/22 15:58
  */
 public class PlayerCursesTask {
 

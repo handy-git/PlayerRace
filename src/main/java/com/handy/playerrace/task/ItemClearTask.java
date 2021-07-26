@@ -2,6 +2,7 @@ package com.handy.playerrace.task;
 
 import com.handy.lib.constants.VersionCheckEnum;
 import com.handy.lib.util.BaseUtil;
+import com.handy.lib.util.ItemStackUtil;
 import com.handy.playerrace.PlayerRace;
 import com.handy.playerrace.constants.RaceConstants;
 import org.bukkit.Location;
@@ -13,7 +14,6 @@ import java.util.Iterator;
 
 /**
  * @author hs
- * @date 2021-02-07 15:01
  **/
 public class ItemClearTask {
 
@@ -33,7 +33,7 @@ public class ItemClearTask {
                     if (VersionCheckEnum.getEnum().getVersionId() > VersionCheckEnum.V_1_12.getVersionId()) {
                         web = "COBWEB";
                     }
-                    Material material = BaseUtil.getMaterial(web);
+                    Material material = ItemStackUtil.getMaterial(web);
                     if (block.getType().equals(material)) {
                         location.getWorld().getBlockAt(location).setType(Material.AIR);
                     }

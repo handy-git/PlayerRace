@@ -13,8 +13,6 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 /**
  * @author hs
- * @Description: {}
- * @date 2020/8/22 16:24
  */
 public class GhoulWaterDamageTask {
 

@@ -2,8 +2,6 @@ package com.handy.playerrace.task;
 
 /**
  * @author hs
- * @Description: {}
- * @date 2020/8/22 16:29
  */
 public class TaskManage {
 

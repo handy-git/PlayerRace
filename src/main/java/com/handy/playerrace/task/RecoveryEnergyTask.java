@@ -10,9 +10,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
 /**
+ * 异步恢复能量值
+ *
  * @author hs
- * @Description: {异步恢复能量值}
- * @date 2020/7/15 13:38
  */
 public class RecoveryEnergyTask {
 
