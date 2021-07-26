@@ -1,6 +1,7 @@
 package com.handy.playerrace.listener;
 
-import com.handy.lib.util.BaseUtil;
+import com.handy.lib.annotation.HandyListener;
+import com.handy.lib.core.StrUtil;
 import com.handy.lib.util.HandyHttpUtil;
 import com.handy.playerrace.PlayerRace;
 import com.handy.playerrace.constants.RaceConstants;
@@ -15,10 +16,11 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
 /**
+ * 玩家加入游戏的事件
+ *
  * @author hs
- * @Description: {玩家加入游戏的事件.}
- * @date 2020/3/23 14:09
  */
+@HandyListener
 public class PlayerJoinEventListener implements Listener {
 
     /**
@@ -32,7 +34,7 @@ public class PlayerJoinEventListener implements Listener {
         new BukkitRunnable() {
             @Override
             public void run() {
-                String playerName = BaseUtil.toLowerCase(player.getName());
+                String playerName = StrUtil.toLowerCase(player.getName());
                 RacePlayer racePlayer = RacePlayerService.getInstance().findByPlayerName(playerName);
                 if (racePlayer != null) {
                     RaceConstants.PLAYER_RACE.put(playerName, racePlayer);

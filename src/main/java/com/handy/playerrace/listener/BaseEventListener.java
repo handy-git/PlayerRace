@@ -1,5 +1,6 @@
 package com.handy.playerrace.listener;
 
+import com.handy.lib.annotation.HandyListener;
 import com.handy.lib.util.BaseUtil;
 import com.handy.playerrace.constants.RaceTypeEnum;
 import com.handy.playerrace.service.RacePlayerService;
@@ -16,9 +17,8 @@ import java.util.Random;
 
 /**
  * @author hs
- * @Description: {}
- * @date 2020/8/27 14:48
  */
+@HandyListener
 public class BaseEventListener implements Listener {
 
     /**

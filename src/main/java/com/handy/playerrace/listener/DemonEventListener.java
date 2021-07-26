@@ -2,6 +2,7 @@ package com.handy.playerrace.listener;
 
 import com.bekvon.bukkit.residence.Residence;
 import com.bekvon.bukkit.residence.protection.ClaimedResidence;
+import com.handy.lib.annotation.HandyListener;
 import com.handy.lib.api.MessageApi;
 import com.handy.lib.constants.VersionCheckEnum;
 import com.handy.lib.util.BaseUtil;
@@ -29,10 +30,11 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
 /**
+ * 恶魔事件
+ *
  * @author hs
- * @Description: {恶魔事件}
- * @date 2020/8/22 17:11
  */
+@HandyListener
 public class DemonEventListener implements Listener {
 
     /**

@@ -1,5 +1,6 @@
 package com.handy.playerrace.command.admin;
 
+import com.handy.lib.command.IHandyCommandEvent;
 import com.handy.lib.util.BaseUtil;
 import com.handy.playerrace.PlayerRace;
 import com.handy.playerrace.constants.RaceTypeEnum;
@@ -10,25 +11,20 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 /**
  * @author hs
- * @date 2021-01-21 16:04
  **/
-public class FindCountCommand {
-    private FindCountCommand() {
+public class FindCountCommand implements IHandyCommandEvent {
+
+    @Override
+    public String command() {
+        return "findCount";
     }
 
-    private static volatile FindCountCommand instance;
-
-    public static FindCountCommand getSingleton() {
-        if (instance == null) {
-            synchronized (FindCountCommand.class) {
-                if (instance == null) {
-                    instance = new FindCountCommand();
-                }
-            }
-        }
-        return instance;
+    @Override
+    public String permission() {
+        return "playerRace.findCount";
     }
 
+    @Override
     public void onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         new BukkitRunnable() {
             @Override

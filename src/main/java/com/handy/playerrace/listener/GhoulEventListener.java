@@ -1,5 +1,6 @@
 package com.handy.playerrace.listener;
 
+import com.handy.lib.annotation.HandyListener;
 import com.handy.lib.api.MessageApi;
 import com.handy.lib.constants.VersionCheckEnum;
 import com.handy.lib.util.BaseUtil;
@@ -25,10 +26,11 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
 /**
+ * 食尸鬼事件
+ *
  * @author hs
- * @Description: {}
- * @date 2020/8/22 14:14
  */
+@HandyListener
 public class GhoulEventListener implements Listener {
 
     /**

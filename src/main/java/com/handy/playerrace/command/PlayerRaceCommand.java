@@ -1,7 +1,7 @@
 package com.handy.playerrace.command;
 
+import com.handy.lib.command.HandyCommandFactory;
 import com.handy.lib.util.BaseUtil;
-import com.handy.playerrace.command.admin.*;
 import com.handy.playerrace.constants.TabListEnum;
 import com.handy.playerrace.util.ConfigUtil;
 import org.bukkit.command.Command;
@@ -15,8 +15,6 @@ import java.util.List;
 
 /**
  * @author hs
- * @Description: {}
- * @date 2020/8/10 11:44
  */
 public class PlayerRaceCommand implements TabExecutor {
 
@@ -26,51 +24,9 @@ public class PlayerRaceCommand implements TabExecutor {
         if (args.length < 1) {
             return sendHelp(sender);
         }
-        switch (args[0].toLowerCase()) {
-            case "reload":
-                if (!sender.hasPermission("playerrace.reload")) {
-                    sender.sendMessage(BaseUtil.getLangMsg("noPermission"));
-                    return true;
-                }
-                ReloadCommand.getSingleton().onCommand(sender, cmd, label, args);
-                break;
-            case "setrace":
-                if (!sender.hasPermission("playerrace.setrace")) {
-                    sender.sendMessage(BaseUtil.getLangMsg("noPermission"));
-                    return true;
-                }
-                SetRaceCommand.getSingleton().onCommand(sender, cmd, label, args);
-                break;
-            case "gethelpbook":
-                if (!sender.hasPermission("playerrace.gethelpbook")) {
-                    sender.sendMessage(BaseUtil.getLangMsg("noPermission"));
-                    return true;
-                }
-                HelpBookCommand.getSingleton().onCommand(sender, cmd, label, args);
-                break;
-            case "getmengborneosoup":
-                if (!sender.hasPermission("playerrace.getmengborneosoup")) {
-                    sender.sendMessage(BaseUtil.getLangMsg("noPermission"));
-                    return true;
-                }
-                MengBorneoSoupCommand.getSingleton().onCommand(sender, cmd, label, args);
-                break;
-            case "findcount":
-                if (!sender.hasPermission("playerrace.findcount")) {
-                    sender.sendMessage(BaseUtil.getLangMsg("noPermission"));
-                    return true;
-                }
-                FindCountCommand.getSingleton().onCommand(sender, cmd, label, args);
-                break;
-            case "findrace":
-                if (!sender.hasPermission("playerrace.findrace")) {
-                    sender.sendMessage(BaseUtil.getLangMsg("noPermission"));
-                    return true;
-                }
-                FindRaceCommand.getSingleton().onCommand(sender, cmd, label, args);
-                break;
-            default:
-                return sendHelp(sender);
+        boolean rst = HandyCommandFactory.getInstance().onCommand(sender, cmd, label, args, BaseUtil.getLangMsg("noPermission"));
+        if (!rst) {
+            return sendHelp(sender);
         }
         return true;
     }
@@ -90,8 +46,8 @@ public class PlayerRaceCommand implements TabExecutor {
     /**
      * 发送帮助
      *
-     * @param sender
-     * @return
+     * @param sender 发送人
+     * @return ture
      */
     private Boolean sendHelp(CommandSender sender) {
         if (!sender.hasPermission("playerrace.reload")) {

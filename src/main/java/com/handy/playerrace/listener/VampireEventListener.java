@@ -2,6 +2,7 @@ package com.handy.playerrace.listener;
 
 import com.bekvon.bukkit.residence.Residence;
 import com.bekvon.bukkit.residence.protection.ClaimedResidence;
+import com.handy.lib.annotation.HandyListener;
 import com.handy.lib.api.MessageApi;
 import com.handy.lib.constants.VersionCheckEnum;
 import com.handy.lib.util.BaseUtil;
@@ -29,10 +30,11 @@ import java.util.List;
 import java.util.Random;
 
 /**
+ * 吸血鬼相关事件
+ *
  * @author hs
- * @Description: {吸血鬼相关事件}
- * @date 2020/8/20 17:52
  */
+@HandyListener
 public class VampireEventListener implements Listener {
 
     /**
@@ -82,7 +84,7 @@ public class VampireEventListener implements Listener {
                 }
                 // 判断是否为人类或者吸血鬼
                 RacePlayer racePlayer = RaceConstants.PLAYER_RACE.get(player.getName().toLowerCase());
-                if (racePlayer == null){
+                if (racePlayer == null) {
                     return;
                 }
                 if (!RaceTypeEnum.MANKIND.getType().equals(racePlayer.getRaceType()) && !RaceTypeEnum.VAMPIRE.getType().equals(racePlayer.getRaceType())) {

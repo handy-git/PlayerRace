@@ -1,5 +1,6 @@
 package com.handy.playerrace.listener;
 
+import com.handy.lib.annotation.HandyListener;
 import com.handy.playerrace.constants.RaceConstants;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -8,10 +9,11 @@ import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 /**
+ * 玩家离开服务器事件
+ *
  * @author hs
- * @Description: {}
- * @date 2020/8/22 12:06
  */
+@HandyListener
 public class PlayerQuitEventListener implements Listener {
 
     /**

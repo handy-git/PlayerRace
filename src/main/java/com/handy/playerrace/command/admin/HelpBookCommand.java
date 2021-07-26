@@ -1,5 +1,6 @@
 package com.handy.playerrace.command.admin;
 
+import com.handy.lib.command.IHandyCommandEvent;
 import com.handy.lib.util.BaseUtil;
 import com.handy.playerrace.PlayerRace;
 import com.handy.playerrace.constants.RaceTypeEnum;
@@ -14,23 +15,19 @@ import org.bukkit.scheduler.BukkitRunnable;
  * @author hs
  * @date 2021-01-16 14:55
  **/
-public class HelpBookCommand {
-    private HelpBookCommand() {
+public class HelpBookCommand implements IHandyCommandEvent {
+
+    @Override
+    public String command() {
+        return "getHelpBook";
     }
 
-    private static volatile HelpBookCommand instance;
-
-    public static HelpBookCommand getSingleton() {
-        if (instance == null) {
-            synchronized (HelpBookCommand.class) {
-                if (instance == null) {
-                    instance = new HelpBookCommand();
-                }
-            }
-        }
-        return instance;
+    @Override
+    public String permission() {
+        return "playerRace.getHelpBook";
     }
 
+    @Override
     public void onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         if (BaseUtil.isNotPlayer(sender)) {
             sender.sendMessage(BaseUtil.getLangMsg("noPlayerFailureMsg"));

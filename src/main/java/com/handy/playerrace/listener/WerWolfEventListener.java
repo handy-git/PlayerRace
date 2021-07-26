@@ -1,5 +1,6 @@
 package com.handy.playerrace.listener;
 
+import com.handy.lib.annotation.HandyListener;
 import com.handy.lib.api.MessageApi;
 import com.handy.lib.constants.VersionCheckEnum;
 import com.handy.lib.util.BaseUtil;
@@ -30,10 +31,11 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
+ * 狼人相关事件
+ *
  * @author hs
- * @Description: {狼人相关事件}
- * @date 2020/8/19 19:10
  */
+@HandyListener
 public class WerWolfEventListener implements Listener {
 
     /**

@@ -1,5 +1,6 @@
 package com.handy.playerrace.command.admin;
 
+import com.handy.lib.command.IHandyCommandEvent;
 import com.handy.lib.util.BaseUtil;
 import com.handy.playerrace.PlayerRace;
 import com.handy.playerrace.constants.RaceTypeEnum;
@@ -10,26 +11,20 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 /**
  * @author hs
- * @Description: {}
- * @date 2020/8/10 15:45
  */
-public class SetRaceCommand {
-    private SetRaceCommand() {
+public class SetRaceCommand implements IHandyCommandEvent {
+
+    @Override
+    public String command() {
+        return "setRace";
     }
 
-    private static volatile SetRaceCommand instance;
-
-    public static SetRaceCommand getSingleton() {
-        if (instance == null) {
-            synchronized (SetRaceCommand.class) {
-                if (instance == null) {
-                    instance = new SetRaceCommand();
-                }
-            }
-        }
-        return instance;
+    @Override
+    public String permission() {
+        return "playerRace.setRace";
     }
 
+    @Override
     public void onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         if (args.length < 3) {
             sender.sendMessage(BaseUtil.getLangMsg("paramFailureMsg"));

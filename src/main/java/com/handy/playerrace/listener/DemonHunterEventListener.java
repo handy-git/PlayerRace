@@ -2,8 +2,10 @@ package com.handy.playerrace.listener;
 
 import com.bekvon.bukkit.residence.Residence;
 import com.bekvon.bukkit.residence.protection.ClaimedResidence;
+import com.handy.lib.annotation.HandyListener;
 import com.handy.lib.api.MessageApi;
 import com.handy.lib.constants.VersionCheckEnum;
+import com.handy.lib.core.CollUtil;
 import com.handy.lib.util.BaseUtil;
 import com.handy.playerrace.PlayerRace;
 import com.handy.playerrace.constants.DemonHunterBowTypeEnum;
@@ -30,10 +32,11 @@ import org.bukkit.projectiles.ProjectileSource;
 import org.bukkit.scheduler.BukkitRunnable;
 
 /**
+ * 恶魔猎手事件
+ *
  * @author hs
- * @Description: {恶魔猎手事件}
- * @date 2020/8/27 11:01
  */
+@HandyListener
 public class DemonHunterEventListener implements Listener {
 
     /**
@@ -249,7 +252,7 @@ public class DemonHunterEventListener implements Listener {
         if (!event.getItem().getType().equals(milkBucket)) {
             return;
         }
-        if (BaseUtil.collIsNotEmpty(RaceConstants.PLAYER_CURSES)) {
+        if (CollUtil.isNotEmpty(RaceConstants.PLAYER_CURSES)) {
             RaceConstants.PLAYER_CURSES.removeIf(playerCursesParam -> playerCursesParam.getPlayer().equals(player));
         }
     }

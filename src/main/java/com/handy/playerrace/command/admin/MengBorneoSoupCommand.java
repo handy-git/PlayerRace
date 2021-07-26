@@ -1,5 +1,6 @@
 package com.handy.playerrace.command.admin;
 
+import com.handy.lib.command.IHandyCommandEvent;
 import com.handy.lib.util.BaseUtil;
 import com.handy.playerrace.PlayerRace;
 import com.handy.playerrace.util.RaceUtil;
@@ -12,23 +13,19 @@ import org.bukkit.scheduler.BukkitRunnable;
  * @author hs
  * @date 2021-01-20 09:46
  **/
-public class MengBorneoSoupCommand {
-    private MengBorneoSoupCommand() {
+public class MengBorneoSoupCommand implements IHandyCommandEvent {
+
+    @Override
+    public String command() {
+        return "getMengBorneoSoup";
     }
 
-    private static volatile MengBorneoSoupCommand instance;
-
-    public static MengBorneoSoupCommand getSingleton() {
-        if (instance == null) {
-            synchronized (MengBorneoSoupCommand.class) {
-                if (instance == null) {
-                    instance = new MengBorneoSoupCommand();
-                }
-            }
-        }
-        return instance;
+    @Override
+    public String permission() {
+        return "playerRace.getMengBorneoSoup";
     }
 
+    @Override
     public void onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         if (BaseUtil.isNotPlayer(sender)) {
             sender.sendMessage(BaseUtil.getLangMsg("noPlayerFailureMsg"));
