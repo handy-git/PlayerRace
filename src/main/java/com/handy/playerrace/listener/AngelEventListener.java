@@ -4,6 +4,7 @@ import com.handy.lib.annotation.HandyListener;
 import com.handy.lib.api.MessageApi;
 import com.handy.lib.constants.VersionCheckEnum;
 import com.handy.lib.util.BaseUtil;
+import com.handy.lib.util.ItemStackUtil;
 import com.handy.playerrace.PlayerRace;
 import com.handy.playerrace.constants.RaceTypeEnum;
 import com.handy.playerrace.service.RacePlayerService;
@@ -369,7 +370,7 @@ public class AngelEventListener implements Listener {
         if (VersionCheckEnum.getEnum().getVersionId() < VersionCheckEnum.V_1_13.getVersionId()) {
             materialStr = "CARROT_ITEM";
         }
-        Material carrotMaterial = BaseUtil.getMaterial(materialStr);
+        Material carrotMaterial = ItemStackUtil.getMaterial(materialStr);
 
         Material material = item.getType();
         if (!Material.WHEAT.equals(material) && !carrotMaterial.equals(material)) {

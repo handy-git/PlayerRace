@@ -3,6 +3,7 @@ package com.handy.playerrace.util;
 import com.handy.lib.api.MessageApi;
 import com.handy.lib.constants.VersionCheckEnum;
 import com.handy.lib.util.BaseUtil;
+import com.handy.lib.util.ItemStackUtil;
 import com.handy.playerrace.PlayerRace;
 import com.handy.playerrace.constants.RaceConstants;
 import com.handy.playerrace.constants.RaceTypeEnum;
@@ -26,8 +27,6 @@ import java.util.Map;
 
 /**
  * @author hs
- * @Description: {}
- * @date 2020/8/20 15:15
  */
 public class RaceUtil {
 
@@ -58,7 +57,7 @@ public class RaceUtil {
         if (racePlayer == null) {
             return false;
         }
-        return raceTypeEnum.getType().equals(racePlayer.getRaceType()) ;
+        return raceTypeEnum.getType().equals(racePlayer.getRaceType());
     }
 
     /**
@@ -154,8 +153,8 @@ public class RaceUtil {
         } else {
             identifyRecipe = new ShapedRecipe(new NamespacedKey(PlayerRace.getInstance(), "mengBorneoSoup"), itemStack);
         }
-        Material gunpowder = BaseUtil.getMaterial(gunpowderStr);
-        Material mushroomStew = BaseUtil.getMaterial(mushroomStewStr);
+        Material gunpowder = ItemStackUtil.getMaterial(gunpowderStr);
+        Material mushroomStew = ItemStackUtil.getMaterial(mushroomStewStr);
 
         identifyRecipe.shape("ABC", "DEF", "GHL");
         identifyRecipe.setIngredient('A', Material.APPLE);
@@ -181,7 +180,7 @@ public class RaceUtil {
         if (versionId < VersionCheckEnum.V_1_13.getVersionId()) {
             mushroomStewStr = "MUSHROOM_SOUP";
         }
-        ItemStack itemStack = new ItemStack(BaseUtil.getMaterial(mushroomStewStr));
+        ItemStack itemStack = new ItemStack(ItemStackUtil.getMaterial(mushroomStewStr));
         ItemMeta itemMeta = itemStack.getItemMeta();
         if (itemMeta == null) {
             return itemStack;
@@ -244,7 +243,7 @@ public class RaceUtil {
         identifyRecipe.setIngredient('B', Material.DIAMOND);
         identifyRecipe.setIngredient('C', Material.EMERALD);
         identifyRecipe.setIngredient('D', Material.NETHER_STAR);
-        identifyRecipe.setIngredient('E', BaseUtil.getMaterial(mushroomStewStr));
+        identifyRecipe.setIngredient('E', ItemStackUtil.getMaterial(mushroomStewStr));
         identifyRecipe.setIngredient('F', Material.NETHER_STAR);
         Bukkit.addRecipe(identifyRecipe);
     }
@@ -261,7 +260,7 @@ public class RaceUtil {
         if (versionId < VersionCheckEnum.V_1_13.getVersionId()) {
             mushroomStewStr = "MUSHROOM_SOUP";
         }
-        ItemStack itemStack = new ItemStack(BaseUtil.getMaterial(mushroomStewStr));
+        ItemStack itemStack = new ItemStack(ItemStackUtil.getMaterial(mushroomStewStr));
         ItemMeta itemMeta = itemStack.getItemMeta();
         if (itemMeta == null) {
             return itemStack;

@@ -4,6 +4,7 @@ package com.handy.playerrace.service;
 import com.handy.lib.api.MessageApi;
 import com.handy.lib.api.StorageApi;
 import com.handy.lib.constants.BaseConstants;
+import com.handy.lib.core.StrUtil;
 import com.handy.lib.util.BaseUtil;
 import com.handy.lib.util.SqlManagerUtil;
 import com.handy.playerrace.PlayerRace;
@@ -43,7 +44,7 @@ public class RacePlayerService {
         try {
             conn = SqlManagerUtil.getInstance().getConnection(PlayerRace.getInstance());
             String sql = RacePlayerSqlEnum.CREATE_SQ_LITE.getCommand();
-            if (BaseConstants.MYSQL.equals(StorageApi.storageConfig.getString(BaseConstants.STORAGE_METHOD))) {
+            if (BaseConstants.MYSQL.equals(BaseConstants.STORAGE_CONFIG.getString(BaseConstants.STORAGE_METHOD))) {
                 sql = RacePlayerSqlEnum.CREATE_MYSQL.getCommand();
             }
             ps = conn.prepareStatement(sql);
@@ -91,7 +92,7 @@ public class RacePlayerService {
      * @return 种族
      */
     public RacePlayer findByPlayerName(String playerName) {
-        playerName = BaseUtil.toLowerCase(playerName);
+        playerName = StrUtil.toLowerCase(playerName);
 
         Connection conn = null;
         PreparedStatement ps = null;
@@ -129,7 +130,7 @@ public class RacePlayerService {
      * @return 种族名
      */
     public String findRaceType(String playerName) {
-        playerName = BaseUtil.toLowerCase(playerName);
+        playerName = StrUtil.toLowerCase(playerName);
         Connection conn = null;
         PreparedStatement ps = null;
         ResultSet rst = null;
@@ -187,7 +188,7 @@ public class RacePlayerService {
      * @return true 成功
      */
     public Boolean updateAdd(String playerName, Integer amount) {
-        playerName = BaseUtil.toLowerCase(playerName);
+        playerName = StrUtil.toLowerCase(playerName);
         Connection conn = null;
         PreparedStatement ps = null;
         try {
@@ -214,7 +215,7 @@ public class RacePlayerService {
      * @return true 成功
      */
     public Boolean updateSubtract(String playerName, Integer amount) {
-        playerName = BaseUtil.toLowerCase(playerName);
+        playerName = StrUtil.toLowerCase(playerName);
         Connection conn = null;
         PreparedStatement ps = null;
         try {
@@ -241,7 +242,7 @@ public class RacePlayerService {
      * @return true 成功
      */
     public Boolean updateAmountByPlayerName(String playerName, Integer amount) {
-        playerName = BaseUtil.toLowerCase(playerName);
+        playerName = StrUtil.toLowerCase(playerName);
         Connection conn = null;
         PreparedStatement ps = null;
         try {
@@ -321,7 +322,7 @@ public class RacePlayerService {
                 break;
         }
         String name = playerName;
-        playerName = BaseUtil.toLowerCase(playerName);
+        playerName = StrUtil.toLowerCase(playerName);
         Connection conn = null;
         PreparedStatement ps = null;
         int rst = 0;
@@ -359,7 +360,7 @@ public class RacePlayerService {
      * @return true 成功
      */
     public Boolean updateRaceLevel(String playerName, int raceLevel) {
-        playerName = BaseUtil.toLowerCase(playerName);
+        playerName = StrUtil.toLowerCase(playerName);
         Connection conn = null;
         PreparedStatement ps = null;
         int rst = 0;
