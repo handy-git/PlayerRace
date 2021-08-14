@@ -1,5 +1,6 @@
 package com.handy.playerrace.command;
 
+import com.handy.lib.annotation.HandyCommand;
 import com.handy.lib.command.HandyCommandFactory;
 import com.handy.lib.util.BaseUtil;
 import com.handy.playerrace.constants.TabListEnum;
@@ -14,8 +15,11 @@ import java.util.Collections;
 import java.util.List;
 
 /**
+ * 命令
+ *
  * @author hs
  */
+@HandyCommand(name = "PlayerRace")
 public class PlayerRaceCommand implements TabExecutor {
 
     @Override

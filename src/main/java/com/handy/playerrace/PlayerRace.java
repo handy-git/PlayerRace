@@ -7,7 +7,6 @@ import com.handy.lib.api.StorageApi;
 import com.handy.lib.constants.BaseConstants;
 import com.handy.lib.util.BaseUtil;
 import com.handy.lib.util.SqlManagerUtil;
-import com.handy.playerrace.command.PlayerRaceCommand;
 import com.handy.playerrace.constants.RaceConstants;
 import com.handy.playerrace.service.RacePlayerService;
 import com.handy.playerrace.task.TaskManage;
@@ -15,7 +14,6 @@ import com.handy.playerrace.util.ConfigUtil;
 import com.handy.playerrace.util.PlaceholderUtil;
 import com.handy.playerrace.util.RaceUtil;
 import org.bukkit.Bukkit;
-import org.bukkit.command.PluginCommand;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.Arrays;
@@ -38,13 +36,6 @@ public final class PlayerRace extends JavaPlugin {
         // 加载数据库
         StorageApi.enableSql(this);
         RacePlayerService.getInstance().create();
-
-        // 加载命令
-        PluginCommand playerRacePluginCommand = this.getCommand("PlayerRace");
-        if (playerRacePluginCommand != null) {
-            playerRacePluginCommand.setExecutor(new PlayerRaceCommand());
-            playerRacePluginCommand.setTabCompleter(new PlayerRaceCommand());
-        }
 
         // 加载PlaceholderApi
         if (!loadPlaceholder()) {
@@ -77,15 +68,16 @@ public final class PlayerRace extends JavaPlugin {
         // 注册合成表
         RaceUtil.registerCompound();
 
-        //注册定时事件
-        TaskManage.enableTask();
-
         // 初始化
         InitApi.getInstance(this)
                 .checkVersion(ConfigUtil.config.getBoolean(BaseConstants.IS_CHECK_UPDATE), RaceConstants.CHECK_VERSION_URL)
+                .initCommand("com.handy.playerrace.command")
                 .initSubCommand("com.handy.playerrace.command")
                 .initListener("com.handy.playerrace.listener")
                 .addMetrics(8605);
+
+        //注册定时事件
+        TaskManage.enableTask();
     }
 
     @Override

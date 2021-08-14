@@ -10,6 +10,7 @@ import com.handy.playerrace.entity.RacePlayer;
 import com.handy.playerrace.service.RacePlayerService;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -41,8 +42,8 @@ public class VampireCombustTask {
                         continue;
                     }
 
-                    // 判断是否为白天并且为晴天
-                    if (BaseUtil.playerWorldIsNotNether(player) || BaseUtil.worldTimeIsNight(player) || BaseUtil.worldIsStorm(player)) {
+                    // 判断是否为普通世界白天并且为晴天
+                    if (!World.Environment.NORMAL.equals(player.getWorld().getEnvironment()) || BaseUtil.worldTimeIsNight(player) || BaseUtil.worldIsStorm(player)) {
                         continue;
                     }
                     // 判断玩家是不是在水中
