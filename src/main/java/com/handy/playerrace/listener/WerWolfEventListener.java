@@ -332,8 +332,7 @@ public class WerWolfEventListener implements Listener {
         wolf.setOwner(player);
 
         String summonWolfMsg = BaseUtil.getLangMsg("werwolf.summonWolfMsg");
-        summonWolfMsg = summonWolfMsg
-                .replaceAll("\\$\\{".concat("amount").concat("\\}"), amount + "");
+        summonWolfMsg = summonWolfMsg.replace("${amount}", amount + "");
         MessageApi.sendActionbar(player, BaseUtil.replaceChatColor(summonWolfMsg));
     }
 
@@ -385,8 +384,7 @@ public class WerWolfEventListener implements Listener {
                 Math.cos(Math.toRadians(yaw)) * Math.cos(Math.toRadians(pitch)) * sprintDistance * sprintDistance));
 
         String sprintMsg = BaseUtil.getLangMsg("werwolf.sprintMsg");
-        sprintMsg = sprintMsg
-                .replaceAll("\\$\\{".concat("amount").concat("\\}"), amount + "");
+        sprintMsg = sprintMsg.replace("${amount}", amount + "");
         MessageApi.sendActionbar(player, BaseUtil.replaceChatColor(sprintMsg));
     }
 

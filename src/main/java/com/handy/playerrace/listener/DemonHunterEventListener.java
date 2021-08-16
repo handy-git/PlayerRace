@@ -221,9 +221,7 @@ public class DemonHunterEventListener implements Listener {
                 }
 
                 String cutBowMsg = BaseUtil.getLangMsg("demonHunter.cutBowMsg");
-                cutBowMsg = cutBowMsg
-                        .replaceAll("\\$\\{".concat("amount").concat("\\}"), amount + "")
-                        .replaceAll("\\$\\{".concat("type").concat("\\}"), cutBow.getTypeName());
+                cutBowMsg = cutBowMsg.replace("${amount}", amount + "").replace("${type}", cutBow.getTypeName());
                 MessageApi.sendActionbar(player, BaseUtil.replaceChatColor(cutBowMsg));
             }
         }.runTaskAsynchronously(PlayerRace.getInstance());

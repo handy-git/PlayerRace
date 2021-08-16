@@ -149,8 +149,8 @@ public class GhoulEventListener implements Listener {
                 player.setHealth(health);
 
                 String langMsg = BaseUtil.getLangMsg("ghoul.damageMsg");
-                langMsg = langMsg.replaceAll("\\$\\{".concat("amount").concat("\\}"), (int) finalDamage + "")
-                        .replaceAll("\\$\\{".concat("health").concat("\\}"), (int) finalDamage + "");
+                langMsg = langMsg.replace("${amount}", (int) finalDamage + "")
+                        .replace("${health}", (int) finalDamage + "");
                 MessageApi.sendActionbar(player, langMsg);
 
                 // 如果是玩家还要扣除能量值
@@ -163,8 +163,7 @@ public class GhoulEventListener implements Listener {
                 RacePlayerService.getInstance().updateSubtract(entityPlayer.getName(), amount);
 
                 String absorptionMsg = BaseUtil.getLangMsg("ghoul.absorptionMsg");
-                absorptionMsg = absorptionMsg
-                        .replaceAll("\\$\\{".concat("amount").concat("\\}"), amount + "");
+                absorptionMsg = absorptionMsg.replace("${amount}", amount + "");
                 MessageApi.sendActionbar(entityPlayer, absorptionMsg);
             }
         }.runTaskAsynchronously(PlayerRace.getInstance());
@@ -219,7 +218,7 @@ public class GhoulEventListener implements Listener {
         location.getWorld().spawnEntity(location, EntityType.valueOf(entityType));
 
         String langMsg = BaseUtil.getLangMsg("ghoul.summonPigZombieMsg");
-        langMsg = langMsg.replaceAll("\\$\\{".concat("amount").concat("\\}"), amount + "");
+        langMsg = langMsg.replace("${amount}", amount + "");
         MessageApi.sendActionbar(player, langMsg);
     }
 
@@ -283,12 +282,12 @@ public class GhoulEventListener implements Listener {
 
         int curseSecond = ConfigUtil.raceConfig.getInt("ghoul.curseSecond");
         String diaupMsg = BaseUtil.getLangMsg("ghoul.curseMsg");
-        diaupMsg = diaupMsg.replaceAll("\\$\\{".concat("time").concat("\\}"), curseSecond + "");
+        diaupMsg = diaupMsg.replace("${time}", curseSecond + "");
         MessageApi.sendActionbar(playerEntity, BaseUtil.replaceChatColor(diaupMsg));
 
         String langMsg = BaseUtil.getLangMsg("ghoul.cursePlayerMsg");
-        langMsg = langMsg.replaceAll("\\$\\{".concat("amount").concat("\\}"), amount + "")
-                .replaceAll("\\$\\{".concat("player").concat("\\}"), playerEntity.getName() + "");
+        langMsg = langMsg.replace("${amount}", amount + "")
+                .replace("${player}", playerEntity.getName() + "");
         MessageApi.sendActionbar(player, langMsg);
     }
 

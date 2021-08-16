@@ -2,6 +2,7 @@ package com.handy.playerrace.util;
 
 import com.handy.lib.api.MessageApi;
 import com.handy.lib.constants.VersionCheckEnum;
+import com.handy.lib.core.StrUtil;
 import com.handy.lib.util.BaseUtil;
 import com.handy.lib.util.ItemStackUtil;
 import com.handy.playerrace.PlayerRace;
@@ -75,8 +76,7 @@ public class RaceUtil {
             return "";
         }
         for (String str : map.keySet()) {
-            actionBarMsg = actionBarMsg.replaceAll("\\$\\{".concat(str).concat("\\}")
-                    , map.get(str));
+            actionBarMsg = actionBarMsg.replace("${" + str + "}", map.get(str));
         }
         return BaseUtil.replaceChatColor(actionBarMsg);
     }
@@ -119,8 +119,9 @@ public class RaceUtil {
                 Boolean rst = RacePlayerService.getInstance().updateAdd(player.getName(), num);
                 if (rst) {
                     String restoreEnergyMsg = ConfigUtil.langConfig.getString("restoreEnergyMsg");
-                    restoreEnergyMsg = restoreEnergyMsg.replaceAll("\\$\\{".concat("amount").concat("\\}")
-                            , amount + "");
+                    if (StrUtil.isNotEmpty(restoreEnergyMsg)) {
+                        restoreEnergyMsg = restoreEnergyMsg.replace("${amount}", amount + "");
+                    }
                     MessageApi.sendActionbar(player, BaseUtil.replaceChatColor(restoreEnergyMsg));
                 }
             }

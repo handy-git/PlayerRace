@@ -203,7 +203,7 @@ public class DemonEventListener implements Listener {
         projectile.setVelocity(direction);
 
         String langMsg = BaseUtil.getLangMsg("demon.fireBallMsg");
-        langMsg = langMsg.replaceAll("\\$\\{".concat("amount").concat("\\}"), amount + "");
+        langMsg = langMsg.replace("${amount}", amount + "");
         MessageApi.sendActionbar(player, langMsg);
     }
 
@@ -279,7 +279,7 @@ public class DemonEventListener implements Listener {
         block.getWorld().getBlockAt(location).setType(Material.valueOf(web));
         RaceConstants.LOCATIONS.add(location);
         String langMsg = BaseUtil.getLangMsg("demon.webMsg");
-        langMsg = langMsg.replaceAll("\\$\\{".concat("amount").concat("\\}"), amount + "");
+        langMsg = langMsg.replace("${amount}", amount + "");
         MessageApi.sendActionbar(player, langMsg);
     }
 

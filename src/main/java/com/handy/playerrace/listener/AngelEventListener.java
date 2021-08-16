@@ -149,19 +149,18 @@ public class AngelEventListener implements Listener {
             entityPlayer.setFallDistance(-100.0F);
             // 发送提醒
             String diaupMsg = BaseUtil.getLangMsg("angel.diaupMsg");
-            diaupMsg = diaupMsg.replaceAll("\\$\\{".concat("player").concat("\\}"), player.getName());
+            diaupMsg = diaupMsg.replace("${player}", player.getName());
             MessageApi.sendActionbar(entityPlayer, BaseUtil.replaceChatColor(diaupMsg));
 
             String langMsg = BaseUtil.getLangMsg("angel.diaupPlayerMsg");
-            langMsg = langMsg.replaceAll("\\$\\{".concat("amount").concat("\\}"), amount + "")
-                    .replaceAll("\\$\\{".concat("player").concat("\\}"), entityPlayer.getName() + "");
+            langMsg = langMsg.replace("${amount}", amount + "").replace("${player}", entityPlayer.getName() + "");
             MessageApi.sendActionbar(player, langMsg);
         } else {
             entity.setVelocity(player.getLocation().getDirection().multiply(7));
             entity.setVelocity(new Vector(entity.getVelocity().getX(), 3.1D, entity.getVelocity().getZ()));
 
             String langMsg = BaseUtil.getLangMsg("angel.diaupOtherMsg");
-            langMsg = langMsg.replaceAll("\\$\\{".concat("amount").concat("\\}"), amount + "");
+            langMsg = langMsg.replace("${amount}", amount + "");
             MessageApi.sendActionbar(player, langMsg);
         }
     }
@@ -402,14 +401,14 @@ public class AngelEventListener implements Listener {
         if (Material.WHEAT.equals(item.getType())) {
             location.getWorld().spawnEntity(location, EntityType.COW);
             String langMsg = BaseUtil.getLangMsg("angel.summonCowMsg");
-            langMsg = langMsg.replaceAll("\\$\\{".concat("amount").concat("\\}"), amount + "");
+            langMsg = langMsg.replace("${amount}", amount + "");
             MessageApi.sendActionbar(player, langMsg);
         }
         // 召唤猪
         if (carrotMaterial.equals(item.getType())) {
             location.getWorld().spawnEntity(location, EntityType.PIG);
             String langMsg = BaseUtil.getLangMsg("angel.summonPigMsg");
-            langMsg = langMsg.replaceAll("\\$\\{".concat("amount").concat("\\}"), amount + "");
+            langMsg = langMsg.replace("${amount}", amount + "");
             MessageApi.sendActionbar(player, langMsg);
         }
     }
@@ -472,15 +471,15 @@ public class AngelEventListener implements Listener {
 
         String returnValueMsg = BaseUtil.getLangMsg("angel.returnValueMsg");
         returnValueMsg = returnValueMsg
-                .replaceAll("\\$\\{".concat("amount").concat("\\}"), amount + "")
-                .replaceAll("\\$\\{".concat("player").concat("\\}"), playerEntity.getName() + "")
-                .replaceAll("\\$\\{".concat("returnAmount").concat("\\}"), returnAmount + "");
+                .replace("${amount}", amount + "")
+                .replace("${player}", playerEntity.getName() + "")
+                .replace("${returnAmount", returnAmount + "");
         MessageApi.sendActionbar(player, BaseUtil.replaceChatColor(returnValueMsg));
 
         String playerReturnValueMsg = BaseUtil.getLangMsg("angel.playerReturnValueMsg");
         playerReturnValueMsg = playerReturnValueMsg
-                .replaceAll("\\$\\{".concat("amount").concat("\\}"), returnAmount + "")
-                .replaceAll("\\$\\{".concat("player").concat("\\}"), player.getName() + "");
+                .replace("${amount}", returnAmount + "")
+                .replace("${player}", player.getName() + "");
         MessageApi.sendActionbar(playerEntity, BaseUtil.replaceChatColor(playerReturnValueMsg));
     }
 
@@ -547,15 +546,15 @@ public class AngelEventListener implements Listener {
 
         String returnHealthMsg = BaseUtil.getLangMsg("angel.returnHealthMsg");
         returnHealthMsg = returnHealthMsg
-                .replaceAll("\\$\\{".concat("amount").concat("\\}"), amount + "")
-                .replaceAll("\\$\\{".concat("player").concat("\\}"), playerEntity.getName() + "")
-                .replaceAll("\\$\\{".concat("returnAmount").concat("\\}"), returnHealthAmount + "");
+                .replace("${amount}", amount + "")
+                .replace("${player}", playerEntity.getName() + "")
+                .replace("${returnAmount}", returnHealthAmount + "");
         MessageApi.sendActionbar(player, BaseUtil.replaceChatColor(returnHealthMsg));
 
         String playerReturnHealthMsg = BaseUtil.getLangMsg("angel.playerReturnHealthMsg");
         playerReturnHealthMsg = playerReturnHealthMsg
-                .replaceAll("\\$\\{".concat("amount").concat("\\}"), returnHealthAmount + "")
-                .replaceAll("\\$\\{".concat("player").concat("\\}"), player.getName() + "");
+                .replace("${amount}", returnHealthAmount + "")
+                .replace("${player}", player.getName() + "");
         MessageApi.sendActionbar(playerEntity, BaseUtil.replaceChatColor(playerReturnHealthMsg));
     }
 

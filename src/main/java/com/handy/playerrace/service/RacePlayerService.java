@@ -2,7 +2,6 @@ package com.handy.playerrace.service;
 
 
 import com.handy.lib.api.MessageApi;
-import com.handy.lib.api.StorageApi;
 import com.handy.lib.constants.BaseConstants;
 import com.handy.lib.core.StrUtil;
 import com.handy.lib.util.BaseUtil;
@@ -344,8 +343,7 @@ public class RacePlayerService {
         }
         if (rst > 0) {
             String raceMsg = BaseUtil.getLangMsg("raceMsg");
-            raceMsg = raceMsg.replaceAll("\\$\\{".concat("player").concat("\\}"), name)
-                    .replaceAll("\\$\\{".concat("race").concat("\\}"), RaceTypeEnum.getTypeName(raceType));
+            raceMsg = raceMsg.replace("${player}", name).replace("${race}", RaceTypeEnum.getTypeName(raceType));
             MessageApi.sendAllMessage(raceMsg);
             RaceConstants.PLAYER_RACE.put(playerName, this.findByPlayerName(playerName));
         }
@@ -355,7 +353,7 @@ public class RacePlayerService {
     /**
      * 更新种族等级
      *
-     * @param playerName 玩家名
+     * @param playerName 玩家名w
      * @param raceLevel  种族等级
      * @return true 成功
      */

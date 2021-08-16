@@ -146,7 +146,7 @@ public class VampireEventListener implements Listener {
                     player.sendMessage(BaseUtil.getLangMsg("werwolf.succeedMsg"));
                     player.getInventory().addItem(RaceUtil.getRaceHelpBook(RaceTypeEnum.VAMPIRE));
                     String langMsg = BaseUtil.getLangMsg("vampire.succeedPlayerMsg");
-                    langMsg = langMsg.replaceAll("\\$\\{".concat("player").concat("\\}"), player.getName() + "");
+                    langMsg = langMsg.replace("${player}", player.getName() + "");
                     MessageApi.sendActionbar(player, langMsg);
                 }
             }
@@ -522,16 +522,16 @@ public class VampireEventListener implements Listener {
 
         String hematophagiaSucceedMsg = BaseUtil.getLangMsg("vampire.hematophagiaSucceedMsg");
         hematophagiaSucceedMsg = hematophagiaSucceedMsg
-                .replaceAll("\\$\\{".concat("amount").concat("\\}"), amount + "")
-                .replaceAll("\\$\\{".concat("player").concat("\\}"), entity.getName())
-                .replaceAll("\\$\\{".concat("health").concat("\\}"), hematophagiaNum + "");
+                .replace("${amount}", amount + "")
+                .replace("${player}", entity.getName())
+                .replace("${health}", hematophagiaNum + "");
 
         MessageApi.sendActionbar(player, BaseUtil.replaceChatColor(hematophagiaSucceedMsg));
 
         String hematophagiaPlayerSucceedMsg = BaseUtil.getLangMsg("vampire.hematophagiaPlayerSucceedMsg");
         hematophagiaPlayerSucceedMsg = hematophagiaPlayerSucceedMsg
-                .replaceAll("\\$\\{".concat("amount").concat("\\}"), hematophagiaNum + "")
-                .replaceAll("\\$\\{".concat("player").concat("\\}"), player.getName());
+                .replace("${amount}", hematophagiaNum + "")
+                .replace("${player}", player.getName());
 
         MessageApi.sendActionbar(entity, BaseUtil.replaceChatColor(hematophagiaPlayerSucceedMsg));
     }

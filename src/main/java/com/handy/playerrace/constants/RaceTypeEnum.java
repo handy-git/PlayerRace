@@ -53,7 +53,7 @@ public enum RaceTypeEnum {
                 return raceTypeEnum.getTypeName();
             }
         }
-        return null;
+        return "";
     }
 
 }
