@@ -33,7 +33,7 @@ import java.util.List;
 /**
  * 狼人相关事件
  *
- * @author hs
+ * @author handy
  */
 @HandyListener
 public class WerWolfEventListener implements Listener {

@@ -8,9 +8,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author hs
- * @Description: {种族类型}
- * @date 2020/8/19 18:53
+ * 种族类型
+ *
+ * @author handy
  */
 @Getter
 @AllArgsConstructor

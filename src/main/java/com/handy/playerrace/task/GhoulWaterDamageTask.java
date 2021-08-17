@@ -12,7 +12,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
 /**
- * @author hs
+ * @author handy
  */
 public class GhoulWaterDamageTask {
 

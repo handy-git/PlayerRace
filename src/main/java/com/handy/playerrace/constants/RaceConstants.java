@@ -8,9 +8,7 @@ import org.bukkit.entity.Player;
 import java.util.*;
 
 /**
- * @author hs
- * @Description: {}
- * @date 2020/8/21 17:58
+ * @author handy
  */
 public abstract class RaceConstants {
 

@@ -16,7 +16,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
 /**
- * @author hs
+ * @author handy
  */
 public class VampireCombustTask {
 

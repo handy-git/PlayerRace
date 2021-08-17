@@ -12,7 +12,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 /**
  * 异步恢复能量值
  *
- * @author hs
+ * @author handy
  */
 public class RecoveryEnergyTask {
 

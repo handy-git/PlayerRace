@@ -3,9 +3,7 @@ package com.handy.playerrace.entity;
 import lombok.Data;
 
 /**
- * @author hs
- * @Description: {}
- * @date 2020/8/20 11:10
+ * @author handy
  */
 @Data
 public class RacePlayer {

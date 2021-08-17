@@ -31,7 +31,7 @@ import org.bukkit.util.Vector;
 /**
  * 天使相关事件
  *
- * @author hs
+ * @author handy
  */
 @HandyListener
 public class AngelEventListener implements Listener {

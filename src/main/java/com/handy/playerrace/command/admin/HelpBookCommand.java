@@ -12,7 +12,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
 /**
- * @author hs
+ * @author handy
  * @date 2021-01-16 14:55
  **/
 public class HelpBookCommand implements IHandyCommandEvent {

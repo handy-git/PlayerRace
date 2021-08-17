@@ -28,7 +28,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 /**
  * 食尸鬼事件
  *
- * @author hs
+ * @author handy
  */
 @HandyListener
 public class GhoulEventListener implements Listener {

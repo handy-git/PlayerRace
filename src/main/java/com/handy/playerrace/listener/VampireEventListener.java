@@ -32,7 +32,7 @@ import java.util.Random;
 /**
  * 吸血鬼相关事件
  *
- * @author hs
+ * @author handy
  */
 @HandyListener
 public class VampireEventListener implements Listener {

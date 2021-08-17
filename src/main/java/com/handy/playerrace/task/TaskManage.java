@@ -1,7 +1,7 @@
 package com.handy.playerrace.task;
 
 /**
- * @author hs
+ * @author handy
  */
 public class TaskManage {
 

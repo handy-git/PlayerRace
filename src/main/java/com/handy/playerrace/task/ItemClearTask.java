@@ -13,7 +13,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import java.util.Iterator;
 
 /**
- * @author hs
+ * @author handy
  **/
 public class ItemClearTask {
 

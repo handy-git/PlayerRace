@@ -8,9 +8,9 @@ import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import org.bukkit.entity.Player;
 
 /**
- * @author hs
- * @Description: {变量扩展}
- * @date 2020/3/26 18:38
+ * 变量扩展
+ *
+ * @author handy
  */
 public class PlaceholderUtil extends PlaceholderExpansion {
     private final PlayerRace plugin;

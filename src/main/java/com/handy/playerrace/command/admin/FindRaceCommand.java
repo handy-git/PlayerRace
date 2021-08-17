@@ -12,8 +12,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
 /**
- * @author hs
- * @date 2021-01-21 16:04
+ * @author handy
  **/
 public class FindRaceCommand implements IHandyCommandEvent {
 

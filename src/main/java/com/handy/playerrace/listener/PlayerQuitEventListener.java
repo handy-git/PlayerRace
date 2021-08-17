@@ -11,7 +11,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 /**
  * 玩家离开服务器事件
  *
- * @author hs
+ * @author handy
  */
 @HandyListener
 public class PlayerQuitEventListener implements Listener {

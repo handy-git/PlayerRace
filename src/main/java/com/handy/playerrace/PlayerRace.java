@@ -22,7 +22,7 @@ import java.util.List;
 /**
  * 主类
  *
- * @author hs
+ * @author handy
  */
 public final class PlayerRace extends JavaPlugin {
     private static PlayerRace instance;

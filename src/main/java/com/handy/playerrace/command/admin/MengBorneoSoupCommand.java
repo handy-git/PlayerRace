@@ -10,7 +10,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
 /**
- * @author hs
+ * @author handy
  * @date 2021-01-20 09:46
  **/
 public class MengBorneoSoupCommand implements IHandyCommandEvent {

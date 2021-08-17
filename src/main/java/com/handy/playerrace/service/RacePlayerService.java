@@ -21,8 +21,7 @@ import java.sql.SQLException;
 /**
  * 种族方法
  *
- * @author hs
- * @date 2020/7/13 14:30
+ * @author handy
  */
 public class RacePlayerService {
     private RacePlayerService() {

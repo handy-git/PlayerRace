@@ -10,7 +10,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.scheduler.BukkitRunnable;
 
 /**
- * @author hs
+ * @author handy
  */
 public class SetRaceCommand implements IHandyCommandEvent {
 

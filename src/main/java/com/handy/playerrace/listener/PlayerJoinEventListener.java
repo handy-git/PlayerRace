@@ -18,7 +18,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 /**
  * 玩家加入游戏的事件
  *
- * @author hs
+ * @author handy
  */
 @HandyListener
 public class PlayerJoinEventListener implements Listener {

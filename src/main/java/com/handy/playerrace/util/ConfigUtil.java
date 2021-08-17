@@ -8,9 +8,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import java.io.File;
 
 /**
- * @author hs
- * @Description: {}
- * @date 2020/3/23 16:30
+ * @author handy
  */
 public class ConfigUtil {
     public static FileConfiguration config, langConfig, raceConfig;

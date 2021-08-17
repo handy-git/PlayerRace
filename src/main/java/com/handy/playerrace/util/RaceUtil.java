@@ -27,7 +27,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @author hs
+ * @author handy
  */
 public class RaceUtil {
 

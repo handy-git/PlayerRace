@@ -6,9 +6,7 @@ import lombok.Data;
 import org.bukkit.entity.Player;
 
 /**
- * @author hs
- * @Description: {}
- * @date 2020/8/22 15:43
+ * @author handy
  */
 @Data
 @AllArgsConstructor

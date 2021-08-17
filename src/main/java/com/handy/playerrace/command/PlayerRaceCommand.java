@@ -17,7 +17,7 @@ import java.util.List;
 /**
  * 命令
  *
- * @author hs
+ * @author handy
  */
 @HandyCommand(name = "PlayerRace")
 public class PlayerRaceCommand implements TabExecutor {

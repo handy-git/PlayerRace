@@ -32,7 +32,7 @@ import org.bukkit.util.Vector;
 /**
  * 恶魔事件
  *
- * @author hs
+ * @author handy
  */
 @HandyListener
 public class DemonEventListener implements Listener {

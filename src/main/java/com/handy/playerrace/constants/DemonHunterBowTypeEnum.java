@@ -5,9 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 /**
- * @author hs
- * @Description: {}
- * @date 2020/8/27 11:36
+ * @author handy
  */
 @Getter
 @AllArgsConstructor

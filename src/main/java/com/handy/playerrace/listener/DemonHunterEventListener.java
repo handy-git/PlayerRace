@@ -34,7 +34,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 /**
  * 恶魔猎手事件
  *
- * @author hs
+ * @author handy
  */
 @HandyListener
 public class DemonHunterEventListener implements Listener {

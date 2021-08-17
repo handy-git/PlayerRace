@@ -16,7 +16,7 @@ import org.bukkit.inventory.ItemStack;
 import java.util.Random;
 
 /**
- * @author hs
+ * @author handy
  */
 @HandyListener
 public class BaseEventListener implements Listener {
