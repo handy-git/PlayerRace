@@ -6,7 +6,6 @@ import com.handy.lib.constants.BaseConstants;
 import com.handy.lib.core.StrUtil;
 import com.handy.lib.util.BaseUtil;
 import com.handy.lib.util.SqlManagerUtil;
-import com.handy.playerrace.PlayerRace;
 import com.handy.playerrace.constants.RaceConstants;
 import com.handy.playerrace.constants.RaceTypeEnum;
 import com.handy.playerrace.constants.sql.RacePlayerSqlEnum;
@@ -40,7 +39,7 @@ public class RacePlayerService {
         Connection conn = null;
         PreparedStatement ps = null;
         try {
-            conn = SqlManagerUtil.getInstance().getConnection(PlayerRace.getInstance());
+            conn = SqlManagerUtil.getInstance().getConnection();
             String sql = RacePlayerSqlEnum.CREATE_SQ_LITE.getCommand();
             if (BaseConstants.MYSQL.equals(BaseConstants.STORAGE_CONFIG.getString(BaseConstants.STORAGE_METHOD))) {
                 sql = RacePlayerSqlEnum.CREATE_MYSQL.getCommand();
@@ -65,7 +64,7 @@ public class RacePlayerService {
         PreparedStatement ps = null;
         try {
             String addStr = RacePlayerSqlEnum.ADD_DATA.getCommand();
-            conn = SqlManagerUtil.getInstance().getConnection(PlayerRace.getInstance());
+            conn = SqlManagerUtil.getInstance().getConnection();
             ps = conn.prepareStatement(addStr);
             ps.setString(1, racePlayer.getPlayerName().toLowerCase());
             ps.setString(2, racePlayer.getPlayerUuid());
@@ -98,7 +97,7 @@ public class RacePlayerService {
         RacePlayer racePlayer = null;
         try {
             String selectStr = RacePlayerSqlEnum.SELECT_BY_NAME.getCommand();
-            conn = SqlManagerUtil.getInstance().getConnection(PlayerRace.getInstance());
+            conn = SqlManagerUtil.getInstance().getConnection();
             ps = conn.prepareStatement(selectStr);
             ps.setString(1, playerName);
             rst = ps.executeQuery();
@@ -135,7 +134,7 @@ public class RacePlayerService {
         String raceType = null;
         try {
             String selectStr = RacePlayerSqlEnum.SELECT_RACE_TYPE_BY_NAME.getCommand();
-            conn = SqlManagerUtil.getInstance().getConnection(PlayerRace.getInstance());
+            conn = SqlManagerUtil.getInstance().getConnection();
             ps = conn.prepareStatement(selectStr);
             ps.setString(1, playerName);
             rst = ps.executeQuery();
@@ -163,7 +162,7 @@ public class RacePlayerService {
         int count = 0;
         try {
             String selectStr = RacePlayerSqlEnum.SELECT_COUNT_BY_RACE_TYPE.getCommand();
-            conn = SqlManagerUtil.getInstance().getConnection(PlayerRace.getInstance());
+            conn = SqlManagerUtil.getInstance().getConnection();
             ps = conn.prepareStatement(selectStr);
             ps.setString(1, raceType);
             rst = ps.executeQuery();
@@ -191,7 +190,7 @@ public class RacePlayerService {
         PreparedStatement ps = null;
         try {
             String selectStr = RacePlayerSqlEnum.UPDATE_ADD_BY_PLAYER_NAME.getCommand();
-            conn = SqlManagerUtil.getInstance().getConnection(PlayerRace.getInstance());
+            conn = SqlManagerUtil.getInstance().getConnection();
             ps = conn.prepareStatement(selectStr);
             ps.setLong(1, amount);
             ps.setString(2, playerName);
@@ -218,7 +217,7 @@ public class RacePlayerService {
         PreparedStatement ps = null;
         try {
             String selectStr = RacePlayerSqlEnum.UPDATE_SUBTRACT_BY_PLAYER_NAME.getCommand();
-            conn = SqlManagerUtil.getInstance().getConnection(PlayerRace.getInstance());
+            conn = SqlManagerUtil.getInstance().getConnection();
             ps = conn.prepareStatement(selectStr);
             ps.setInt(1, amount);
             ps.setString(2, playerName);
@@ -245,7 +244,7 @@ public class RacePlayerService {
         PreparedStatement ps = null;
         try {
             String selectStr = RacePlayerSqlEnum.UPDATE_AMOUNT_BY_PLAYER_NAME.getCommand();
-            conn = SqlManagerUtil.getInstance().getConnection(PlayerRace.getInstance());
+            conn = SqlManagerUtil.getInstance().getConnection();
             ps = conn.prepareStatement(selectStr);
             ps.setInt(1, amount);
             ps.setString(2, playerName);
@@ -269,7 +268,7 @@ public class RacePlayerService {
         PreparedStatement ps = null;
         try {
             String selectStr = RacePlayerSqlEnum.UPDATE_AMOUNT_BY_ID.getCommand();
-            conn = SqlManagerUtil.getInstance().getConnection(PlayerRace.getInstance());
+            conn = SqlManagerUtil.getInstance().getConnection();
             ps = conn.prepareStatement(selectStr);
             ps.setInt(1, racePlayer.getAmount());
             ps.setLong(2, racePlayer.getId());
@@ -326,7 +325,7 @@ public class RacePlayerService {
         int rst = 0;
         try {
             String selectStr = RacePlayerSqlEnum.UPDATE_BY_RACE_TYPE.getCommand();
-            conn = SqlManagerUtil.getInstance().getConnection(PlayerRace.getInstance());
+            conn = SqlManagerUtil.getInstance().getConnection();
             ps = conn.prepareStatement(selectStr);
             ps.setString(1, raceType);
             ps.setInt(2, raceLevel);
@@ -363,7 +362,7 @@ public class RacePlayerService {
         int rst = 0;
         try {
             String selectStr = RacePlayerSqlEnum.UPDATE_BY_RACE_LEVEL.getCommand();
-            conn = SqlManagerUtil.getInstance().getConnection(PlayerRace.getInstance());
+            conn = SqlManagerUtil.getInstance().getConnection();
             ps = conn.prepareStatement(selectStr);
             ps.setInt(1, raceLevel);
             ps.setString(2, playerName);

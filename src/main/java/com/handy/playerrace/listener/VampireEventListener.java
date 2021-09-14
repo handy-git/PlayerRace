@@ -5,6 +5,7 @@ import com.bekvon.bukkit.residence.protection.ClaimedResidence;
 import com.handy.lib.annotation.HandyListener;
 import com.handy.lib.api.MessageApi;
 import com.handy.lib.constants.VersionCheckEnum;
+import com.handy.lib.core.DateUtil;
 import com.handy.lib.util.BaseUtil;
 import com.handy.playerrace.PlayerRace;
 import com.handy.playerrace.constants.RaceConstants;
@@ -177,7 +178,7 @@ public class VampireEventListener implements Listener {
         double damageModifier = ConfigUtil.raceConfig.getDouble("vampire.damage");
 
         // 转换天数
-        int differDay = BaseUtil.getDifferDay(racePlayer.getTransferTime());
+        int differDay = DateUtil.getDifferDay(racePlayer.getTransferTime());
         if (differDay > 0) {
             double transferTime = ConfigUtil.raceConfig.getDouble("vampire.transferTime" + differDay);
             if (transferTime > 0) {
@@ -235,7 +236,7 @@ public class VampireEventListener implements Listener {
         double damageModifier = ConfigUtil.raceConfig.getDouble("vampire.defenseBonus");
 
         // 转换天数
-        int differDay = BaseUtil.getDifferDay(racePlayer.getTransferTime());
+        int differDay = DateUtil.getDifferDay(racePlayer.getTransferTime());
         if (differDay > 0) {
             double transferTime = ConfigUtil.raceConfig.getDouble("vampire.transferTime" + differDay);
             if (transferTime > 0) {

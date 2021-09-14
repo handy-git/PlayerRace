@@ -1,6 +1,7 @@
 package com.handy.playerrace.listener;
 
 import com.handy.lib.annotation.HandyListener;
+import com.handy.lib.constants.BaseConstants;
 import com.handy.lib.core.StrUtil;
 import com.handy.lib.util.HandyHttpUtil;
 import com.handy.playerrace.PlayerRace;
@@ -60,10 +61,10 @@ public class PlayerJoinEventListener implements Listener {
      */
     @EventHandler
     public void onOpPlayerJoin(PlayerJoinEvent event) {
-        if (!ConfigUtil.config.getBoolean("isCheckUpdateToOpMsg")) {
+        if (!ConfigUtil.config.getBoolean(BaseConstants.IS_CHECK_UPDATE_TO_OP_MSG)) {
             return;
         }
-        HandyHttpUtil.checkVersion(PlayerRace.getInstance(), event.getPlayer(), RaceConstants.CHECK_VERSION_URL);
+        HandyHttpUtil.checkVersion(event.getPlayer(), RaceConstants.CHECK_VERSION_URL);
     }
 
 }

@@ -31,24 +31,17 @@ public final class PlayerRace extends JavaPlugin {
     @Override
     public void onEnable() {
         instance = this;
+        InitApi initApi = InitApi.getInstance(this);
         // 加载配置文件
         ConfigUtil.enableConfig();
         // 加载数据库
-        StorageApi.enableSql(this);
+        StorageApi.enableSql();
         RacePlayerService.getInstance().create();
 
         // 加载PlaceholderApi
-        if (!loadPlaceholder()) {
-            getLogger().info(BaseUtil.getLangMsg("placeholderAPIFailureMsg"));
-        } else {
-            getLogger().info(BaseUtil.getLangMsg("placeholderAPISucceedMsg"));
-        }
+        this.loadPlaceholder();
         // 加载领地
-        if (!loadResidence()) {
-            getLogger().info(BaseUtil.getLangMsg("ResidenceFailureMsg"));
-        } else {
-            getLogger().info(BaseUtil.getLangMsg("ResidenceSucceedMsg"));
-        }
+        this.loadResidence();
 
         List<String> lordList = Arrays.asList(
                 "",
@@ -69,8 +62,7 @@ public final class PlayerRace extends JavaPlugin {
         RaceUtil.registerCompound();
 
         // 初始化
-        InitApi.getInstance(this)
-                .checkVersion(ConfigUtil.config.getBoolean(BaseConstants.IS_CHECK_UPDATE), RaceConstants.CHECK_VERSION_URL)
+        initApi.checkVersion(ConfigUtil.config.getBoolean(BaseConstants.IS_CHECK_UPDATE), RaceConstants.CHECK_VERSION_URL)
                 .initCommand("com.handy.playerrace.command")
                 .initSubCommand("com.handy.playerrace.command")
                 .initListener("com.handy.playerrace.listener")
@@ -98,29 +90,30 @@ public final class PlayerRace extends JavaPlugin {
 
     /**
      * 加载Placeholder
-     *
-     * @return 是否加载
      */
-    public boolean loadPlaceholder() {
+    public void loadPlaceholder() {
         if (Bukkit.getPluginManager().getPlugin(BaseConstants.PLACEHOLDER_API) != null) {
             new PlaceholderUtil(this).register();
-            return true;
+            getLogger().info(BaseUtil.getLangMsg("placeholderAPISucceedMsg"));
+            return;
         }
-        return false;
+        getLogger().info(BaseUtil.getLangMsg("placeholderAPIFailureMsg"));
     }
 
     /**
      * 加载Residence
      */
-    public boolean loadResidence() {
+    public void loadResidence() {
         if (Bukkit.getPluginManager().isPluginEnabled("Residence")) {
             if (Residence.getInstance() == null) {
-                return false;
+                getLogger().info(BaseUtil.getLangMsg("ResidenceFailureMsg"));
+                return;
             }
             resApi = Residence.getInstance().getAPI();
-            return true;
+            getLogger().info(BaseUtil.getLangMsg("ResidenceSucceedMsg"));
+            return;
         }
-        return false;
+        getLogger().info(BaseUtil.getLangMsg("ResidenceFailureMsg"));
     }
 
 }
