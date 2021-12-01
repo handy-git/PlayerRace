@@ -64,7 +64,7 @@ public class PlayerJoinEventListener implements Listener {
         if (!ConfigUtil.config.getBoolean(BaseConstants.IS_CHECK_UPDATE_TO_OP_MSG)) {
             return;
         }
-        HandyHttpUtil.checkVersion(event.getPlayer(), RaceConstants.CHECK_VERSION_URL);
+        HandyHttpUtil.checkVersion(event.getPlayer(), RaceConstants.CHECK_VERSION_URL, null);
     }
 
 }
