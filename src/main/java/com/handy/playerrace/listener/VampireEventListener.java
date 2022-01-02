@@ -144,7 +144,7 @@ public class VampireEventListener implements Listener {
                 // 设置玩家种族为吸血鬼-等级变低一级
                 Boolean rst = RacePlayerService.getInstance().updateRaceType(player.getName(), RaceTypeEnum.VAMPIRE.getType(), racePlayerDamage.getRaceLevel() + 1);
                 if (rst) {
-                    player.sendMessage(BaseUtil.getLangMsg("werwolf.succeedMsg"));
+                    player.sendMessage(BaseUtil.getLangMsg("vampire.succeedMsg"));
                     player.getInventory().addItem(RaceUtil.getRaceHelpBook(RaceTypeEnum.VAMPIRE));
                     String langMsg = BaseUtil.getLangMsg("vampire.succeedPlayerMsg");
                     langMsg = langMsg.replace("${player}", player.getName() + "");
