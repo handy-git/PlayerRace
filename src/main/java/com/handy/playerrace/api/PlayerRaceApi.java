@@ -20,6 +20,11 @@ public class PlayerRaceApi {
 
     private static final PlayerRaceApi INSTANCE = new PlayerRaceApi();
 
+    /**
+     * 获取api实例
+     *
+     * @return PlayerRaceApi
+     */
     public static PlayerRaceApi getInstance() {
         return INSTANCE;
     }
