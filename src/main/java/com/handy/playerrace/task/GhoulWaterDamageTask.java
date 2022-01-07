@@ -6,6 +6,7 @@ import com.handy.playerrace.PlayerRace;
 import com.handy.playerrace.constants.RaceTypeEnum;
 import com.handy.playerrace.service.RacePlayerService;
 import com.handy.playerrace.util.ConfigUtil;
+import com.handy.playerrace.util.RaceUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -24,6 +25,10 @@ public class GhoulWaterDamageTask {
             @Override
             public void run() {
                 for (Player player : Bukkit.getOnlinePlayers()) {
+                    // 判断是否为食尸鬼
+                    if (!RaceUtil.isRaceType(RaceTypeEnum.GHOUL, player.getName())) {
+                        return;
+                    }
                     // 判断是否为食尸鬼
                     String raceType = RacePlayerService.getInstance().findRaceType(player.getName());
                     if (!RaceTypeEnum.GHOUL.getType().equals(raceType)) {

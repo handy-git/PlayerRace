@@ -8,6 +8,7 @@ import com.handy.playerrace.PlayerRace;
 import com.handy.playerrace.constants.RaceTypeEnum;
 import com.handy.playerrace.entity.RacePlayer;
 import com.handy.playerrace.service.RacePlayerService;
+import com.handy.playerrace.util.RaceUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -31,6 +32,11 @@ public class VampireCombustTask {
                     if (player.getFireTicks() > 0) {
                         return;
                     }
+                    // 判断是否为吸血鬼
+                    if (RaceUtil.isRaceTypeAndGetRace(RaceTypeEnum.VAMPIRE, player.getName()) == null) {
+                        return;
+                    }
+
                     // 判断是否为吸血鬼
                     String raceType = RacePlayerService.getInstance().findRaceType(player.getName());
                     if (!RaceTypeEnum.VAMPIRE.getType().equals(raceType)) {
