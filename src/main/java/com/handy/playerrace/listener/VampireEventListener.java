@@ -5,6 +5,7 @@ import com.bekvon.bukkit.residence.protection.ClaimedResidence;
 import com.handy.lib.annotation.HandyListener;
 import com.handy.lib.api.MessageApi;
 import com.handy.lib.constants.VersionCheckEnum;
+import com.handy.lib.core.CollUtil;
 import com.handy.lib.core.DateUtil;
 import com.handy.lib.util.BaseUtil;
 import com.handy.playerrace.PlayerRace;
@@ -382,9 +383,17 @@ public class VampireEventListener implements Listener {
         if (racePlayer == null) {
             return;
         }
-
-        // 判断是否孟婆汤
+        // 判断物品是否配置过可使用
         ItemStack itemStack = event.getItem();
+        List<String> itemMaterialList = ConfigUtil.raceConfig.getStringList("vampire.itemStack");
+        if (CollUtil.isNotEmpty(itemMaterialList)){
+            for (String itemMaterial : itemMaterialList) {
+                 if (itemStack.getType().name().equalsIgnoreCase(itemMaterial)){
+                     return;
+                 }
+            }
+        }
+        // 判断不是孟婆汤
         if (itemStack.isSimilar(RaceUtil.getMengBorneoSoup())) {
             return;
         }
