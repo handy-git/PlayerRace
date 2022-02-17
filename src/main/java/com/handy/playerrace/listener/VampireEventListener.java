@@ -385,7 +385,7 @@ public class VampireEventListener implements Listener {
         }
         // 判断物品是否配置过可使用
         ItemStack itemStack = event.getItem();
-        List<String> itemMaterialList = ConfigUtil.raceConfig.getStringList("vampire.itemStack");
+        List<String> itemMaterialList = ConfigUtil.raceConfig.getStringList("vampire.itemMaterial");
         if (CollUtil.isNotEmpty(itemMaterialList)){
             for (String itemMaterial : itemMaterialList) {
                  if (itemStack.getType().name().equalsIgnoreCase(itemMaterial)){
