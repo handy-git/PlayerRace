@@ -79,6 +79,9 @@ public enum RacePlayerSqlEnum {
     UPDATE_BY_RACE_LEVEL(
             "UPDATE `race_player` SET `race_level` = ? WHERE `player_name` = ?"
     ),
+    UPDATE_BY_PLAYER_NAME(
+            "UPDATE `race_player` SET `player_name` = ? WHERE `player_name` = ?"
+    ),
     ;
 
     private final String command;

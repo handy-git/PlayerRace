@@ -39,7 +39,7 @@ public class RaceUtil {
      * @return RacePlayer
      */
     public static RacePlayer isRaceTypeAndGetRace(RaceTypeEnum raceTypeEnum, String playerName) {
-        RacePlayer racePlayer = RaceConstants.PLAYER_RACE.get(playerName.toLowerCase());
+        RacePlayer racePlayer = RaceConstants.PLAYER_RACE.get(playerName);
         if (racePlayer == null) {
             return null;
         }
@@ -54,7 +54,7 @@ public class RaceUtil {
      * @return true/是
      */
     public static boolean isRaceType(RaceTypeEnum raceTypeEnum, String playerName) {
-        RacePlayer racePlayer = RaceConstants.PLAYER_RACE.get(playerName.toLowerCase());
+        RacePlayer racePlayer = RaceConstants.PLAYER_RACE.get(playerName);
         if (racePlayer == null) {
             return false;
         }

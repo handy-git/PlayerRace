@@ -1,6 +1,5 @@
 package com.handy.playerrace.api;
 
-import com.handy.lib.core.StrUtil;
 import com.handy.playerrace.PlayerRace;
 import com.handy.playerrace.constants.RaceConstants;
 import com.handy.playerrace.constants.RaceTypeEnum;
@@ -36,8 +35,7 @@ public class PlayerRaceApi {
      * @since 1.2.4
      */
     public void temporaryCancel(Player player) {
-        String playerName = StrUtil.toLowerCase(player.getName());
-        RaceConstants.PLAYER_RACE.remove(playerName);
+        RaceConstants.PLAYER_RACE.remove(player.getName());
     }
 
     /**
@@ -50,7 +48,7 @@ public class PlayerRaceApi {
         new BukkitRunnable() {
             @Override
             public void run() {
-                String playerName = StrUtil.toLowerCase(player.getName());
+                String playerName = player.getName();
                 RacePlayer racePlayer = RacePlayerService.getInstance().findByPlayerName(playerName);
                 if (racePlayer != null) {
                     RaceConstants.PLAYER_RACE.put(playerName, racePlayer);

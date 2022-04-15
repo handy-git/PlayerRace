@@ -38,7 +38,7 @@ public class PlayerQuitEventListener implements Listener {
 
     private void clearCache(Player player) {
         RaceConstants.VICTIM_ENTITY.remove(player.getUniqueId());
-        RaceConstants.PLAYER_RACE.remove(player.getName().toLowerCase());
+        RaceConstants.PLAYER_RACE.remove(player.getName());
         RaceConstants.DEMON_HUNTER_BOW.remove(player.getUniqueId());
     }
 

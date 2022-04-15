@@ -3,7 +3,6 @@ package com.handy.playerrace.service;
 
 import com.handy.lib.api.MessageApi;
 import com.handy.lib.constants.BaseConstants;
-import com.handy.lib.core.StrUtil;
 import com.handy.lib.util.BaseUtil;
 import com.handy.lib.util.SqlManagerUtil;
 import com.handy.playerrace.constants.RaceConstants;
@@ -66,7 +65,7 @@ public class RacePlayerService {
             String addStr = RacePlayerSqlEnum.ADD_DATA.getCommand();
             conn = SqlManagerUtil.getInstance().getConnection();
             ps = conn.prepareStatement(addStr);
-            ps.setString(1, racePlayer.getPlayerName().toLowerCase());
+            ps.setString(1, racePlayer.getPlayerName());
             ps.setString(2, racePlayer.getPlayerUuid());
             ps.setString(3, racePlayer.getRaceType());
             ps.setInt(4, racePlayer.getRaceLevel() != null ? racePlayer.getRaceLevel() : 0);
@@ -89,8 +88,6 @@ public class RacePlayerService {
      * @return 种族
      */
     public RacePlayer findByPlayerName(String playerName) {
-        playerName = StrUtil.toLowerCase(playerName);
-
         Connection conn = null;
         PreparedStatement ps = null;
         ResultSet rst = null;
@@ -127,7 +124,6 @@ public class RacePlayerService {
      * @return 种族名
      */
     public String findRaceType(String playerName) {
-        playerName = StrUtil.toLowerCase(playerName);
         Connection conn = null;
         PreparedStatement ps = null;
         ResultSet rst = null;
@@ -185,7 +181,6 @@ public class RacePlayerService {
      * @return true 成功
      */
     public Boolean updateAdd(String playerName, Integer amount) {
-        playerName = StrUtil.toLowerCase(playerName);
         Connection conn = null;
         PreparedStatement ps = null;
         try {
@@ -212,7 +207,6 @@ public class RacePlayerService {
      * @return true 成功
      */
     public Boolean updateSubtract(String playerName, Integer amount) {
-        playerName = StrUtil.toLowerCase(playerName);
         Connection conn = null;
         PreparedStatement ps = null;
         try {
@@ -239,7 +233,6 @@ public class RacePlayerService {
      * @return true 成功
      */
     public Boolean updateAmountByPlayerName(String playerName, Integer amount) {
-        playerName = StrUtil.toLowerCase(playerName);
         Connection conn = null;
         PreparedStatement ps = null;
         try {
@@ -318,8 +311,6 @@ public class RacePlayerService {
             default:
                 break;
         }
-        String name = playerName;
-        playerName = StrUtil.toLowerCase(playerName);
         Connection conn = null;
         PreparedStatement ps = null;
         int rst = 0;
@@ -341,7 +332,7 @@ public class RacePlayerService {
         }
         if (rst > 0) {
             String raceMsg = BaseUtil.getLangMsg("raceMsg");
-            raceMsg = raceMsg.replace("${player}", name).replace("${race}", RaceTypeEnum.getTypeName(raceType));
+            raceMsg = raceMsg.replace("${player}", playerName).replace("${race}", RaceTypeEnum.getTypeName(raceType));
             MessageApi.sendAllMessage(raceMsg);
             RaceConstants.PLAYER_RACE.put(playerName, this.findByPlayerName(playerName));
         }
@@ -356,7 +347,6 @@ public class RacePlayerService {
      * @return true 成功
      */
     public Boolean updateRaceLevel(String playerName, int raceLevel) {
-        playerName = StrUtil.toLowerCase(playerName);
         Connection conn = null;
         PreparedStatement ps = null;
         int rst = 0;
@@ -373,6 +363,32 @@ public class RacePlayerService {
             SqlManagerUtil.getInstance().closeSql(conn, ps, null);
         }
         return rst > 0;
+    }
+
+    /**
+     * 根据playerName改更新playerName
+     *
+     * @param playerName 玩家名
+     * @since 1.2.8
+     */
+    public void updatePlayerName(String playerName) {
+        if (playerName.equals(playerName.toLowerCase())) {
+            return;
+        }
+        Connection conn = null;
+        PreparedStatement ps = null;
+        try {
+            String selectStr = RacePlayerSqlEnum.UPDATE_BY_PLAYER_NAME.getCommand();
+            conn = SqlManagerUtil.getInstance().getConnection();
+            ps = conn.prepareStatement(selectStr);
+            ps.setString(1, playerName);
+            ps.setString(2, playerName);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            SqlManagerUtil.getInstance().closeSql(conn, ps, null);
+        }
     }
 
 }

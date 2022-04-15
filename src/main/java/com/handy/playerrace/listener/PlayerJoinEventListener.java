@@ -2,7 +2,6 @@ package com.handy.playerrace.listener;
 
 import com.handy.lib.annotation.HandyListener;
 import com.handy.lib.constants.BaseConstants;
-import com.handy.lib.core.StrUtil;
 import com.handy.lib.util.HandyHttpUtil;
 import com.handy.playerrace.PlayerRace;
 import com.handy.playerrace.constants.RaceConstants;
@@ -32,10 +31,13 @@ public class PlayerJoinEventListener implements Listener {
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
+        String playerName = player.getName();
         new BukkitRunnable() {
             @Override
             public void run() {
-                String playerName = StrUtil.toLowerCase(player.getName());
+                // 更新遗留的大小写问题
+                RacePlayerService.getInstance().updatePlayerName(playerName);
+                // 查询玩家种族
                 RacePlayer racePlayer = RacePlayerService.getInstance().findByPlayerName(playerName);
                 if (racePlayer != null) {
                     RaceConstants.PLAYER_RACE.put(playerName, racePlayer);

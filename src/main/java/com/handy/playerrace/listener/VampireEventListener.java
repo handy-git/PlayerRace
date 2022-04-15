@@ -85,7 +85,7 @@ public class VampireEventListener implements Listener {
                     return;
                 }
                 // 判断是否为人类或者吸血鬼
-                RacePlayer racePlayer = RaceConstants.PLAYER_RACE.get(player.getName().toLowerCase());
+                RacePlayer racePlayer = RaceConstants.PLAYER_RACE.get(player.getName());
                 if (racePlayer == null) {
                     return;
                 }
@@ -137,7 +137,7 @@ public class VampireEventListener implements Listener {
                 }
 
                 // 判断击杀者是不是吸血鬼
-                RacePlayer racePlayerDamage = RaceConstants.PLAYER_RACE.get(killer.getName().toLowerCase());
+                RacePlayer racePlayerDamage = RaceConstants.PLAYER_RACE.get(killer.getName());
                 if (racePlayerDamage == null || !RaceTypeEnum.VAMPIRE.getType().equals(racePlayerDamage.getRaceType())) {
                     return;
                 }
