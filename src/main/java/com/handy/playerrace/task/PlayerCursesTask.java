@@ -29,7 +29,7 @@ public class PlayerCursesTask {
                 while (iterator.hasNext()) {
                     PlayerCursesParam playerCursesParam = iterator.next();
                     // 判断是否到时间
-                    int anInt = ConfigUtil.raceConfig.getInt("ghoul.curseSecond");
+                    int anInt = ConfigUtil.RACE_CONFIG.getInt("ghoul.curseSecond");
                     long second = System.currentTimeMillis() - playerCursesParam.getAddTime() / 1000;
                     if (second >= anInt) {
                         RacePlayerService.getInstance().updateRaceType(playerCursesParam.getPlayerName(), playerCursesParam.getRaceTypeEnum().getType(), 0);
@@ -37,6 +37,7 @@ public class PlayerCursesTask {
                         if (playerCursesParam.getPlayer().isOnline()) {
                             playerCursesParam.getPlayer().getInventory().addItem(RaceUtil.getRaceHelpBook(RaceTypeEnum.GHOUL));
                             MessageApi.sendActionbar(playerCursesParam.getPlayer(), BaseUtil.getLangMsg("ghoul.cursesucceedMsg"));
+                            RaceUtil.refreshCache(playerCursesParam.getPlayer());
                         }
                     }
                 }

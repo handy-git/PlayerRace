@@ -35,7 +35,7 @@ public class BaseEventListener implements Listener {
             return;
         }
         //注意：这里从0算起
-        int anInt = ConfigUtil.raceConfig.getInt("mankind.dropRate");
+        int anInt = ConfigUtil.RACE_CONFIG.getInt("mankind.dropRate");
         if (anInt == 0) {
             return;
         }

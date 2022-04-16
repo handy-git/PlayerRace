@@ -83,6 +83,7 @@ public class WerWolfEventListener implements Listener {
                 if (rst) {
                     player.getInventory().addItem(RaceUtil.getRaceHelpBook(RaceTypeEnum.WER_WOLF));
                     player.sendMessage(BaseUtil.getLangMsg("werwolf.succeedMsg"));
+                    RaceUtil.refreshCache(player);
                 }
             }
         }.runTaskAsynchronously(PlayerRace.getInstance());
@@ -118,13 +119,13 @@ public class WerWolfEventListener implements Listener {
 
         int amount = 0;
         if (livingEntity instanceof Player) {
-            amount = ConfigUtil.raceConfig.getInt("werwolf.killPlayer");
+            amount = ConfigUtil.RACE_CONFIG.getInt("werwolf.killPlayer");
         }
         if (livingEntity instanceof Monster) {
-            amount = ConfigUtil.raceConfig.getInt("werwolf.killMonster");
+            amount = ConfigUtil.RACE_CONFIG.getInt("werwolf.killMonster");
         }
         if (livingEntity instanceof Animals) {
-            amount = ConfigUtil.raceConfig.getInt("werwolf.killAnimals");
+            amount = ConfigUtil.RACE_CONFIG.getInt("werwolf.killAnimals");
         }
         RaceUtil.restoreEnergy(player, RaceTypeEnum.WER_WOLF, amount);
     }
@@ -166,7 +167,7 @@ public class WerWolfEventListener implements Listener {
         for (String materialStr : materials) {
             Material material = Material.valueOf(materialStr);
             if (itemStackType.equals(material)) {
-                RaceUtil.restoreEnergy(player, RaceTypeEnum.WER_WOLF, ConfigUtil.raceConfig.getInt("werwolf.consume"));
+                RaceUtil.restoreEnergy(player, RaceTypeEnum.WER_WOLF, ConfigUtil.RACE_CONFIG.getInt("werwolf.consume"));
                 return;
             }
         }
@@ -201,7 +202,7 @@ public class WerWolfEventListener implements Listener {
             return;
         }
 
-        event.setAmount(event.getAmount() + ConfigUtil.raceConfig.getInt("werwolf.regainHealth"));
+        event.setAmount(event.getAmount() + ConfigUtil.RACE_CONFIG.getInt("werwolf.regainHealth"));
     }
 
     /**
@@ -222,14 +223,14 @@ public class WerWolfEventListener implements Listener {
             ProjectileSource shooter = projectile.getShooter();
             if (shooter instanceof Player) {
                 player = (Player) shooter;
-                damage = ConfigUtil.raceConfig.getInt("werwolf.projectileDamage");
+                damage = ConfigUtil.RACE_CONFIG.getInt("werwolf.projectileDamage");
             }
         }
 
         // 判断是否近战
         if ((entity instanceof Player)) {
             player = (Player) entity;
-            damage = ConfigUtil.raceConfig.getInt("werwolf.damage");
+            damage = ConfigUtil.RACE_CONFIG.getInt("werwolf.damage");
         }
         if (player == null) {
             return;
@@ -246,7 +247,7 @@ public class WerWolfEventListener implements Listener {
             return;
         }
 
-        event.setDamage(event.getDamage() + ConfigUtil.raceConfig.getInt("werwolf.damage"));
+        event.setDamage(event.getDamage() + ConfigUtil.RACE_CONFIG.getInt("werwolf.damage"));
     }
 
     /**
@@ -279,7 +280,7 @@ public class WerWolfEventListener implements Listener {
             return;
         }
 
-        event.setDamage(event.getDamage() - ConfigUtil.raceConfig.getInt("werwolf.fall"));
+        event.setDamage(event.getDamage() - ConfigUtil.RACE_CONFIG.getInt("werwolf.fall"));
     }
 
     /**
@@ -311,7 +312,7 @@ public class WerWolfEventListener implements Listener {
             return;
         }
 
-        int amount = ConfigUtil.raceConfig.getInt("werwolf.summonWolf");
+        int amount = ConfigUtil.RACE_CONFIG.getInt("werwolf.summonWolf");
         Boolean rst = RacePlayerService.getInstance().updateSubtract(player.getName(), amount);
         if (!rst) {
             MessageApi.sendActionbar(player, RaceUtil.getEnergyShortageMsg(amount));
@@ -361,7 +362,7 @@ public class WerWolfEventListener implements Listener {
             return;
         }
 
-        int amount = ConfigUtil.raceConfig.getInt("werwolf.sprint");
+        int amount = ConfigUtil.RACE_CONFIG.getInt("werwolf.sprint");
         Boolean rst = RacePlayerService.getInstance().updateSubtract(player.getName(), amount);
         if (!rst) {
             MessageApi.sendActionbar(player, RaceUtil.getEnergyShortageMsg(amount));
@@ -378,7 +379,7 @@ public class WerWolfEventListener implements Listener {
         Location location = player.getLocation();
         double yaw = location.getYaw();
         double pitch = location.getPitch();
-        double sprintDistance = ConfigUtil.raceConfig.getDouble("werwolf.sprintDistance");
+        double sprintDistance = ConfigUtil.RACE_CONFIG.getDouble("werwolf.sprintDistance");
         player.setVelocity(new Vector(-Math.sin(Math.toRadians(yaw)) * Math.cos(Math.toRadians(pitch)) * sprintDistance * sprintDistance,
                 -Math.sin(Math.toRadians(pitch)) * sprintDistance * sprintDistance,
                 Math.cos(Math.toRadians(yaw)) * Math.cos(Math.toRadians(pitch)) * sprintDistance * sprintDistance));

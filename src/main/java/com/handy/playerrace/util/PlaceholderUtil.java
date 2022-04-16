@@ -5,7 +5,7 @@ import com.handy.playerrace.constants.RaceTypeEnum;
 import com.handy.playerrace.entity.RacePlayer;
 import com.handy.playerrace.service.RacePlayerService;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
-import org.bukkit.entity.Player;
+import org.bukkit.OfflinePlayer;
 
 /**
  * 变量扩展
@@ -37,8 +37,8 @@ public class PlaceholderUtil extends PlaceholderExpansion {
      * @return 结果
      */
     @Override
-    public String onPlaceholderRequest(Player player, String identifier) {
-        int maxFatigue = ConfigUtil.config.getInt("maxFatigue");
+    public String onRequest(OfflinePlayer player, String identifier) {
+        int maxFatigue = ConfigUtil.CONFIG.getInt("maxFatigue");
         String race = RaceTypeEnum.MANKIND.getTypeName();
 
         RacePlayer racePlayer = RacePlayerService.getInstance().findByPlayerName(player.getName());
@@ -51,7 +51,7 @@ public class PlaceholderUtil extends PlaceholderExpansion {
 
         // 吸血鬼计算最大值
         if (racePlayer != null && RaceTypeEnum.VAMPIRE.getType().equals(racePlayer.getRaceType())) {
-            double energyDiscount = ConfigUtil.raceConfig.getDouble("vampire.energyDiscount" + racePlayer.getRaceLevel());
+            double energyDiscount = ConfigUtil.RACE_CONFIG.getDouble("vampire.energyDiscount" + racePlayer.getRaceLevel());
             if (energyDiscount > 0) {
                 maxFatigue = (int) Math.ceil(maxFatigue * energyDiscount);
             }

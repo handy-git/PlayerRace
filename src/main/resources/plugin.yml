@@ -1,5 +1,5 @@
 name: PlayerRace
-version: 1.2.8
+version: 1.2.9
 main: com.handy.playerrace.PlayerRace
 api-version: 1.13
 website: https://handy-git.gitee.io/rice-doc/#/PlayerRace/zh_CN/log

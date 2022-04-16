@@ -63,7 +63,7 @@ public class PlayerJoinEventListener implements Listener {
      */
     @EventHandler
     public void onOpPlayerJoin(PlayerJoinEvent event) {
-        if (!ConfigUtil.config.getBoolean(BaseConstants.IS_CHECK_UPDATE_TO_OP_MSG)) {
+        if (!ConfigUtil.CONFIG.getBoolean(BaseConstants.IS_CHECK_UPDATE_TO_OP_MSG)) {
             return;
         }
         HandyHttpUtil.checkVersion(event.getPlayer(), RaceConstants.CHECK_VERSION_URL);

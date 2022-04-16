@@ -85,6 +85,7 @@ public class DemonEventListener implements Listener {
                 if (rst) {
                     player.getInventory().addItem(RaceUtil.getRaceHelpBook(RaceTypeEnum.DEMON));
                     player.sendMessage(BaseUtil.getLangMsg("demon.succeedMsg"));
+                    RaceUtil.refreshCache(player);
                 }
             }
         }.runTaskAsynchronously(PlayerRace.getInstance());
@@ -141,13 +142,13 @@ public class DemonEventListener implements Listener {
         }
         event.setDamage(0);
         // 恢复能量
-        RaceUtil.restoreEnergy(player, RaceTypeEnum.DEMON, ConfigUtil.raceConfig.getInt("demon.energyHealth"));
+        RaceUtil.restoreEnergy(player, RaceTypeEnum.DEMON, ConfigUtil.RACE_CONFIG.getInt("demon.energyHealth"));
 
         // 恢复血量
         if (player.getHealth() == player.getMaxHealth()) {
             return;
         }
-        double health = player.getHealth() + ConfigUtil.raceConfig.getInt("demon.restoreHealth");
+        double health = player.getHealth() + ConfigUtil.RACE_CONFIG.getInt("demon.restoreHealth");
         if (health > player.getMaxHealth()) {
             health = player.getMaxHealth();
         }
@@ -182,7 +183,7 @@ public class DemonEventListener implements Listener {
         if (!RaceUtil.isRaceType(RaceTypeEnum.DEMON, player.getName())) {
             return;
         }
-        int amount = ConfigUtil.raceConfig.getInt("demon.fireBall");
+        int amount = ConfigUtil.RACE_CONFIG.getInt("demon.fireBall");
         Boolean rst = RacePlayerService.getInstance().updateSubtract(player.getName(), amount);
         if (!rst) {
             MessageApi.sendActionbar(player, RaceUtil.getEnergyShortageMsg(amount));
@@ -256,7 +257,7 @@ public class DemonEventListener implements Listener {
         if (location.getY() >= 254.0D || !Material.AIR.equals(location.getBlock().getType())) {
             return;
         }
-        int amount = ConfigUtil.raceConfig.getInt("demon.web");
+        int amount = ConfigUtil.RACE_CONFIG.getInt("demon.web");
         Boolean rst = RacePlayerService.getInstance().updateSubtract(player.getName(), amount);
         if (!rst) {
             MessageApi.sendActionbar(player, RaceUtil.getEnergyShortageMsg(amount));

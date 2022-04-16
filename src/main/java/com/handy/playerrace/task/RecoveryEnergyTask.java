@@ -38,25 +38,25 @@ public class RecoveryEnergyTask {
                     int restoreNumber = 0;
                     switch (raceTypeEnum) {
                         case MANKIND:
-                            restoreNumber = ConfigUtil.raceConfig.getInt("mankind.restoreNumber");
+                            restoreNumber = ConfigUtil.RACE_CONFIG.getInt("mankind.restoreNumber");
                             break;
                         case WER_WOLF:
-                            restoreNumber = ConfigUtil.raceConfig.getInt("werwolf.restoreNumber");
+                            restoreNumber = ConfigUtil.RACE_CONFIG.getInt("werwolf.restoreNumber");
                             break;
                         case VAMPIRE:
-                            restoreNumber = ConfigUtil.raceConfig.getInt("vampire.restoreNumber");
+                            restoreNumber = ConfigUtil.RACE_CONFIG.getInt("vampire.restoreNumber");
                             break;
                         case DEMON:
-                            restoreNumber = ConfigUtil.raceConfig.getInt("demon.restoreNumber");
+                            restoreNumber = ConfigUtil.RACE_CONFIG.getInt("demon.restoreNumber");
                             break;
                         case ANGEL:
-                            restoreNumber = ConfigUtil.raceConfig.getInt("angel.restoreNumber");
+                            restoreNumber = ConfigUtil.RACE_CONFIG.getInt("angel.restoreNumber");
                             break;
                         case GHOUL:
-                            restoreNumber = ConfigUtil.raceConfig.getInt("ghoul.restoreNumber");
+                            restoreNumber = ConfigUtil.RACE_CONFIG.getInt("ghoul.restoreNumber");
                             break;
                         case DEMON_HUNTER:
-                            restoreNumber = ConfigUtil.raceConfig.getInt("demonHunter.restoreNumber");
+                            restoreNumber = ConfigUtil.RACE_CONFIG.getInt("demonHunter.restoreNumber");
                             break;
                         default:
                             break;

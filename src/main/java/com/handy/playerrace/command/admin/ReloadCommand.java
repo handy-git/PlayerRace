@@ -9,6 +9,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.scheduler.BukkitRunnable;
 
 /**
+ * 重载
+ *
  * @author handy
  */
 public class ReloadCommand implements IHandyCommandEvent {
@@ -28,9 +30,7 @@ public class ReloadCommand implements IHandyCommandEvent {
         new BukkitRunnable() {
             @Override
             public void run() {
-                ConfigUtil.loadConfig();
-                ConfigUtil.loadLangConfig();
-                ConfigUtil.loadRaceConfig();
+                ConfigUtil.init();
                 sender.sendMessage(BaseUtil.getLangMsg("reloadMsg"));
             }
         }.runTaskAsynchronously(PlayerRace.getInstance());

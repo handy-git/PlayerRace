@@ -72,6 +72,7 @@ public class GhoulEventListener implements Listener {
                 if (rst) {
                     player.getInventory().addItem(RaceUtil.getRaceHelpBook(RaceTypeEnum.GHOUL));
                     player.sendMessage(BaseUtil.getLangMsg("ghoul.succeedMsg"));
+                    RaceUtil.refreshCache(player);
                 }
             }
         }.runTaskAsynchronously(PlayerRace.getInstance());
@@ -159,7 +160,7 @@ public class GhoulEventListener implements Listener {
                     return;
                 }
                 Player entityPlayer = (Player) entity;
-                int amount = ConfigUtil.raceConfig.getInt("ghoul.absorptionValue");
+                int amount = ConfigUtil.RACE_CONFIG.getInt("ghoul.absorptionValue");
                 RacePlayerService.getInstance().updateSubtract(entityPlayer.getName(), amount);
 
                 String absorptionMsg = BaseUtil.getLangMsg("ghoul.absorptionMsg");
@@ -194,7 +195,7 @@ public class GhoulEventListener implements Listener {
             return;
         }
 
-        int amount = ConfigUtil.raceConfig.getInt("ghoul.summonPigZombie");
+        int amount = ConfigUtil.RACE_CONFIG.getInt("ghoul.summonPigZombie");
         Boolean rst = RacePlayerService.getInstance().updateSubtract(player.getName(), amount);
         if (!rst) {
             MessageApi.sendActionbar(player, RaceUtil.getEnergyShortageMsg(amount));
@@ -264,7 +265,7 @@ public class GhoulEventListener implements Listener {
             return;
         }
 
-        int amount = ConfigUtil.raceConfig.getInt("ghoul.curse");
+        int amount = ConfigUtil.RACE_CONFIG.getInt("ghoul.curse");
         Boolean rst = RacePlayerService.getInstance().updateSubtract(player.getName(), amount);
         if (!rst) {
             MessageApi.sendActionbar(player, RaceUtil.getEnergyShortageMsg(amount));
@@ -280,7 +281,7 @@ public class GhoulEventListener implements Listener {
 
         RaceConstants.PLAYER_CURSES.add(new PlayerCursesParam(playerEntity, playerEntity.getName(), System.currentTimeMillis(), RaceTypeEnum.GHOUL));
 
-        int curseSecond = ConfigUtil.raceConfig.getInt("ghoul.curseSecond");
+        int curseSecond = ConfigUtil.RACE_CONFIG.getInt("ghoul.curseSecond");
         String diaupMsg = BaseUtil.getLangMsg("ghoul.curseMsg");
         diaupMsg = diaupMsg.replace("${time}", curseSecond + "");
         MessageApi.sendActionbar(playerEntity, BaseUtil.replaceChatColor(diaupMsg));

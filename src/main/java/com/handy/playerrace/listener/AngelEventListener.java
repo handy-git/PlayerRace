@@ -88,6 +88,7 @@ public class AngelEventListener implements Listener {
                 if (rst) {
                     player.getInventory().addItem(RaceUtil.getRaceHelpBook(RaceTypeEnum.ANGEL));
                     player.sendMessage(BaseUtil.getLangMsg("angel.succeedMsg"));
+                    RaceUtil.refreshCache(player);
                 }
             }
         }.runTaskAsynchronously(PlayerRace.getInstance());
@@ -127,7 +128,7 @@ public class AngelEventListener implements Listener {
             return;
         }
 
-        int amount = ConfigUtil.raceConfig.getInt("angel.diaup");
+        int amount = ConfigUtil.RACE_CONFIG.getInt("angel.diaup");
         Boolean rst = RacePlayerService.getInstance().updateSubtract(player.getName(), amount);
         if (!rst) {
             MessageApi.sendActionbar(player, RaceUtil.getEnergyShortageMsg(amount));
@@ -378,10 +379,10 @@ public class AngelEventListener implements Listener {
 
         int amount = 0;
         if (Material.WHEAT.equals(material)) {
-            amount = ConfigUtil.raceConfig.getInt("angel.summonCow");
+            amount = ConfigUtil.RACE_CONFIG.getInt("angel.summonCow");
         }
         if (carrotMaterial.equals(material)) {
-            amount = ConfigUtil.raceConfig.getInt("angel.summonPig");
+            amount = ConfigUtil.RACE_CONFIG.getInt("angel.summonPig");
         }
         Boolean rst = RacePlayerService.getInstance().updateSubtract(player.getName(), amount);
         if (!rst) {
@@ -452,7 +453,7 @@ public class AngelEventListener implements Listener {
 
         event.setCancelled(true);
 
-        int amount = ConfigUtil.raceConfig.getInt("angel.returnValue");
+        int amount = ConfigUtil.RACE_CONFIG.getInt("angel.returnValue");
         Boolean rst = RacePlayerService.getInstance().updateSubtract(player.getName(), amount);
         if (!rst) {
             MessageApi.sendActionbar(player, RaceUtil.getEnergyShortageMsg(amount));
@@ -466,7 +467,7 @@ public class AngelEventListener implements Listener {
             player.getInventory().remove(item);
         }
 
-        int returnAmount = ConfigUtil.raceConfig.getInt("angel.returnAmount");
+        int returnAmount = ConfigUtil.RACE_CONFIG.getInt("angel.returnAmount");
         RacePlayerService.getInstance().updateAdd(playerEntity.getName(), returnAmount);
 
         String returnValueMsg = BaseUtil.getLangMsg("angel.returnValueMsg");
@@ -522,7 +523,7 @@ public class AngelEventListener implements Listener {
 
         event.setCancelled(true);
 
-        int amount = ConfigUtil.raceConfig.getInt("angel.returnHealth");
+        int amount = ConfigUtil.RACE_CONFIG.getInt("angel.returnHealth");
         Boolean rst = RacePlayerService.getInstance().updateSubtract(player.getName(), amount);
         if (!rst) {
             MessageApi.sendActionbar(player, RaceUtil.getEnergyShortageMsg(amount));
@@ -536,7 +537,7 @@ public class AngelEventListener implements Listener {
             player.getInventory().remove(item);
         }
 
-        int returnHealthAmount = ConfigUtil.raceConfig.getInt("angel.returnHealthAmount");
+        int returnHealthAmount = ConfigUtil.RACE_CONFIG.getInt("angel.returnHealthAmount");
         double health = playerEntity.getHealth();
         double newHealTh = health + returnHealthAmount;
         if (newHealTh > playerEntity.getMaxHealth()) {

@@ -25,15 +25,15 @@ import java.util.List;
  * @author handy
  */
 public final class PlayerRace extends JavaPlugin {
-    private static PlayerRace instance;
-    private static ResidenceApi resApi;
+    private static PlayerRace INSTANCE;
+    private static ResidenceApi RES_API;
 
     @Override
     public void onEnable() {
-        instance = this;
+        INSTANCE = this;
         InitApi initApi = InitApi.getInstance(this);
         // 加载配置文件
-        ConfigUtil.enableConfig();
+        ConfigUtil.init();
         // 加载数据库
         StorageApi.enableSql();
         RacePlayerService.getInstance().create();
@@ -62,7 +62,7 @@ public final class PlayerRace extends JavaPlugin {
         RaceUtil.registerCompound();
 
         // 初始化
-        initApi.checkVersion(ConfigUtil.config.getBoolean(BaseConstants.IS_CHECK_UPDATE), RaceConstants.CHECK_VERSION_URL)
+        initApi.checkVersion(ConfigUtil.CONFIG.getBoolean(BaseConstants.IS_CHECK_UPDATE), RaceConstants.CHECK_VERSION_URL)
                 .initCommand("com.handy.playerrace.command")
                 .initSubCommand("com.handy.playerrace.command")
                 .initListener("com.handy.playerrace.listener")
@@ -81,11 +81,11 @@ public final class PlayerRace extends JavaPlugin {
     }
 
     public static PlayerRace getInstance() {
-        return instance;
+        return INSTANCE;
     }
 
     public static ResidenceApi getResidenceApi() {
-        return resApi;
+        return RES_API;
     }
 
     /**
@@ -109,7 +109,7 @@ public final class PlayerRace extends JavaPlugin {
                 getLogger().info(BaseUtil.getLangMsg("ResidenceFailureMsg"));
                 return;
             }
-            resApi = Residence.getInstance().getAPI();
+            RES_API = Residence.getInstance().getAPI();
             getLogger().info(BaseUtil.getLangMsg("ResidenceSucceedMsg"));
             return;
         }

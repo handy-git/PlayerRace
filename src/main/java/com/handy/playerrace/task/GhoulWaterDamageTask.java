@@ -40,7 +40,7 @@ public class GhoulWaterDamageTask {
                     if (!Material.WATER.equals(material)) {
                         continue;
                     }
-                    int waterDamage = ConfigUtil.raceConfig.getInt("ghoul.waterDamage");
+                    int waterDamage = ConfigUtil.RACE_CONFIG.getInt("ghoul.waterDamage");
 
                     double health = player.getHealth() - waterDamage;
                     if (health < 0) {

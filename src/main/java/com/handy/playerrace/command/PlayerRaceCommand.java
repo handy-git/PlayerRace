@@ -58,7 +58,7 @@ public class PlayerRaceCommand implements TabExecutor {
             return true;
         }
 
-        List<String> helps = ConfigUtil.langConfig.getStringList("helps");
+        List<String> helps = ConfigUtil.LANG_CONFIG.getStringList("helps");
         for (String help : helps) {
             sender.sendMessage(BaseUtil.replaceChatColor(help));
         }

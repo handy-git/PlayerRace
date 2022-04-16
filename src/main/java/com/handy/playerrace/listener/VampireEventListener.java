@@ -53,7 +53,7 @@ public class VampireEventListener implements Listener {
             return;
         }
         //注意：这里从0算起
-        int anInt = ConfigUtil.raceConfig.getInt("vampire.dropRate");
+        int anInt = ConfigUtil.RACE_CONFIG.getInt("vampire.dropRate");
         if (anInt == 0) {
             return;
         }
@@ -94,7 +94,7 @@ public class VampireEventListener implements Listener {
                 }
                 // 判断是否已经是吸血鬼了
                 if (RaceTypeEnum.VAMPIRE.getType().equals(racePlayer.getRaceType())) {
-                    RaceUtil.restoreEnergy(player, RaceTypeEnum.VAMPIRE, ConfigUtil.raceConfig.getInt("vampire.cainBlood"));
+                    RaceUtil.restoreEnergy(player, RaceTypeEnum.VAMPIRE, ConfigUtil.RACE_CONFIG.getInt("vampire.cainBlood"));
                     return;
                 }
                 // 判断是否为第一只吸血鬼
@@ -107,6 +107,7 @@ public class VampireEventListener implements Listener {
                 if (rst) {
                     player.sendMessage(BaseUtil.getLangMsg("vampire.ancestorSucceedMsg"));
                     player.getInventory().addItem(RaceUtil.getRaceHelpBook(RaceTypeEnum.VAMPIRE));
+                    RaceUtil.refreshCache(player);
                 }
 
             }
@@ -150,6 +151,7 @@ public class VampireEventListener implements Listener {
                     String langMsg = BaseUtil.getLangMsg("vampire.succeedPlayerMsg");
                     langMsg = langMsg.replace("${player}", player.getName() + "");
                     MessageApi.sendActionbar(player, langMsg);
+                    RaceUtil.refreshCache(player);
                 }
             }
         }.runTaskAsynchronously(PlayerRace.getInstance());
@@ -176,12 +178,12 @@ public class VampireEventListener implements Listener {
         }
 
         // 伤害倍数
-        double damageModifier = ConfigUtil.raceConfig.getDouble("vampire.damage");
+        double damageModifier = ConfigUtil.RACE_CONFIG.getDouble("vampire.damage");
 
         // 转换天数
         int differDay = DateUtil.getDifferDay(racePlayer.getTransferTime());
         if (differDay > 0) {
-            double transferTime = ConfigUtil.raceConfig.getDouble("vampire.transferTime" + differDay);
+            double transferTime = ConfigUtil.RACE_CONFIG.getDouble("vampire.transferTime" + differDay);
             if (transferTime > 0) {
                 damageModifier = (int) Math.ceil(damageModifier * transferTime);
             }
@@ -227,19 +229,19 @@ public class VampireEventListener implements Listener {
             }
             if (Material.valueOf(material).equals(itemInHand.getType())) {
                 // 被木剑伤害增加倍数
-                double damageModifier = ConfigUtil.raceConfig.getDouble("vampire.woodenSwordDamageMultiplier");
+                double damageModifier = ConfigUtil.RACE_CONFIG.getDouble("vampire.woodenSwordDamageMultiplier");
                 event.setDamage(event.getDamage() + damageModifier);
                 return;
             }
         }
 
         // 伤害减少倍数
-        double damageModifier = ConfigUtil.raceConfig.getDouble("vampire.defenseBonus");
+        double damageModifier = ConfigUtil.RACE_CONFIG.getDouble("vampire.defenseBonus");
 
         // 转换天数
         int differDay = DateUtil.getDifferDay(racePlayer.getTransferTime());
         if (differDay > 0) {
-            double transferTime = ConfigUtil.raceConfig.getDouble("vampire.transferTime" + differDay);
+            double transferTime = ConfigUtil.RACE_CONFIG.getDouble("vampire.transferTime" + differDay);
             if (transferTime > 0) {
                 damageModifier = (int) Math.ceil(damageModifier * transferTime);
             }
@@ -272,13 +274,13 @@ public class VampireEventListener implements Listener {
 
         int amount = 0;
         if (livingEntity instanceof Player) {
-            amount = ConfigUtil.raceConfig.getInt("vampire.killPlayer");
+            amount = ConfigUtil.RACE_CONFIG.getInt("vampire.killPlayer");
         }
         if (livingEntity instanceof Monster) {
-            amount = ConfigUtil.raceConfig.getInt("vampire.killMonster");
+            amount = ConfigUtil.RACE_CONFIG.getInt("vampire.killMonster");
         }
         if (livingEntity instanceof Animals) {
-            amount = ConfigUtil.raceConfig.getInt("vampire.killAnimals");
+            amount = ConfigUtil.RACE_CONFIG.getInt("vampire.killAnimals");
         }
         RaceUtil.restoreEnergy(player, RaceTypeEnum.VAMPIRE, amount);
     }
@@ -306,7 +308,7 @@ public class VampireEventListener implements Listener {
         if (racePlayer == null) {
             return;
         }
-        event.setAmount(event.getAmount() + ConfigUtil.raceConfig.getInt("vampire.regainHealth"));
+        event.setAmount(event.getAmount() + ConfigUtil.RACE_CONFIG.getInt("vampire.regainHealth"));
     }
 
 
@@ -334,7 +336,7 @@ public class VampireEventListener implements Listener {
         if (racePlayer == null) {
             return;
         }
-        event.setDamage(event.getDamage() - ConfigUtil.raceConfig.getInt("vampire.drowning"));
+        event.setDamage(event.getDamage() - ConfigUtil.RACE_CONFIG.getInt("vampire.drowning"));
     }
 
     /**
@@ -385,12 +387,12 @@ public class VampireEventListener implements Listener {
         }
         // 判断物品是否配置过可使用
         ItemStack itemStack = event.getItem();
-        List<String> itemMaterialList = ConfigUtil.raceConfig.getStringList("vampire.itemMaterial");
-        if (CollUtil.isNotEmpty(itemMaterialList)){
+        List<String> itemMaterialList = ConfigUtil.RACE_CONFIG.getStringList("vampire.itemMaterial");
+        if (CollUtil.isNotEmpty(itemMaterialList)) {
             for (String itemMaterial : itemMaterialList) {
-                 if (itemStack.getType().name().equalsIgnoreCase(itemMaterial)){
-                     return;
-                 }
+                if (itemStack.getType().name().equalsIgnoreCase(itemMaterial)) {
+                    return;
+                }
             }
         }
         // 判断不是孟婆汤
@@ -498,7 +500,7 @@ public class VampireEventListener implements Listener {
             }
         }
 
-        int amount = ConfigUtil.raceConfig.getInt("vampire.hematophagia");
+        int amount = ConfigUtil.RACE_CONFIG.getInt("vampire.hematophagia");
         Boolean rst = RacePlayerService.getInstance().updateSubtract(player.getName(), amount);
         if (!rst) {
             MessageApi.sendActionbar(player, RaceUtil.getEnergyShortageMsg(amount));
@@ -513,7 +515,7 @@ public class VampireEventListener implements Listener {
         }
 
         // 进行吸血
-        int hematophagiaNum = ConfigUtil.raceConfig.getInt("vampire.hematophagiaNum");
+        int hematophagiaNum = ConfigUtil.RACE_CONFIG.getInt("vampire.hematophagiaNum");
 
         // 目标剩余生命值
         double health = entity.getHealth() - hematophagiaNum;

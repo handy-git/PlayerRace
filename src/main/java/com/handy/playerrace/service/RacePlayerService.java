@@ -290,23 +290,23 @@ public class RacePlayerService {
         int maxAmount = 0;
         switch (raceTypeEnum) {
             case WER_WOLF:
-                maxAmount = ConfigUtil.raceConfig.getInt("werwolf.maxAmount");
+                maxAmount = ConfigUtil.RACE_CONFIG.getInt("werwolf.maxAmount");
                 break;
             case VAMPIRE:
-                maxAmount = ConfigUtil.raceConfig.getInt("vampire.maxAmount");
-                maxAmount = (int) Math.ceil(maxAmount * ConfigUtil.raceConfig.getDouble("vampire.energyMultiple" + "." + raceLevel));
+                maxAmount = ConfigUtil.RACE_CONFIG.getInt("vampire.maxAmount");
+                maxAmount = (int) Math.ceil(maxAmount * ConfigUtil.RACE_CONFIG.getDouble("vampire.energyMultiple" + "." + raceLevel));
                 break;
             case DEMON:
-                maxAmount = ConfigUtil.raceConfig.getInt("demon.maxAmount");
+                maxAmount = ConfigUtil.RACE_CONFIG.getInt("demon.maxAmount");
                 break;
             case ANGEL:
-                maxAmount = ConfigUtil.raceConfig.getInt("angel.maxAmount");
+                maxAmount = ConfigUtil.RACE_CONFIG.getInt("angel.maxAmount");
                 break;
             case GHOUL:
-                maxAmount = ConfigUtil.raceConfig.getInt("ghoul.maxAmount");
+                maxAmount = ConfigUtil.RACE_CONFIG.getInt("ghoul.maxAmount");
                 break;
             case DEMON_HUNTER:
-                maxAmount = ConfigUtil.raceConfig.getInt("demonHunter.maxAmount");
+                maxAmount = ConfigUtil.RACE_CONFIG.getInt("demonHunter.maxAmount");
                 break;
             default:
                 break;

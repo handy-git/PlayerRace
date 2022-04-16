@@ -83,6 +83,7 @@ public class DemonHunterEventListener implements Listener {
                         killer.sendMessage(BaseUtil.getLangMsg("mankind.killMsg"));
                     }
                 }
+                RaceUtil.refreshCache(player);
             }
         }.runTaskAsynchronously(PlayerRace.getInstance());
     }
@@ -130,10 +131,10 @@ public class DemonHunterEventListener implements Listener {
 
         switch (demonHunterBowTypeEnum) {
             case STRENGTH:
-                event.setDamage(event.getDamage() + ConfigUtil.raceConfig.getInt("demonHunter.strengthDamage"));
+                event.setDamage(event.getDamage() + ConfigUtil.RACE_CONFIG.getInt("demonHunter.strengthDamage"));
                 break;
             case FIRE:
-                entity.setFireTicks(20 * ConfigUtil.raceConfig.getInt("demonHunter.fireTime"));
+                entity.setFireTicks(20 * ConfigUtil.RACE_CONFIG.getInt("demonHunter.fireTime"));
                 break;
             case WEB:
                 // 召唤蜘蛛网
@@ -189,7 +190,7 @@ public class DemonHunterEventListener implements Listener {
             @Override
             public void run() {
 
-                int amount = ConfigUtil.raceConfig.getInt("demonHunter.cutBow");
+                int amount = ConfigUtil.RACE_CONFIG.getInt("demonHunter.cutBow");
                 Boolean rst = RacePlayerService.getInstance().updateSubtract(player.getName(), amount);
                 if (!rst) {
                     MessageApi.sendActionbar(player, RaceUtil.getEnergyShortageMsg(amount));

@@ -62,6 +62,28 @@ public class RaceUtil {
     }
 
     /**
+     * 刷新缓存
+     *
+     * @param playerName 玩家名称
+     * @since 1.2.9
+     */
+    public static void refreshCache(String playerName) {
+        RaceConstants.PLAYER_RACE.put(playerName, RacePlayerService.getInstance().findByPlayerName(playerName));
+    }
+
+    /**
+     * 刷新缓存
+     *
+     * @param player 玩家
+     * @since 1.2.9
+     */
+    public static void refreshCache(Player player) {
+        if (player != null && player.isOnline()) {
+            refreshCache(player.getName());
+        }
+    }
+
+    /**
      * 能量不足
      *
      * @param amount 消耗值
@@ -71,7 +93,7 @@ public class RaceUtil {
         Map<String, String> map = new HashMap<>();
         map.put("amount", amount.toString());
 
-        String actionBarMsg = ConfigUtil.langConfig.getString("energyShortageMsg");
+        String actionBarMsg = ConfigUtil.LANG_CONFIG.getString("energyShortageMsg");
         if (actionBarMsg == null || "".equals(actionBarMsg)) {
             return "";
         }
@@ -97,13 +119,13 @@ public class RaceUtil {
                 if (racePlayer == null || !raceTypeEnum.getType().equals(racePlayer.getRaceType())) {
                     return;
                 }
-                int maxFatigue = ConfigUtil.config.getInt("maxFatigue");
+                int maxFatigue = ConfigUtil.CONFIG.getInt("maxFatigue");
                 if (racePlayer.getMaxAmount() != null && racePlayer.getMaxAmount() != 0) {
                     maxFatigue = racePlayer.getMaxAmount();
                 }
                 // 吸血鬼计算最大值
                 if (RaceTypeEnum.VAMPIRE.getType().equals(racePlayer.getRaceType())) {
-                    double energyDiscount = ConfigUtil.raceConfig.getDouble("vampire.energyDiscount" + racePlayer.getRaceLevel());
+                    double energyDiscount = ConfigUtil.RACE_CONFIG.getDouble("vampire.energyDiscount" + racePlayer.getRaceLevel());
                     if (energyDiscount > 0) {
                         maxFatigue = (int) Math.ceil(maxFatigue * energyDiscount);
                     }
@@ -118,7 +140,7 @@ public class RaceUtil {
                 }
                 Boolean rst = RacePlayerService.getInstance().updateAdd(player.getName(), num);
                 if (rst) {
-                    String restoreEnergyMsg = ConfigUtil.langConfig.getString("restoreEnergyMsg");
+                    String restoreEnergyMsg = ConfigUtil.LANG_CONFIG.getString("restoreEnergyMsg");
                     if (StrUtil.isNotEmpty(restoreEnergyMsg)) {
                         restoreEnergyMsg = restoreEnergyMsg.replace("${amount}", amount + "");
                     }
@@ -186,10 +208,10 @@ public class RaceUtil {
         if (itemMeta == null) {
             return itemStack;
         }
-        String name = ConfigUtil.raceConfig.getString("mankind.name");
+        String name = ConfigUtil.RACE_CONFIG.getString("mankind.name");
         itemMeta.setDisplayName(BaseUtil.replaceChatColor(name != null ? name : ""));
         List<String> lores = new ArrayList<>();
-        List<String> loreList = ConfigUtil.raceConfig.getStringList("mankind.lores");
+        List<String> loreList = ConfigUtil.RACE_CONFIG.getStringList("mankind.lores");
         for (String lore : loreList) {
             lores.add(BaseUtil.replaceChatColor(lore));
         }
@@ -266,10 +288,10 @@ public class RaceUtil {
         if (itemMeta == null) {
             return itemStack;
         }
-        String name = ConfigUtil.raceConfig.getString("vampire.name");
+        String name = ConfigUtil.RACE_CONFIG.getString("vampire.name");
         itemMeta.setDisplayName(BaseUtil.replaceChatColor(name != null ? name : ""));
         List<String> lores = new ArrayList<>();
-        List<String> loreList = ConfigUtil.raceConfig.getStringList("vampire.lores");
+        List<String> loreList = ConfigUtil.RACE_CONFIG.getStringList("vampire.lores");
         for (String lore : loreList) {
             lores.add(BaseUtil.replaceChatColor(lore));
         }
