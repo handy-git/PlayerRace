@@ -5,6 +5,7 @@ import com.handy.lib.util.BaseUtil;
 import com.handy.playerrace.PlayerRace;
 import com.handy.playerrace.constants.RaceTypeEnum;
 import com.handy.playerrace.service.RacePlayerService;
+import com.handy.playerrace.util.RaceUtil;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -43,6 +44,7 @@ public class SetRaceCommand implements IHandyCommandEvent {
                 Boolean rst = RacePlayerService.getInstance().updateRaceType(args[1], args[2], 0);
                 if (rst) {
                     sender.sendMessage(BaseUtil.getLangMsg("succeedMsg"));
+                    RaceUtil.refreshCache(args[1]);
                 } else {
                     sender.sendMessage(BaseUtil.getLangMsg("failureMsg"));
                 }
