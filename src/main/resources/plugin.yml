@@ -1,18 +1,18 @@
 name: PlayerRace
-version: 1.2.9
+version: 1.3.0
 main: com.handy.playerrace.PlayerRace
 api-version: 1.13
 website: https://handy-git.gitee.io/rice-doc/#/PlayerRace/zh_CN/log
 author: handy
 description: 一款有点好用的超自然种族插件
-softdepend: [Residence,PlaceholderAPI]
+softdepend: [ Residence,PlaceholderAPI ]
 commands:
   playerrace:
-    description: §a超自然种族插件
-    aliases: [plr]
+    description: 超自然种族插件
+    aliases: [ plr ]
 permissions:
   playerrace.*:
-    description: §a超自然种族插件
+    description: 超自然种族插件
     children:
       playerrace.reload: true
       playerrace.setrace: true
@@ -21,20 +21,20 @@ permissions:
       playerrace.findcount: true
       playerrace.findrace: true
   playerrace.reload:
-    description: §a重载插件
+    description: 重载插件
     default: op
   playerrace.setrace:
-    description: §a设置玩家种族
+    description: 设置玩家种族
     default: op
   playerrace.gethelpbook:
-    description: §a获取玩家种族帮助之书
+    description: 获取玩家种族帮助之书
     default: true
   playerrace.getmengborneosoup:
-    description: §a获取孟婆汤
+    description: 获取孟婆汤
     default: op
   playerrace.findcount:
-    description: §a获取对应种族的玩家数量
+    description: 获取对应种族的玩家数量
     default: op
   playerrace.findrace:
-    description: §a获取玩家的种族
+    description: 获取玩家的种族
     default: op

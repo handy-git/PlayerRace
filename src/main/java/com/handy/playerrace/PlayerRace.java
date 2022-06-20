@@ -3,12 +3,10 @@ package com.handy.playerrace;
 import com.bekvon.bukkit.residence.Residence;
 import com.bekvon.bukkit.residence.api.ResidenceApi;
 import com.handy.lib.InitApi;
-import com.handy.lib.api.StorageApi;
 import com.handy.lib.constants.BaseConstants;
 import com.handy.lib.util.BaseUtil;
 import com.handy.lib.util.SqlManagerUtil;
 import com.handy.playerrace.constants.RaceConstants;
-import com.handy.playerrace.service.RacePlayerService;
 import com.handy.playerrace.task.TaskManage;
 import com.handy.playerrace.util.ConfigUtil;
 import com.handy.playerrace.util.PlaceholderUtil;
@@ -34,9 +32,6 @@ public final class PlayerRace extends JavaPlugin {
         InitApi initApi = InitApi.getInstance(this);
         // 加载配置文件
         ConfigUtil.init();
-        // 加载数据库
-        StorageApi.enableSql();
-        RacePlayerService.getInstance().create();
 
         // 加载PlaceholderApi
         this.loadPlaceholder();
@@ -63,6 +58,7 @@ public final class PlayerRace extends JavaPlugin {
 
         // 初始化
         initApi.checkVersion(ConfigUtil.CONFIG.getBoolean(BaseConstants.IS_CHECK_UPDATE), RaceConstants.CHECK_VERSION_URL)
+                .enableSql("com.handy.playerrace.entity")
                 .initCommand("com.handy.playerrace.command")
                 .initSubCommand("com.handy.playerrace.command")
                 .initListener("com.handy.playerrace.listener")

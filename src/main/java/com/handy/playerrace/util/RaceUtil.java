@@ -138,7 +138,7 @@ public class RaceUtil {
                 if (racePlayer.getAmount() + amount > maxFatigue) {
                     num = maxFatigue - racePlayer.getAmount();
                 }
-                Boolean rst = RacePlayerService.getInstance().updateAdd(player.getName(), num);
+                boolean rst = RacePlayerService.getInstance().updateAdd(player.getName(), num);
                 if (rst) {
                     String restoreEnergyMsg = ConfigUtil.LANG_CONFIG.getString("restoreEnergyMsg");
                     if (StrUtil.isNotEmpty(restoreEnergyMsg)) {

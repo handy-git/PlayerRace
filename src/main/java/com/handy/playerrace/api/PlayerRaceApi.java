@@ -67,4 +67,26 @@ public class PlayerRaceApi {
         }.runTaskAsynchronously(PlayerRace.getInstance());
     }
 
+    /**
+     * 查询种族类型
+     *
+     * @param playerName 玩家名
+     * @return 种族类型
+     * @since 1.3.0
+     */
+    public String findRaceType(String playerName) {
+        return RacePlayerService.getInstance().findRaceType(playerName);
+    }
+
+    /**
+     * 查询种族名称
+     *
+     * @param playerName 玩家名
+     * @return 种族名称
+     * @since 1.3.0
+     */
+    public String findRaceTypeName(String playerName) {
+        return RaceTypeEnum.getTypeName(this.findRaceType(playerName));
+    }
+
 }
