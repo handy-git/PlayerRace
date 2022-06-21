@@ -96,7 +96,7 @@ public class RacePlayerService {
      */
     public synchronized boolean updateSubtract(String playerName, Integer amount) {
         RacePlayer racePlayer = this.findByPlayerName(playerName);
-        if (racePlayer.getAmount() + amount > racePlayer.getMaxAmount()) {
+        if (racePlayer.getAmount() - amount < 0) {
             return false;
         }
         Db<RacePlayer> use = Db.use(RacePlayer.class);
