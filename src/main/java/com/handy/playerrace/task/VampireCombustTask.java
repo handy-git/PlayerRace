@@ -27,11 +27,11 @@ public class VampireCombustTask {
             public void run() {
                 for (Player player : Bukkit.getOnlinePlayers()) {
                     if (player.getFireTicks() > 0) {
-                        return;
+                        continue;
                     }
                     // 判断是否为吸血鬼
                     if (!RaceUtil.isRaceType(RaceTypeEnum.VAMPIRE, player.getName())) {
-                        return;
+                        continue;
                     }
 
                     // 判断是否为普通世界白天并且为晴天
