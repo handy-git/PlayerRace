@@ -1,7 +1,7 @@
 package com.handy.playerrace.command.admin;
 
-import com.handy.lib.command.IHandyCommandEvent;
-import com.handy.lib.util.BaseUtil;
+import cn.handyplus.lib.command.IHandyCommandEvent;
+import cn.handyplus.lib.util.BaseUtil;
 import com.handy.playerrace.PlayerRace;
 import com.handy.playerrace.util.RaceUtil;
 import org.bukkit.command.Command;

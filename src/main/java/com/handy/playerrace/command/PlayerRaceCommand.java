@@ -1,8 +1,8 @@
 package com.handy.playerrace.command;
 
-import com.handy.lib.annotation.HandyCommand;
-import com.handy.lib.command.HandyCommandFactory;
-import com.handy.lib.util.BaseUtil;
+import cn.handyplus.lib.annotation.HandyCommand;
+import cn.handyplus.lib.command.HandyCommandFactory;
+import cn.handyplus.lib.util.BaseUtil;
 import com.handy.playerrace.constants.TabListEnum;
 import com.handy.playerrace.util.ConfigUtil;
 import org.bukkit.command.Command;

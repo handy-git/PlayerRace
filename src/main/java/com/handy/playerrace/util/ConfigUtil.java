@@ -1,7 +1,7 @@
 package com.handy.playerrace.util;
 
-import com.handy.lib.api.LangMsgApi;
-import com.handy.lib.util.HandyConfigUtil;
+import cn.handyplus.lib.api.LangMsgApi;
+import cn.handyplus.lib.util.HandyConfigUtil;
 import org.bukkit.configuration.file.FileConfiguration;
 
 /**

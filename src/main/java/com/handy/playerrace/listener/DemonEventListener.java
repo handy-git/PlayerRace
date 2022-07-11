@@ -1,11 +1,11 @@
 package com.handy.playerrace.listener;
 
+import cn.handyplus.lib.annotation.HandyListener;
+import cn.handyplus.lib.api.MessageApi;
+import cn.handyplus.lib.constants.VersionCheckEnum;
+import cn.handyplus.lib.util.BaseUtil;
 import com.bekvon.bukkit.residence.Residence;
 import com.bekvon.bukkit.residence.protection.ClaimedResidence;
-import com.handy.lib.annotation.HandyListener;
-import com.handy.lib.api.MessageApi;
-import com.handy.lib.constants.VersionCheckEnum;
-import com.handy.lib.util.BaseUtil;
 import com.handy.playerrace.PlayerRace;
 import com.handy.playerrace.constants.RaceConstants;
 import com.handy.playerrace.constants.RaceTypeEnum;

@@ -1,6 +1,6 @@
 package com.handy.playerrace.constants;
 
-import com.handy.lib.util.BaseUtil;
+import cn.handyplus.lib.util.BaseUtil;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

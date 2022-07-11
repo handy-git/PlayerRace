@@ -1,11 +1,11 @@
 package com.handy.playerrace;
 
+import cn.handyplus.lib.InitApi;
+import cn.handyplus.lib.constants.BaseConstants;
+import cn.handyplus.lib.util.BaseUtil;
+import cn.handyplus.lib.util.SqlManagerUtil;
 import com.bekvon.bukkit.residence.Residence;
 import com.bekvon.bukkit.residence.api.ResidenceApi;
-import com.handy.lib.InitApi;
-import com.handy.lib.constants.BaseConstants;
-import com.handy.lib.util.BaseUtil;
-import com.handy.lib.util.SqlManagerUtil;
 import com.handy.playerrace.constants.RaceConstants;
 import com.handy.playerrace.task.TaskManage;
 import com.handy.playerrace.util.ConfigUtil;
@@ -60,7 +60,6 @@ public final class PlayerRace extends JavaPlugin {
         initApi.checkVersion(ConfigUtil.CONFIG.getBoolean(BaseConstants.IS_CHECK_UPDATE), RaceConstants.CHECK_VERSION_URL)
                 .enableSql("com.handy.playerrace.entity")
                 .initCommand("com.handy.playerrace.command")
-                .initSubCommand("com.handy.playerrace.command")
                 .initListener("com.handy.playerrace.listener")
                 .addMetrics(8605);
 

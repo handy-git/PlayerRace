@@ -1,7 +1,7 @@
 package com.handy.playerrace.entity;
 
-import com.handy.lib.annotation.TableField;
-import com.handy.lib.annotation.TableName;
+import cn.handyplus.lib.annotation.TableField;
+import cn.handyplus.lib.annotation.TableName;
 import lombok.Data;
 
 /**

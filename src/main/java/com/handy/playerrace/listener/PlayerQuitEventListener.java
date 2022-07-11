@@ -1,6 +1,6 @@
 package com.handy.playerrace.listener;
 
-import com.handy.lib.annotation.HandyListener;
+import cn.handyplus.lib.annotation.HandyListener;
 import com.handy.playerrace.constants.RaceConstants;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

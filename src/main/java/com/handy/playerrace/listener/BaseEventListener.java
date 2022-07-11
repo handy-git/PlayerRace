@@ -1,7 +1,7 @@
 package com.handy.playerrace.listener;
 
-import com.handy.lib.annotation.HandyListener;
-import com.handy.lib.util.BaseUtil;
+import cn.handyplus.lib.annotation.HandyListener;
+import cn.handyplus.lib.util.BaseUtil;
 import com.handy.playerrace.constants.RaceTypeEnum;
 import com.handy.playerrace.service.RacePlayerService;
 import com.handy.playerrace.util.ConfigUtil;

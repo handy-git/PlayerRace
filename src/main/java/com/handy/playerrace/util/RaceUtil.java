@@ -1,10 +1,10 @@
 package com.handy.playerrace.util;
 
-import com.handy.lib.api.MessageApi;
-import com.handy.lib.constants.VersionCheckEnum;
-import com.handy.lib.core.StrUtil;
-import com.handy.lib.util.BaseUtil;
-import com.handy.lib.util.ItemStackUtil;
+import cn.handyplus.lib.api.MessageApi;
+import cn.handyplus.lib.constants.VersionCheckEnum;
+import cn.handyplus.lib.core.StrUtil;
+import cn.handyplus.lib.util.BaseUtil;
+import cn.handyplus.lib.util.ItemStackUtil;
 import com.handy.playerrace.PlayerRace;
 import com.handy.playerrace.constants.RaceConstants;
 import com.handy.playerrace.constants.RaceTypeEnum;
