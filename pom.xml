@@ -70,7 +70,7 @@
                     <createDependencyReducedPom>false</createDependencyReducedPom>
                     <artifactSet>
                         <includes>
-                            <include>com.handy.lib:*:*:*</include>
+                            <include>cn.handyplus.lib:*:*:*</include>
                         </includes>
                     </artifactSet>
                     <relocations>
