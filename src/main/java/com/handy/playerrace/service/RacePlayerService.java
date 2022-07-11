@@ -54,7 +54,7 @@ public class RacePlayerService {
      */
     public String findRaceType(String playerName) {
         RacePlayer racePlayer = this.findByPlayerName(playerName);
-        return racePlayer != null ? racePlayer.getPlayerName() : RaceTypeEnum.MANKIND.getType();
+        return racePlayer != null ? racePlayer.getRaceType() : RaceTypeEnum.MANKIND.getType();
     }
 
     /**

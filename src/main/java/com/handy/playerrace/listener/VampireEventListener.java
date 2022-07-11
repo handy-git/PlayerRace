@@ -6,6 +6,7 @@ import cn.handyplus.lib.constants.VersionCheckEnum;
 import cn.handyplus.lib.core.CollUtil;
 import cn.handyplus.lib.core.DateUtil;
 import cn.handyplus.lib.util.BaseUtil;
+import cn.handyplus.lib.util.ItemStackUtil;
 import com.bekvon.bukkit.residence.Residence;
 import com.bekvon.bukkit.residence.protection.ClaimedResidence;
 import com.handy.playerrace.PlayerRace;
@@ -222,12 +223,7 @@ public class VampireEventListener implements Listener {
         if (damager instanceof Player) {
             Player damagerPlayer = (Player) damager;
             ItemStack itemInHand = damagerPlayer.getItemInHand();
-
-            String material = "WOOD_SWORD";
-            if (VersionCheckEnum.getEnum().getVersionId() > VersionCheckEnum.V_1_12.getVersionId()) {
-                material = "WOODEN_SWORD";
-            }
-            if (Material.valueOf(material).equals(itemInHand.getType())) {
+            if (ItemStackUtil.getMaterial("WOODEN_SWORD").equals(itemInHand.getType())) {
                 // 被木剑伤害增加倍数
                 double damageModifier = ConfigUtil.RACE_CONFIG.getDouble("vampire.woodenSwordDamageMultiplier");
                 event.setDamage(event.getDamage() + damageModifier);
@@ -304,8 +300,7 @@ public class VampireEventListener implements Listener {
         Player player = (Player) entity;
 
         // 判断是否为吸血鬼
-        RacePlayer racePlayer = RaceUtil.isRaceTypeAndGetRace(RaceTypeEnum.VAMPIRE, player.getName());
-        if (racePlayer == null) {
+        if (!RaceUtil.isRaceType(RaceTypeEnum.VAMPIRE, player.getName())) {
             return;
         }
         event.setAmount(event.getAmount() + ConfigUtil.RACE_CONFIG.getInt("vampire.regainHealth"));
@@ -332,8 +327,7 @@ public class VampireEventListener implements Listener {
         }
 
         // 判断是否为吸血鬼
-        RacePlayer racePlayer = RaceUtil.isRaceTypeAndGetRace(RaceTypeEnum.VAMPIRE, player.getName());
-        if (racePlayer == null) {
+        if (!RaceUtil.isRaceType(RaceTypeEnum.VAMPIRE, player.getName())) {
             return;
         }
         event.setDamage(event.getDamage() - ConfigUtil.RACE_CONFIG.getInt("vampire.drowning"));
@@ -359,8 +353,7 @@ public class VampireEventListener implements Listener {
         }
 
         // 判断是否为吸血鬼
-        RacePlayer racePlayer = RaceUtil.isRaceTypeAndGetRace(RaceTypeEnum.VAMPIRE, player.getName());
-        if (racePlayer == null) {
+        if (!RaceUtil.isRaceType(RaceTypeEnum.VAMPIRE, player.getName())) {
             return;
         }
         event.setCancelled(true);
@@ -381,8 +374,7 @@ public class VampireEventListener implements Listener {
         Player player = event.getPlayer();
 
         // 判断是否为吸血鬼
-        RacePlayer racePlayer = RaceUtil.isRaceTypeAndGetRace(RaceTypeEnum.VAMPIRE, player.getName());
-        if (racePlayer == null) {
+        if (!RaceUtil.isRaceType(RaceTypeEnum.VAMPIRE, player.getName())) {
             return;
         }
         // 判断物品是否配置过可使用
@@ -445,8 +437,7 @@ public class VampireEventListener implements Listener {
         Player player = (Player) entity;
 
         // 判断是否为吸血鬼
-        RacePlayer racePlayer = RaceUtil.isRaceTypeAndGetRace(RaceTypeEnum.VAMPIRE, player.getName());
-        if (racePlayer == null) {
+        if (!RaceUtil.isRaceType(RaceTypeEnum.VAMPIRE, player.getName())) {
             return;
         }
         event.setCancelled(true);
@@ -469,8 +460,7 @@ public class VampireEventListener implements Listener {
         Player player = event.getPlayer();
 
         // 判断是否为吸血鬼
-        RacePlayer racePlayer = RaceUtil.isRaceTypeAndGetRace(RaceTypeEnum.VAMPIRE, player.getName());
-        if (racePlayer == null) {
+        if (!RaceUtil.isRaceType(RaceTypeEnum.VAMPIRE, player.getName())) {
             return;
         }
 

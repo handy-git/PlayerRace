@@ -1,13 +1,10 @@
 package com.handy.playerrace.task;
 
 import cn.handyplus.lib.api.MessageApi;
-import cn.handyplus.lib.constants.VersionCheckEnum;
 import cn.handyplus.lib.util.BaseUtil;
 import cn.handyplus.lib.util.ItemStackUtil;
 import com.handy.playerrace.PlayerRace;
 import com.handy.playerrace.constants.RaceTypeEnum;
-import com.handy.playerrace.entity.RacePlayer;
-import com.handy.playerrace.service.RacePlayerService;
 import com.handy.playerrace.util.RaceUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -33,19 +30,8 @@ public class VampireCombustTask {
                         return;
                     }
                     // 判断是否为吸血鬼
-                    if (RaceUtil.isRaceTypeAndGetRace(RaceTypeEnum.VAMPIRE, player.getName()) == null) {
+                    if (!RaceUtil.isRaceType(RaceTypeEnum.VAMPIRE, player.getName())) {
                         return;
-                    }
-
-                    // 判断是否为吸血鬼
-                    String raceType = RacePlayerService.getInstance().findRaceType(player.getName());
-                    if (!RaceTypeEnum.VAMPIRE.getType().equals(raceType)) {
-                        continue;
-                    }
-
-                    RacePlayer racePlayer = RacePlayerService.getInstance().findByPlayerName(player.getName());
-                    if (racePlayer == null || !RaceTypeEnum.VAMPIRE.getType().equals(racePlayer.getRaceType())) {
-                        continue;
                     }
 
                     // 判断是否为普通世界白天并且为晴天
@@ -59,13 +45,7 @@ public class VampireCombustTask {
                     }
                     // 判断带没有金头盔
                     ItemStack helmet = player.getInventory().getHelmet();
-
-                    Integer versionId = VersionCheckEnum.getEnum().getVersionId();
-                    String goldenHelmetStr = "GOLDEN_HELMET";
-                    if (versionId < VersionCheckEnum.V_1_13.getVersionId()) {
-                        goldenHelmetStr = "GOLD_HELMET";
-                    }
-                    if (helmet != null && ItemStackUtil.getMaterial(goldenHelmetStr).equals(helmet.getType())) {
+                    if (helmet != null && ItemStackUtil.getMaterial("GOLDEN_HELMET").equals(helmet.getType())) {
                         continue;
                     }
                     // 判断头顶是否有方块
@@ -78,4 +58,5 @@ public class VampireCombustTask {
             }
         }.runTaskTimerAsynchronously(PlayerRace.getInstance(), 0, 20);
     }
+
 }
