@@ -56,7 +56,8 @@ public class AngelEventListener implements Listener {
             return;
         }
         // 判断手上是否羽毛
-        if (!Material.FEATHER.equals(player.getInventory().getItemInHand().getType())) {
+
+        if (!Material.FEATHER.equals(ItemStackUtil.getItemInMainHand(player.getInventory()).getType())) {
             return;
         }
 
@@ -71,8 +72,7 @@ public class AngelEventListener implements Listener {
             return;
         }
 
-        if (!Material.LEATHER_HELMET.equals(helmet.getType()) || !Material.LEATHER_CHESTPLATE.equals(chestPlate.getType())
-                || !Material.LEATHER_LEGGINGS.equals(leggings.getType()) || !Material.LEATHER_BOOTS.equals(boots.getType())) {
+        if (!Material.LEATHER_HELMET.equals(helmet.getType()) || !Material.LEATHER_CHESTPLATE.equals(chestPlate.getType()) || !Material.LEATHER_LEGGINGS.equals(leggings.getType()) || !Material.LEATHER_BOOTS.equals(boots.getType())) {
             return;
         }
 
@@ -113,7 +113,7 @@ public class AngelEventListener implements Listener {
         Player player = (Player) damage;
 
         // 判断是否拿的羽毛
-        ItemStack item = player.getItemInHand();
+        ItemStack item = ItemStackUtil.getItemInMainHand(player.getInventory());
         if (!Material.FEATHER.equals(item.getType())) {
             return;
         }
@@ -325,7 +325,7 @@ public class AngelEventListener implements Listener {
                 return;
             } else {
                 // 判断是否拿的面包和绿宝石
-                ItemStack item = player.getItemInHand();
+                ItemStack item = ItemStackUtil.getItemInMainHand(player.getInventory());
                 if (Material.BREAD.equals(item.getType()) || Material.EMERALD.equals(item.getType())) {
                     return;
                 }
@@ -441,7 +441,7 @@ public class AngelEventListener implements Listener {
         Player playerEntity = (Player) entity;
 
         // 判断是否拿的绿宝石
-        ItemStack item = player.getItemInHand();
+        ItemStack item = ItemStackUtil.getItemInMainHand(player.getInventory());
         if (!Material.EMERALD.equals(item.getType())) {
             return;
         }
@@ -471,16 +471,11 @@ public class AngelEventListener implements Listener {
         RacePlayerService.getInstance().updateAdd(playerEntity.getName(), returnAmount);
 
         String returnValueMsg = BaseUtil.getLangMsg("angel.returnValueMsg");
-        returnValueMsg = returnValueMsg
-                .replace("${amount}", amount + "")
-                .replace("${player}", playerEntity.getName() + "")
-                .replace("${returnAmount", returnAmount + "");
+        returnValueMsg = returnValueMsg.replace("${amount}", amount + "").replace("${player}", playerEntity.getName() + "").replace("${returnAmount", returnAmount + "");
         MessageApi.sendActionbar(player, BaseUtil.replaceChatColor(returnValueMsg));
 
         String playerReturnValueMsg = BaseUtil.getLangMsg("angel.playerReturnValueMsg");
-        playerReturnValueMsg = playerReturnValueMsg
-                .replace("${amount}", returnAmount + "")
-                .replace("${player}", player.getName() + "");
+        playerReturnValueMsg = playerReturnValueMsg.replace("${amount}", returnAmount + "").replace("${player}", player.getName() + "");
         MessageApi.sendActionbar(playerEntity, BaseUtil.replaceChatColor(playerReturnValueMsg));
     }
 
@@ -511,7 +506,7 @@ public class AngelEventListener implements Listener {
         Player playerEntity = (Player) entity;
 
         // 判断是否拿的面包
-        ItemStack item = player.getItemInHand();
+        ItemStack item = ItemStackUtil.getItemInMainHand(player.getInventory());
         if (!Material.BREAD.equals(item.getType())) {
             return;
         }
@@ -546,16 +541,11 @@ public class AngelEventListener implements Listener {
         playerEntity.setHealth(newHealTh);
 
         String returnHealthMsg = BaseUtil.getLangMsg("angel.returnHealthMsg");
-        returnHealthMsg = returnHealthMsg
-                .replace("${amount}", amount + "")
-                .replace("${player}", playerEntity.getName() + "")
-                .replace("${returnAmount}", returnHealthAmount + "");
+        returnHealthMsg = returnHealthMsg.replace("${amount}", amount + "").replace("${player}", playerEntity.getName() + "").replace("${returnAmount}", returnHealthAmount + "");
         MessageApi.sendActionbar(player, BaseUtil.replaceChatColor(returnHealthMsg));
 
         String playerReturnHealthMsg = BaseUtil.getLangMsg("angel.playerReturnHealthMsg");
-        playerReturnHealthMsg = playerReturnHealthMsg
-                .replace("${amount}", returnHealthAmount + "")
-                .replace("${player}", player.getName() + "");
+        playerReturnHealthMsg = playerReturnHealthMsg.replace("${amount}", returnHealthAmount + "").replace("${player}", player.getName() + "");
         MessageApi.sendActionbar(playerEntity, BaseUtil.replaceChatColor(playerReturnHealthMsg));
     }
 

@@ -222,7 +222,7 @@ public class VampireEventListener implements Listener {
         Entity damager = event.getDamager();
         if (damager instanceof Player) {
             Player damagerPlayer = (Player) damager;
-            ItemStack itemInHand = damagerPlayer.getItemInHand();
+            ItemStack itemInHand = ItemStackUtil.getItemInMainHand(damagerPlayer.getInventory());
             if (ItemStackUtil.getMaterial("WOODEN_SWORD").equals(itemInHand.getType())) {
                 // 被木剑伤害增加倍数
                 double damageModifier = ConfigUtil.RACE_CONFIG.getDouble("vampire.woodenSwordDamageMultiplier");

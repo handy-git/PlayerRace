@@ -63,8 +63,8 @@ public class DemonHunterEventListener implements Listener {
                 }
 
                 // 判断击杀者是不是人类
-                RacePlayer racePlayer = RaceConstants.PLAYER_RACE.get(killer.getName());
-                if (racePlayer == null || !RaceTypeEnum.MANKIND.getType().equals(racePlayer.getRaceType())) {
+                RacePlayer racePlayer = RaceUtil.isRaceTypeAndGetRace(RaceTypeEnum.MANKIND, killer.getName());
+                if (racePlayer == null) {
                     return;
                 }
 
@@ -78,7 +78,7 @@ public class DemonHunterEventListener implements Listener {
                     }
                 } else {
                     // 设置人类等级提升
-                    Boolean rst = RacePlayerService.getInstance().updateRaceLevel(killer.getName(), racePlayer.getRaceLevel() + 1);
+                    boolean rst = RacePlayerService.getInstance().addRaceLevel(killer.getName(), 1);
                     if (rst) {
                         killer.sendMessage(BaseUtil.getLangMsg("mankind.killMsg"));
                     }

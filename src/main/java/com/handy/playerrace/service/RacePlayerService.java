@@ -167,10 +167,10 @@ public class RacePlayerService {
      * @param raceLevel  种族等级
      * @return true 成功
      */
-    public boolean updateRaceLevel(String playerName, int raceLevel) {
+    public boolean addRaceLevel(String playerName, int raceLevel) {
         Db<RacePlayer> use = Db.use(RacePlayer.class);
         use.where().eq(RacePlayer::getPlayerName, playerName);
-        use.update().set(RacePlayer::getRaceLevel, raceLevel);
+        use.update().add(RacePlayer::getRaceLevel, RacePlayer::getRaceLevel, raceLevel);
         return use.execution().update() > 0;
     }
 

@@ -4,6 +4,7 @@ import cn.handyplus.lib.annotation.HandyListener;
 import cn.handyplus.lib.api.MessageApi;
 import cn.handyplus.lib.constants.VersionCheckEnum;
 import cn.handyplus.lib.util.BaseUtil;
+import cn.handyplus.lib.util.ItemStackUtil;
 import com.handy.playerrace.PlayerRace;
 import com.handy.playerrace.constants.RaceConstants;
 import com.handy.playerrace.constants.RaceTypeEnum;
@@ -250,7 +251,7 @@ public class GhoulEventListener implements Listener {
         Player playerEntity = (Player) entity;
 
         // 判断是否拿的骨头
-        ItemStack item = player.getItemInHand();
+        ItemStack item = ItemStackUtil.getItemInMainHand(player.getInventory());
         if (!Material.BONE.equals(item.getType())) {
             return;
         }
