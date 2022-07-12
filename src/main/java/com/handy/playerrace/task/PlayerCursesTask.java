@@ -32,7 +32,7 @@ public class PlayerCursesTask {
                     int anInt = ConfigUtil.RACE_CONFIG.getInt("ghoul.curseSecond");
                     long second = System.currentTimeMillis() - playerCursesParam.getAddTime() / 1000;
                     if (second >= anInt) {
-                        RacePlayerService.getInstance().updateRaceType(playerCursesParam.getPlayerName(), playerCursesParam.getRaceTypeEnum().getType(), 0);
+                        RacePlayerService.getInstance().updateRaceType(playerCursesParam.getPlayerName(), playerCursesParam.getRaceTypeEnum().getType());
                         iterator.remove();
                         if (playerCursesParam.getPlayer().isOnline()) {
                             playerCursesParam.getPlayer().getInventory().addItem(RaceUtil.getRaceHelpBook(RaceTypeEnum.GHOUL));

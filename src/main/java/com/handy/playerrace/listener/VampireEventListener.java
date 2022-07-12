@@ -110,7 +110,6 @@ public class VampireEventListener implements Listener {
                     player.getInventory().addItem(RaceUtil.getRaceHelpBook(RaceTypeEnum.VAMPIRE));
                     RaceUtil.refreshCache(player);
                 }
-
             }
         }.runTaskAsynchronously(PlayerRace.getInstance());
     }

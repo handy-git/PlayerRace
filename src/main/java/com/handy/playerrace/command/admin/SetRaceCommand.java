@@ -41,7 +41,7 @@ public class SetRaceCommand implements IHandyCommandEvent {
             @Override
             public void run() {
                 // 设置玩家种族
-                Boolean rst = RacePlayerService.getInstance().updateRaceType(args[1], args[2], 0);
+                Boolean rst = RacePlayerService.getInstance().updateRaceType(args[1], args[2]);
                 if (rst) {
                     sender.sendMessage(BaseUtil.getLangMsg("succeedMsg"));
                     RaceUtil.refreshCache(args[1]);

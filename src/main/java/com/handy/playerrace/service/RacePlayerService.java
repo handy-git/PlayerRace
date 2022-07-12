@@ -110,6 +110,17 @@ public class RacePlayerService {
      *
      * @param playerName 玩家名
      * @param raceType   种族类型
+     * @return true 成功ø
+     */
+    public Boolean updateRaceType(String playerName, String raceType) {
+        return this.updateRaceType(playerName, raceType, 0);
+    }
+
+    /**
+     * 设置种族
+     *
+     * @param playerName 玩家名
+     * @param raceType   种族类型
      * @param raceLevel  种族等级
      * @return true 成功
      */
@@ -124,6 +135,12 @@ public class RacePlayerService {
                 maxAmount = ConfigUtil.RACE_CONFIG.getInt("werwolf.maxAmount");
                 break;
             case VAMPIRE:
+                if (raceLevel < 1) {
+                    raceLevel = 1;
+                }
+                if (raceLevel > 10) {
+                    raceLevel = 10;
+                }
                 maxAmount = ConfigUtil.RACE_CONFIG.getInt("vampire.maxAmount");
                 maxAmount = (int) Math.ceil(maxAmount * ConfigUtil.RACE_CONFIG.getDouble("vampire.energyMultiple" + "." + raceLevel));
                 break;

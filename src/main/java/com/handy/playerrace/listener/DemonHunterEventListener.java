@@ -71,7 +71,7 @@ public class DemonHunterEventListener implements Listener {
                 // 击杀超过3人,进行转换
                 if (racePlayer.getRaceLevel() >= 3) {
                     // 设置玩家种族为恶魔猎手
-                    Boolean rst = RacePlayerService.getInstance().updateRaceType(killer.getName(), RaceTypeEnum.DEMON_HUNTER.getType(), 0);
+                    Boolean rst = RacePlayerService.getInstance().updateRaceType(killer.getName(), RaceTypeEnum.DEMON_HUNTER.getType());
                     if (rst) {
                         killer.getInventory().addItem(RaceUtil.getRaceHelpBook(RaceTypeEnum.DEMON_HUNTER));
                         killer.sendMessage(BaseUtil.getLangMsg("mankind.killsucceedMsg"));
@@ -83,7 +83,7 @@ public class DemonHunterEventListener implements Listener {
                         killer.sendMessage(BaseUtil.getLangMsg("mankind.killMsg"));
                     }
                 }
-                RaceUtil.refreshCache(player);
+                RaceUtil.refreshCache(killer);
             }
         }.runTaskAsynchronously(PlayerRace.getInstance());
     }
