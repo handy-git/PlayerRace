@@ -65,7 +65,7 @@ public class GhoulEventListener implements Listener {
             @Override
             public void run() {
                 // 判断玩家是否有种族
-                if (!RaceUtil.isRaceType(RaceTypeEnum.MANKIND, player.getName())) {
+                if (!RaceUtil.isRaceType(RaceTypeEnum.MANKIND, player)) {
                     return;
                 }
                 // 设置玩家种族为食尸鬼
@@ -97,7 +97,7 @@ public class GhoulEventListener implements Listener {
         Player player = (Player) target;
 
         // 判断是否为食尸鬼
-        if (!RaceUtil.isRaceType(RaceTypeEnum.GHOUL, player.getName())) {
+        if (!RaceUtil.isRaceType(RaceTypeEnum.GHOUL, player)) {
             return;
         }
 
@@ -128,7 +128,7 @@ public class GhoulEventListener implements Listener {
         }
 
         // 判断是否为食尸鬼
-        if (!RaceUtil.isRaceType(RaceTypeEnum.GHOUL, player.getName())) {
+        if (!RaceUtil.isRaceType(RaceTypeEnum.GHOUL, player)) {
             return;
         }
 
@@ -192,7 +192,7 @@ public class GhoulEventListener implements Listener {
         Player player = event.getPlayer();
 
         // 判断是否为食尸鬼
-        if (!RaceUtil.isRaceType(RaceTypeEnum.GHOUL, player.getName())) {
+        if (!RaceUtil.isRaceType(RaceTypeEnum.GHOUL, player)) {
             return;
         }
 
@@ -257,12 +257,12 @@ public class GhoulEventListener implements Listener {
         }
 
         // 判断是否为食尸鬼
-        if (!RaceUtil.isRaceType(RaceTypeEnum.GHOUL, player.getName())) {
+        if (!RaceUtil.isRaceType(RaceTypeEnum.GHOUL, player)) {
             return;
         }
 
         // 判断被转换的玩家是否是人类
-        if (!RaceUtil.isRaceType(RaceTypeEnum.MANKIND, playerEntity.getName())) {
+        if (!RaceUtil.isRaceType(RaceTypeEnum.MANKIND, playerEntity)) {
             return;
         }
 

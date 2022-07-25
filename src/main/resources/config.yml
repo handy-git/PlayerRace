@@ -6,3 +6,7 @@ isCheckUpdate: true
 
 # op登录时候是否发送更新提醒
 isCheckUpdateToOpMsg: true
+
+# 禁止属性的世界
+noWorld:
+  - "notWorld"

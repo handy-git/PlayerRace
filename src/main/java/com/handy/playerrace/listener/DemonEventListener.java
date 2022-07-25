@@ -77,7 +77,7 @@ public class DemonEventListener implements Listener {
             @Override
             public void run() {
                 // 判断玩家是否有种族
-                if (!RaceUtil.isRaceType(RaceTypeEnum.MANKIND, player.getName())) {
+                if (!RaceUtil.isRaceType(RaceTypeEnum.MANKIND, player)) {
                     return;
                 }
                 // 设置玩家种族为恶魔
@@ -111,7 +111,7 @@ public class DemonEventListener implements Listener {
         }
 
         // 判断是否为恶魔
-        if (!RaceUtil.isRaceType(RaceTypeEnum.DEMON, player.getName())) {
+        if (!RaceUtil.isRaceType(RaceTypeEnum.DEMON, player)) {
             return;
         }
         event.setDamage(0);
@@ -137,7 +137,7 @@ public class DemonEventListener implements Listener {
         }
 
         // 判断是否为恶魔
-        if (!RaceUtil.isRaceType(RaceTypeEnum.DEMON, player.getName())) {
+        if (!RaceUtil.isRaceType(RaceTypeEnum.DEMON, player)) {
             return;
         }
         event.setDamage(0);
@@ -180,7 +180,7 @@ public class DemonEventListener implements Listener {
         Player player = event.getPlayer();
 
         // 判断是否为恶魔
-        if (!RaceUtil.isRaceType(RaceTypeEnum.DEMON, player.getName())) {
+        if (!RaceUtil.isRaceType(RaceTypeEnum.DEMON, player)) {
             return;
         }
         int amount = ConfigUtil.RACE_CONFIG.getInt("demon.fireBall");
@@ -233,7 +233,7 @@ public class DemonEventListener implements Listener {
         Player player = event.getPlayer();
 
         // 判断是否为恶魔
-        if (!RaceUtil.isRaceType(RaceTypeEnum.DEMON, player.getName())) {
+        if (!RaceUtil.isRaceType(RaceTypeEnum.DEMON, player)) {
             return;
         }
 
@@ -299,7 +299,7 @@ public class DemonEventListener implements Listener {
         Player player = (Player) whoClicked;
 
         // 判断是否为恶魔
-        if (!RaceUtil.isRaceType(RaceTypeEnum.DEMON, player.getName())) {
+        if (!RaceUtil.isRaceType(RaceTypeEnum.DEMON, player)) {
             return;
         }
 

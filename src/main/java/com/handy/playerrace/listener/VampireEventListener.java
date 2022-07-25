@@ -133,7 +133,7 @@ public class VampireEventListener implements Listener {
             @Override
             public void run() {
                 // 判断是否为人类
-                if (!RaceUtil.isRaceType(RaceTypeEnum.MANKIND, player.getName())) {
+                if (!RaceUtil.isRaceType(RaceTypeEnum.MANKIND, player)) {
                     return;
                 }
 
@@ -172,7 +172,7 @@ public class VampireEventListener implements Listener {
         Player player = (Player) damage;
 
         // 判断是否为吸血鬼
-        RacePlayer racePlayer = RaceUtil.isRaceTypeAndGetRace(RaceTypeEnum.VAMPIRE, player.getName());
+        RacePlayer racePlayer = RaceUtil.isRaceTypeAndGetRace(RaceTypeEnum.VAMPIRE, player);
         if (racePlayer == null) {
             return;
         }
@@ -212,7 +212,7 @@ public class VampireEventListener implements Listener {
         Player player = (Player) entity;
 
         // 判断是否为吸血鬼
-        RacePlayer racePlayer = RaceUtil.isRaceTypeAndGetRace(RaceTypeEnum.VAMPIRE, player.getName());
+        RacePlayer racePlayer = RaceUtil.isRaceTypeAndGetRace(RaceTypeEnum.VAMPIRE, player);
         if (racePlayer == null) {
             return;
         }
@@ -299,7 +299,7 @@ public class VampireEventListener implements Listener {
         Player player = (Player) entity;
 
         // 判断是否为吸血鬼
-        if (!RaceUtil.isRaceType(RaceTypeEnum.VAMPIRE, player.getName())) {
+        if (!RaceUtil.isRaceType(RaceTypeEnum.VAMPIRE, player)) {
             return;
         }
         event.setAmount(event.getAmount() + ConfigUtil.RACE_CONFIG.getInt("vampire.regainHealth"));
@@ -326,7 +326,7 @@ public class VampireEventListener implements Listener {
         }
 
         // 判断是否为吸血鬼
-        if (!RaceUtil.isRaceType(RaceTypeEnum.VAMPIRE, player.getName())) {
+        if (!RaceUtil.isRaceType(RaceTypeEnum.VAMPIRE, player)) {
             return;
         }
         event.setDamage(event.getDamage() - ConfigUtil.RACE_CONFIG.getInt("vampire.drowning"));
@@ -352,7 +352,7 @@ public class VampireEventListener implements Listener {
         }
 
         // 判断是否为吸血鬼
-        if (!RaceUtil.isRaceType(RaceTypeEnum.VAMPIRE, player.getName())) {
+        if (!RaceUtil.isRaceType(RaceTypeEnum.VAMPIRE, player)) {
             return;
         }
         event.setCancelled(true);
@@ -373,7 +373,7 @@ public class VampireEventListener implements Listener {
         Player player = event.getPlayer();
 
         // 判断是否为吸血鬼
-        if (!RaceUtil.isRaceType(RaceTypeEnum.VAMPIRE, player.getName())) {
+        if (!RaceUtil.isRaceType(RaceTypeEnum.VAMPIRE, player)) {
             return;
         }
         // 判断物品是否配置过可使用
@@ -436,7 +436,7 @@ public class VampireEventListener implements Listener {
         Player player = (Player) entity;
 
         // 判断是否为吸血鬼
-        if (!RaceUtil.isRaceType(RaceTypeEnum.VAMPIRE, player.getName())) {
+        if (!RaceUtil.isRaceType(RaceTypeEnum.VAMPIRE, player)) {
             return;
         }
         event.setCancelled(true);
@@ -459,7 +459,7 @@ public class VampireEventListener implements Listener {
         Player player = event.getPlayer();
 
         // 判断是否为吸血鬼
-        if (!RaceUtil.isRaceType(RaceTypeEnum.VAMPIRE, player.getName())) {
+        if (!RaceUtil.isRaceType(RaceTypeEnum.VAMPIRE, player)) {
             return;
         }
 

@@ -56,7 +56,6 @@ public class AngelEventListener implements Listener {
             return;
         }
         // 判断手上是否羽毛
-
         if (!Material.FEATHER.equals(ItemStackUtil.getItemInMainHand(player.getInventory()).getType())) {
             return;
         }
@@ -67,11 +66,9 @@ public class AngelEventListener implements Listener {
         ItemStack chestPlate = inventory.getChestplate();
         ItemStack leggings = inventory.getLeggings();
         ItemStack boots = inventory.getBoots();
-
         if (helmet == null || chestPlate == null || leggings == null || boots == null) {
             return;
         }
-
         if (!Material.LEATHER_HELMET.equals(helmet.getType()) || !Material.LEATHER_CHESTPLATE.equals(chestPlate.getType()) || !Material.LEATHER_LEGGINGS.equals(leggings.getType()) || !Material.LEATHER_BOOTS.equals(boots.getType())) {
             return;
         }
@@ -80,7 +77,7 @@ public class AngelEventListener implements Listener {
             @Override
             public void run() {
                 // 判断玩家是否是人类
-                if (!RaceUtil.isRaceType(RaceTypeEnum.MANKIND, player.getName())) {
+                if (!RaceUtil.isRaceType(RaceTypeEnum.MANKIND, player)) {
                     return;
                 }
                 // 设置玩家种族为天使
@@ -119,7 +116,7 @@ public class AngelEventListener implements Listener {
         }
 
         // 判断玩家是否为天使
-        if (!RaceUtil.isRaceType(RaceTypeEnum.ANGEL, player.getName())) {
+        if (!RaceUtil.isRaceType(RaceTypeEnum.ANGEL, player)) {
             return;
         }
 
@@ -181,7 +178,7 @@ public class AngelEventListener implements Listener {
         Player player = (Player) whoClicked;
 
         // 判断是否为天使
-        if (!RaceUtil.isRaceType(RaceTypeEnum.ANGEL, player.getName())) {
+        if (!RaceUtil.isRaceType(RaceTypeEnum.ANGEL, player)) {
             return;
         }
 
@@ -244,7 +241,7 @@ public class AngelEventListener implements Listener {
         }
 
         // 判断是否为天使
-        if (!RaceUtil.isRaceType(RaceTypeEnum.ANGEL, player.getName())) {
+        if (!RaceUtil.isRaceType(RaceTypeEnum.ANGEL, player)) {
             return;
         }
         event.setCancelled(true);
@@ -271,7 +268,7 @@ public class AngelEventListener implements Listener {
         }
 
         // 判断是否为天使
-        if (!RaceUtil.isRaceType(RaceTypeEnum.ANGEL, player.getName())) {
+        if (!RaceUtil.isRaceType(RaceTypeEnum.ANGEL, player)) {
             return;
         }
         event.setDamage(0);
@@ -333,7 +330,7 @@ public class AngelEventListener implements Listener {
         }
 
         // 判断是否为天使
-        if (!RaceUtil.isRaceType(RaceTypeEnum.ANGEL, player.getName())) {
+        if (!RaceUtil.isRaceType(RaceTypeEnum.ANGEL, player)) {
             return;
         }
         event.setCancelled(true);
@@ -361,7 +358,7 @@ public class AngelEventListener implements Listener {
         Player player = event.getPlayer();
 
         // 判断是否为天使
-        if (!RaceUtil.isRaceType(RaceTypeEnum.ANGEL, player.getName())) {
+        if (!RaceUtil.isRaceType(RaceTypeEnum.ANGEL, player)) {
             return;
         }
 
@@ -447,7 +444,7 @@ public class AngelEventListener implements Listener {
         }
 
         // 判断是否为天使
-        if (!RaceUtil.isRaceType(RaceTypeEnum.ANGEL, player.getName())) {
+        if (!RaceUtil.isRaceType(RaceTypeEnum.ANGEL, player)) {
             return;
         }
 
@@ -512,7 +509,7 @@ public class AngelEventListener implements Listener {
         }
 
         // 判断是否为天使
-        if (!RaceUtil.isRaceType(RaceTypeEnum.ANGEL, player.getName())) {
+        if (!RaceUtil.isRaceType(RaceTypeEnum.ANGEL, player)) {
             return;
         }
 

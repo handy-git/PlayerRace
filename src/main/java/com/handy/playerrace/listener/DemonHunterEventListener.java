@@ -58,12 +58,12 @@ public class DemonHunterEventListener implements Listener {
             @Override
             public void run() {
                 // 判断被击杀者是否为为其他种族
-                if (RaceUtil.isRaceType(RaceTypeEnum.MANKIND, player.getName())) {
+                if (RaceUtil.isRaceType(RaceTypeEnum.MANKIND, player)) {
                     return;
                 }
 
                 // 判断击杀者是不是人类
-                RacePlayer racePlayer = RaceUtil.isRaceTypeAndGetRace(RaceTypeEnum.MANKIND, killer.getName());
+                RacePlayer racePlayer = RaceUtil.isRaceTypeAndGetRace(RaceTypeEnum.MANKIND, killer);
                 if (racePlayer == null) {
                     return;
                 }
@@ -113,7 +113,7 @@ public class DemonHunterEventListener implements Listener {
         }
 
         // 判断是否为恶魔猎手
-        if (!RaceUtil.isRaceType(RaceTypeEnum.DEMON_HUNTER, player.getName())) {
+        if (!RaceUtil.isRaceType(RaceTypeEnum.DEMON_HUNTER, player)) {
             return;
         }
 
@@ -182,7 +182,7 @@ public class DemonHunterEventListener implements Listener {
         Player player = event.getPlayer();
 
         // 判断是否为恶魔猎手
-        if (!RaceUtil.isRaceType(RaceTypeEnum.DEMON_HUNTER, player.getName())) {
+        if (!RaceUtil.isRaceType(RaceTypeEnum.DEMON_HUNTER, player)) {
             return;
         }
 
@@ -243,7 +243,7 @@ public class DemonHunterEventListener implements Listener {
         }
         Player player = event.getPlayer();
         // 判断是否为人类
-        if (!RaceUtil.isRaceType(RaceTypeEnum.MANKIND, player.getName())) {
+        if (!RaceUtil.isRaceType(RaceTypeEnum.MANKIND, player)) {
             return;
         }
         // 判断是否牛奶

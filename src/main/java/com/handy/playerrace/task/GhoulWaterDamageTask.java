@@ -26,7 +26,7 @@ public class GhoulWaterDamageTask {
             public void run() {
                 for (Player player : Bukkit.getOnlinePlayers()) {
                     // 判断是否为食尸鬼
-                    if (!RaceUtil.isRaceType(RaceTypeEnum.GHOUL, player.getName())) {
+                    if (!RaceUtil.isRaceType(RaceTypeEnum.GHOUL, player)) {
                         return;
                     }
                     // 判断是否为食尸鬼

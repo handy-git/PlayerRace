@@ -2,6 +2,7 @@ package com.handy.playerrace.util;
 
 import cn.handyplus.lib.api.MessageApi;
 import cn.handyplus.lib.constants.VersionCheckEnum;
+import cn.handyplus.lib.core.CollUtil;
 import cn.handyplus.lib.core.StrUtil;
 import cn.handyplus.lib.util.BaseUtil;
 import cn.handyplus.lib.util.ItemStackUtil;
@@ -27,20 +28,37 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ * 禁止的世界
+ *
  * @author handy
  */
 public class RaceUtil {
 
     /**
+     * 是否为禁止的世界
+     *
+     * @param player 玩家
+     * @return true 禁止
+     * @since 1.3.3
+     */
+    public static boolean isWorld(Player player) {
+        List<String> noWorld = ConfigUtil.CONFIG.getStringList("noWorld");
+        return CollUtil.isNotEmpty(noWorld) && noWorld.contains(player.getWorld().getName());
+    }
+
+    /**
      * 判断是否对应种族类型
      *
      * @param raceTypeEnum 类型
-     * @param playerName   玩家名
+     * @param player       玩家
      * @return RacePlayer
      */
-    public static RacePlayer isRaceTypeAndGetRace(RaceTypeEnum raceTypeEnum, String playerName) {
-        RacePlayer racePlayer = RaceConstants.PLAYER_RACE.get(playerName);
+    public static RacePlayer isRaceTypeAndGetRace(RaceTypeEnum raceTypeEnum, Player player) {
+        RacePlayer racePlayer = RaceConstants.PLAYER_RACE.get(player.getName());
         if (racePlayer == null) {
+            return null;
+        }
+        if (isWorld(player)) {
             return null;
         }
         return raceTypeEnum.getType().equals(racePlayer.getRaceType()) ? racePlayer : null;
@@ -50,12 +68,15 @@ public class RaceUtil {
      * 判断是否对应种族类型
      *
      * @param raceTypeEnum 类型
-     * @param playerName   玩家名
+     * @param player       玩家
      * @return true/是
      */
-    public static boolean isRaceType(RaceTypeEnum raceTypeEnum, String playerName) {
-        RacePlayer racePlayer = RaceConstants.PLAYER_RACE.get(playerName);
+    public static boolean isRaceType(RaceTypeEnum raceTypeEnum, Player player) {
+        RacePlayer racePlayer = RaceConstants.PLAYER_RACE.get(player.getName());
         if (racePlayer == null) {
+            return false;
+        }
+        if (isWorld(player)) {
             return false;
         }
         return raceTypeEnum.getType().equals(racePlayer.getRaceType());

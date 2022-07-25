@@ -30,7 +30,7 @@ public class VampireCombustTask {
                         continue;
                     }
                     // 判断是否为吸血鬼
-                    if (!RaceUtil.isRaceType(RaceTypeEnum.VAMPIRE, player.getName())) {
+                    if (!RaceUtil.isRaceType(RaceTypeEnum.VAMPIRE, player)) {
                         continue;
                     }
 
