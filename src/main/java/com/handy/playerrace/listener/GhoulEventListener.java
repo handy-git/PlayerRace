@@ -14,7 +14,11 @@ import com.handy.playerrace.util.ConfigUtil;
 import com.handy.playerrace.util.RaceUtil;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.entity.*;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.PigZombie;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
@@ -137,17 +141,18 @@ public class GhoulEventListener implements Listener {
             @Override
             public void run() {
                 double finalDamage = event.getFinalDamage();
-                Boolean rst = RacePlayerService.getInstance().updateSubtract(player.getName(), (int) finalDamage);
+                boolean rst = RacePlayerService.getInstance().updateSubtract(player.getName(), (int) finalDamage);
                 if (!rst) {
                     return;
                 }
 
                 double health = player.getHealth() + event.getFinalDamage();
-
+                if (health < 0) {
+                    return;
+                }
                 if (health > player.getMaxHealth()) {
                     health = player.getMaxHealth();
                 }
-
                 player.setHealth(health);
 
                 String langMsg = BaseUtil.getLangMsg("ghoul.damageMsg");
