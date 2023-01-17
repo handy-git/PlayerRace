@@ -50,6 +50,7 @@ public class PlayerJoinEventListener implements Listener {
                 racePlayer.setAmount(0);
                 racePlayer.setMaxAmount(0);
                 racePlayer.setTransferTime(0L);
+                racePlayer.setRaceLevel(1);
                 RacePlayerService.getInstance().add(racePlayer);
                 RaceConstants.PLAYER_RACE.put(playerName, racePlayer);
             }
