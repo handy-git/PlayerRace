@@ -1,0 +1,110 @@
+# Remind you when you don't have permission
+noPermission: "&4 you don't have permission to execute the command"
+
+# Reload plugin reminders
+reloadMsg: "&a plugin reload complete"
+
+# placeholderAPI alerts
+placeholderAPISucceedMsg: "&a successfully loaded placeholderApi, custom variables enabled!"
+placeholderAPIFailureMsg: "&4PlaceholderApi not found, custom variables not enabled!"
+
+# Residence reminder
+ResidenceSucceedMsg: "&a successfully loaded Residence,compatible territory enabled!"
+ResidenceFailureMsg: "&4Residence not found, compatible territory not enabled!"
+
+# /plr Command administrator appearance alert
+helps:
+  - "&e&e&m一一一一一一一一一一一一一&f[&ePlayerRace&f]&e&m一一一一一一一一一一一一一"
+  - "&e/plr setRace [player name] [race type] &f set player race."
+  - "&e/plr reload &f reload plugin"
+  - "&e/plr getHelpBook &f Get the book of help for the player's corresponding race"
+  - "&e/plr getMengBorneoSoup &f getMengBorneoSoup"
+  - "&e/plr findCount (race type) &f get the number of corresponding races"
+  - "&e/plr findRace (player name) &f get player's race, default to see all online players without player name"
+  - "&e[]required ()optional"
+
+paramFailureMsg: "&4 Parameter Error"
+# Type error alert
+typeFailureMsg: "&4 type error"
+# Low energy alert
+energyShortageMsg: "&a low energy, need:${amount} energy"
+# Restore energy alert
+restoreEnergyMsg: "&a you've restored ${amount} points of energy!"
+succeedMsg: "&a command executed successfully"
+failureMsg: "&4 command execution failed"
+raceMsg: "Congratulations to player: ${player}, successfully converted to: ${race}"
+
+# Ethnic names
+raceType:
+  mankind: "&a human"
+  werwolf: "&a werewolf"
+  vampire: "&a vampire"
+  ghoul: "&a ghoul"
+  demon: "&a demon"
+  angel: "&a angel"
+  demonHunter: "&a DemonHunter"
+
+# Demon Hunter bow type
+demonHunterBowType:
+  strength: "&a power bow"
+  fire: "&a flame bow"
+  web: "&a imprisoning bow"
+
+# Humans
+mankind:
+  killMsg: "&a you killed a supernatural race, you feel like you've unlocked some potential!"
+  killsucceedMsg: "&a you've killed another supernatural, you've unlocked your potential, evolved into a demon hunter!"
+  bookSucceedMsg: "&a pleasant surprise, you have discovered a book of knowledge that contains mystical powers."
+  mengBorneoSoupMsg: "&a you drink the mumba soup, forget about this life, reincarnate as a human"
+
+# Werewolves
+werwolf:
+  succeedMsg: "&a on the night of the full moon, you were infected with werewolf blood, gaining werewolf power!"
+  sprintMsg: "&a you expended ${amount} of energy and used the skill sprint."
+  summonWolfMsg: "&a you expended ${amount} of energy to summon the wolf."
+# Vampires
+vampire:
+  AncestorSucceedMsg: "&a you drank the blood of Cain, your body underwent strange changes, you craved blood so much you became an original vampire!"
+  succeedMsg: "&a you have been embraced by ${player} for the first time and have gained the power of a vampire."
+  succeedPlayerMsg: "And you've made your first love to ${player}, and ${player} has gained the power of a vampire."
+  bookSucceedMsg: "&a pleasant surprise, you have found a book of knowledge that contains mystical powers."
+  vampireHateSunlight: "&a vampire hates sunlight, take cover quickly or wear a gold helmet."
+  noTarget: "&a No Target Found in Line of Sight"
+  consumeMsg: "&a vampires only like raw meat with blood on it."
+  hematophagiaSucceedMsg: "&a you expend ${amount} of energy, you absorb blood ${health} from ${player}."
+  hematophagiaPlayerSucceedMsg: "&a${player} has used the Blood Sucking skill, dealing ${amount} damage to you."
+# Ghouls
+ghoul:
+  succeedMsg: "&a you were torn apart by the Pigman, and in your rage realized that humans have limits! So you stopped being human and became a ghoul!"
+  absorptionMsg: "&a you were attacked by a ghoul, energy level decreased by ${amount}"
+  curseMsg: "&a you are cursed by a ghoul,${time} seconds without milk will force conversion to a ghoul."
+  cursesucceedMsg: "&a ghoul's curse fell upon you, and you were forced to become a ghoul."
+  waterDamageMsg: "&a Ghoul is extremely afraid of water, please leave now!"
+  damageMsg: "&a you have expended ${amount} of energy, regain life:${health}"
+  summonPigZombieMsg: "&a you expended ${amount} of energy to summon the pigman."
+  cursePlayerMsg: "&a you have expended ${amount} of energy and unleashed an evil curse on ${player}."
+# Demons
+demon:
+  succeedMsg: "&a you were compelled by the power of evil to comprehend the ways of the devil in the lava, and became a demon!"
+  wearEquipmentMsg: "&a demon can only wear chainmail."
+  fireBallMsg: "&a you expended ${amount} of energy and fired a firebomb."
+  webMsg: "&a you expended ${amount} of energy, summoning the spider web"
+# Angel
+angel:
+  succeedMsg: "&a you were cleansed of your soul, realized the true meaning of angel in bungee jumping and became an angel!"
+  diaupMsg: "&a you were hit by ${player}."
+  wearEquipmentMsg: "&a Angel can only wear leather equipment."
+  notDamagePlayer: "&a Angel cannot harm humans or animals"
+  diaupPlayerMsg: "&a you expended ${amount} of energy, hitting ${player}"
+  diaupOtherMsg: "&a you expended ${amount} of energy to fly your opponent."
+  summonCowMsg: "&a you expended ${amount} of energy to summon the cow."
+  summonPigMsg: "&a you expended ${amount} of energy to summon the pig."
+  returnValueMsg: "&a you expended ${amount} energy to help ${player} recover ${returnAmount} energy."
+  playerReturnValueMsg: "&a you recovered ${amount} energy with the help of ${player}."
+  returnHealthMsg: "&a you expended ${amount} of energy to help ${player} recover ${returnAmount} of blood."
+  playerReturnHealthMsg: "&a you have recovered ${amount} of blood with the help of ${player}."
+# ♪ Demon hunters
+demonHunter:
+  cutBowMsg: "&a you expended ${amount} energy and switched to ${type} shooting mode."
+
+  Translated with www.DeepL.com/Translator (free version)

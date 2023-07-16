@@ -1,0 +1,161 @@
+# 人类
+mankind:
+  name: "&a孟婆汤"
+  lores:
+    - ''
+    - '&f[ &c孟婆熬制了几千万年的老汤 &f]'
+    - ''
+    - '&f&l>> 据说,吸收后就会立马投胎为人'
+  # 杀怪掉落知识之书的概率-数字100意思是百分之1,越大越低 0为禁用掉落
+  dropRate: 10000
+# 狼人- 人类晚上被狼击杀转换-能力大部分晚上有效
+werwolf:
+  # 能量值上限
+  maxAmount: 100
+  # 每分钟自动恢复能量值
+  restoreNumber: 1
+  # 晚上击杀玩家恢复能量值
+  killPlayer: 10
+  # 晚上击杀怪物恢复能量值
+  killMonster: 5
+  # 晚上击杀动物恢复能量值
+  killAnimals: 1
+  # 吃食物恢复能量值 有效物品: (1.7 生牛肉,生鸡肉,生猪排  1.8-1.16 生牛肉,生鸡肉,生羊肉,生兔肉,生猪排)
+  consume: 1
+  # 被动技能: 晚上恢复生命效果增加值
+  regainHealth: 1
+  # 被动技能: 晚上近战伤害增加值
+  damage: 2
+  # 被动技能: 晚上远程伤害增加值
+  projectileDamage: 5
+  # 被动技能: 掉落伤害减少值
+  fall: 2
+  # 技能-召唤狼 消耗能量值
+  summonWolf: 20
+  # 主动技能-冲刺 消耗能量值
+  sprint: 20
+  # 主动技能-冲刺 冲刺距离
+  sprintDistance: 2.1
+# 吸血鬼
+vampire:
+  # 能量值上限
+  maxAmount: 100
+  # 每分钟自动恢复能量值
+  restoreNumber: 10
+  name: "&a该隐之血"
+  lores:
+    - ''
+    - '&f[ &c蕴含神秘力量的血液 &f]'
+    - ''
+    - '&f&l>> 据说,吸收后可以获取该隐的力量'
+    - '&f&l>> 来可以诞生第一只吸血鬼~'
+  # 杀怪掉落知识之书的概率-数字100意思是百分之1,越大越低 0为禁用掉落
+  dropRate: 10000
+  # 该隐之血被吸血鬼吃了恢复的能量值
+  cainBlood: 100
+  # 吸血鬼等级对应的能量值上限倍数,这个禁止修改前面的等级
+  energyMultiple:
+    1: 3.0
+    2: 2.6
+    3: 2.4
+    4: 2.2
+    5: 2.0
+    6: 1.8
+    7: 1.6
+    8: 1.4
+    9: 1.2
+    10: 1.0
+  # 被动技能: 伤害增加数
+  damage: 1.5
+  # 被动技能: 吸血鬼随着时间攻击力和防御力增强,攻击力计算 原伤害 + 增加伤害 * 时间伤害 防御力: 原伤害 - (增加防御 * 时间防御) 自己按照格式添加修改
+  transferTime:
+    1: 1.1
+    3: 1.2
+    5: 1.3
+    7: 1.4
+    10: 1.5
+    15: 1.6
+    30: 1.7
+    365: 2.0
+  # 击杀玩家恢复能量值
+  killPlayer: 10
+  # 击杀怪物恢复能量值
+  killMonster: 5
+  # 击杀动物恢复能量值
+  killAnimals: 1
+  # 被动技能: 恢复生命效果增加值
+  regainHealth: 1
+  # 被动技能: 溺水伤害减少值
+  drowning: 1
+  # 被动技能: 伤害减少值
+  defenseBonus: 2
+  # 弱点: 被木剑攻击伤害增加值,无视被动
+  woodenSwordDamageMultiplier: 5
+  # 主动技能: 吸血 消耗能量值
+  hematophagia: 20
+  # 主动技能: 吸血 吸收的血量
+  hematophagiaNum: 5
+  # 吸血鬼可以食用的物品材质
+  itemMaterial: []
+# 食尸鬼
+ghoul:
+  # 能量值上限
+  maxAmount: 100
+  # 每分钟自动恢复能量值
+  restoreNumber: 10
+  # 扣除被攻击者对应的能量值
+  absorptionValue: 1
+  # 主动技能: 召唤 猪人 消耗值
+  summonPigZombie: 20
+  # 主动技能: 邪恶诅咒 消耗值
+  curse: 20
+  # 主动技能: 邪恶诅咒 生效时间, 单位秒
+  curseSecond: 600
+  # 在水中每秒伤害
+  waterDamage: 1
+# 恶魔
+demon:
+  # 能量值上限
+  maxAmount: 100
+  # 每分钟自动恢复能量值
+  restoreNumber: 1
+  # 在岩浆中恢复血量
+  restoreHealth: 1
+  # 在岩浆中恢复能量值
+  energyHealth: 1
+  # 火焰弹消耗能量值
+  fireBall: 20
+  # 召唤蜘蛛网消耗能量值
+  web: 5
+# 天使
+angel:
+  # 能量值上限
+  maxAmount: 100
+  # 每分钟自动恢复能量值
+  restoreNumber: 20
+  # 主动技能: 击飞 消耗能量值
+  diaup: 20
+  # 主动技能: 召唤牛 消耗能量值
+  summonCow: 20
+  # 主动技能: 召唤猪 消耗能量值
+  summonPig: 20
+  # 主动技能: 恢复能量 消耗能量值
+  returnValue: 10
+  # 主动技能: 恢复能量 给恢复的值
+  returnAmount: 20
+  # 主动技能: 恢复生命 消耗能量值
+  returnHealth: 20
+  # 主动技能: 恢复生命 给恢复的值
+  returnHealthAmount: 2
+# 恶魔猎手
+demonHunter:
+  # 能量值上限
+  maxAmount: 100
+  # 每分钟自动恢复能量值
+  restoreNumber: 5
+  # 力量弓,增加伤害
+  strengthDamage: 3
+  # 火焰箭,持续燃烧时间
+  fireTime: 3
+  # 切换弓消耗能量值
+  cutBow: 5

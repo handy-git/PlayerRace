@@ -1,0 +1,108 @@
+# 沒權限時候提醒
+noPermission: "&4妳沒有權限執行該命令"
+
+# 重載插件提醒
+reloadMsg: "&a插件重載完成"
+
+# placeholderAPI提醒
+placeholderAPISucceedMsg: "&a成功加載placeholderApi,啟用自定義變量功能!"
+placeholderAPIFailureMsg: "&4未找到placeholderApi,未啟用自定義變量功能!"
+
+# Residence提醒
+ResidenceSucceedMsg: "&a成功加載Residence,啟用兼容領地!"
+ResidenceFailureMsg: "&4未找到Residence,未啟用兼容領地!"
+
+# /plr 指令管理員出現的提醒
+helps:
+  - "&e&m一一一一一一一一一一一一一&f[&ePlayerRace&f]&e&m一一一一一一一一一一一一一"
+  - "&e/plr setRace [玩家名稱] [種族類型]     &f設置玩家種族"
+  - "&e/plr reload  &f重載插件"
+  - "&e/plr getHelpBook  &f獲取玩家對應種族的幫助之書"
+  - "&e/plr getMengBorneoSoup  &f獲取孟婆湯"
+  - "&e/plr findCount (種族類型) &f獲取對應種族的數量"
+  - "&e/plr findRace (玩家名稱) &f獲取玩家的種族,不填玩家名默認查看全部在線玩家"
+  - "&e[]必填 ()選填"
+
+paramFailureMsg: "&4參數錯誤"
+# 類型錯誤提醒
+typeFailureMsg: "&4類型錯誤"
+# 能量不足提醒
+energyShortageMsg: "&a能量不足,需要:${amount}能量"
+# 恢復能量提醒
+restoreEnergyMsg: "&a妳恢復了 ${amount} 點能量!"
+succeedMsg: "&a命令執行成功"
+failureMsg: "&4命令執行失敗"
+raceMsg: "恭喜玩家: ${player}, 成功轉換為: ${race}"
+
+# 種族名稱
+raceType:
+  mankind: "&a人類"
+  werwolf: "&a狼人"
+  vampire: "&a吸血鬼"
+  ghoul: "&a食屍鬼"
+  demon: "&a惡魔"
+  angel: "&a天使"
+  demonHunter: "&a惡魔獵手"
+
+# 惡魔獵手弓類型
+demonHunterBowType:
+  strength: "&a力量弓"
+  fire: "&a火焰弓"
+  web: "&a禁錮弓"
+
+# 人類
+mankind:
+  killMsg: "&a妳擊殺了壹名超自然種族者,妳感覺自己激發了點潛力!"
+  killsucceedMsg: "&a妳又擊殺了壹名超自然種族者,妳的潛力得到了釋放,進化為惡魔獵手!"
+  bookSucceedMsg: "&a意外之喜,您發現壹本蘊含著神秘力量的知識之書"
+  mengBorneoSoupMsg: "&a妳喝下了孟婆湯,忘記了今生今世,重新投胎為人"
+
+# 狼人
+werwolf:
+  succeedMsg: "&a在月圓之夜,妳感染了狼人的血統,獲得了狼人的力量!"
+  sprintMsg: "&a妳消耗了${amount}能量,使用了技能沖刺"
+  summonWolfMsg: "&a妳消耗了${amount}能量,召喚出了狼"
+# 吸血鬼
+vampire:
+  ancestorSucceedMsg: "&a妳喝下了該隱之血,身體發生了詭異的變化,妳極度渴望血液,成為了吸血鬼始祖!"
+  succeedMsg: "&a妳被${player}初擁了,獲得了吸血鬼的力量!"
+  succeedPlayerMsg: "&a妳對${player}進行了初擁,${player}獲得了吸血鬼的力量!"
+  bookSucceedMsg: "&a意外之喜,您發現壹本蘊含著神秘力量的知識之書"
+  vampireHateSunlight: "&a吸血鬼討厭陽光,請速度躲避或者帶上金頭盔"
+  noTarget: "&a視線範圍內沒有發現目標"
+  consumeMsg: "&a吸血鬼只喜歡帶血的生肉"
+  hematophagiaSucceedMsg: "&a妳消耗了${amount}能量,妳從${player}處,吸收到血液${health}"
+  hematophagiaPlayerSucceedMsg: "&a${player}使用了吸血技能,對妳造成${amount}傷害"
+# 食屍鬼
+ghoul:
+  succeedMsg: "&a妳被豬人撕碎了,在憤怒中領悟到人類是有極限的! 所以妳不做人了,成為了食屍鬼!"
+  absorptionMsg: "&a妳被食屍鬼攻擊了,能量值減少 ${amount}"
+  curseMsg: "&a妳被食屍鬼詛咒了,${time}秒內不喝牛奶將強制轉換為食屍鬼"
+  cursesucceedMsg: "&a食屍鬼詛咒攻心,妳被迫成為了壹名食屍鬼"
+  waterDamageMsg: "&a食屍鬼極度害怕水,請立即離開!"
+  damageMsg: "&a妳消耗了${amount}能量,恢復生命:${health}"
+  summonPigZombieMsg: "&a妳消耗了${amount}能量,召喚出了豬人"
+  cursePlayerMsg: "&a妳消耗了${amount}能量,對${player}釋放了邪惡詛咒"
+# 惡魔
+demon:
+  succeedMsg: "&a妳被邪惡的力量所蠱惑,在巖漿中領悟惡魔之道,成為了惡魔!"
+  wearEquipmentMsg: "&a惡魔只能穿鎖鏈裝備"
+  fireBallMsg: "&a妳消耗了${amount}能量,發射了火焰彈"
+  webMsg: "&a妳消耗了${amount}能量,召喚出了蜘蛛網"
+# 天使
+angel:
+  succeedMsg: "&a妳被靈魂被凈化了,在蹦極中領悟天使真諦,成為了天使!"
+  diaupMsg: "&a妳被${player}擊飛了"
+  wearEquipmentMsg: "&a天使只能穿皮革裝備"
+  notDamagePlayer: "&a天使無法傷害人類和動物"
+  diaupPlayerMsg: "&a妳消耗了${amount}能量,擊飛了${player}"
+  diaupOtherMsg: "&a妳消耗了${amount}能量,擊飛了對手"
+  summonCowMsg: "&a妳消耗了${amount}能量,召喚出了牛"
+  summonPigMsg: "&a妳消耗了${amount}能量,召喚出了豬"
+  returnValueMsg: "&a妳消耗了${amount}能量,幫助${player}恢復了${returnAmount}能量"
+  playerReturnValueMsg: "&a妳在${player}的幫助下,恢復了${amount}能量"
+  returnHealthMsg: "&a妳消耗了${amount}能量,幫助${player}恢復了${returnAmount}血量"
+  playerReturnHealthMsg: "&a妳在${player}的幫助下,恢復了${amount}血量"
+# 惡魔獵手
+demonHunter:
+  cutBowMsg: "&a妳消耗了${amount}能量,切換到了${type}射擊模式"

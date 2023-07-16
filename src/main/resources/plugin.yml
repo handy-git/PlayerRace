@@ -1,0 +1,40 @@
+name: PlayerRace
+version: 1.3.6
+main: cn.handyplus.race.PlayerRace
+api-version: 1.13
+website: https://ricedoc.handyplus.cn/wiki/PlayerRace/README/
+author: handy
+description: 超自然种族插件
+softdepend: [ Residence,PlaceholderAPI ]
+commands:
+  playerRace:
+    description: 超自然种族插件
+    aliases: [ plr ]
+permissions:
+  playerRace.*:
+    description: 超自然种族插件
+    children:
+      playerRace.reload: true
+      playerRace.setRace: true
+      playerRace.getHelpBook: true
+      playerRace.getMengBorneoSoup: true
+      playerRace.findCount: true
+      playerRace.findRace: true
+  playerRace.reload:
+    description: 重载插件
+    default: op
+  playerRace.setRace:
+    description: 设置玩家种族
+    default: op
+  playerRace.getHelpBook:
+    description: 获取玩家种族帮助之书
+    default: true
+  playerRace.getMengBorneoSoup:
+    description: 获取孟婆汤
+    default: op
+  playerRace.findCount:
+    description: 获取对应种族的玩家数量
+    default: op
+  playerRace.findRace:
+    description: 获取玩家的种族
+    default: op
