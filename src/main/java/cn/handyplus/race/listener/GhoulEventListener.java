@@ -268,7 +268,7 @@ public class GhoulEventListener implements Listener {
             player.getInventory().remove(item);
         }
 
-        AbstractRaceConstants.PLAYER_CURSES.add(new PlayerCursesParam(playerEntity, playerEntity.getName(), System.currentTimeMillis(), RaceTypeEnum.GHOUL));
+        AbstractRaceConstants.PLAYER_CURSES.add(new PlayerCursesParam(playerEntity, System.currentTimeMillis(), RaceTypeEnum.GHOUL));
 
         int curseSecond = ConfigUtil.RACE_CONFIG.getInt("ghoul.curseSecond");
         String diaupMsg = BaseUtil.getLangMsg("ghoul.curseMsg");

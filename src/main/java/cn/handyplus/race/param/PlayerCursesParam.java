@@ -17,11 +17,6 @@ public class PlayerCursesParam {
     private Player player;
 
     /**
-     * 玩家名
-     */
-    private String playerName;
-
-    /**
      * 添加时间
      */
     private long addTime;

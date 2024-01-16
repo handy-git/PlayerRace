@@ -4,6 +4,7 @@ import cn.handyplus.race.param.PlayerCursesParam;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -30,12 +31,12 @@ public abstract class AbstractRaceConstants {
     /**
      * 被诅咒的玩家
      */
-    public static final List<PlayerCursesParam> PLAYER_CURSES = new CopyOnWriteArrayList<>();
+    public static final List<PlayerCursesParam> PLAYER_CURSES = new ArrayList<>();
 
     /**
      * 蜘蛛网地点
      */
-    public static final List<Location> LOCATIONS = new CopyOnWriteArrayList<>();
+    public static final List<Location> LOCATIONS = new ArrayList<>();
 
     /**
      * 检查更新的版本url

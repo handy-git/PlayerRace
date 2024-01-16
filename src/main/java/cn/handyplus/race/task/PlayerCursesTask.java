@@ -24,12 +24,16 @@ public class PlayerCursesTask {
             Iterator<PlayerCursesParam> iterator = AbstractRaceConstants.PLAYER_CURSES.iterator();
             while (iterator.hasNext()) {
                 PlayerCursesParam playerCursesParam = iterator.next();
+                if (!CacheUtil.isRaceType(RaceTypeEnum.MANKIND, playerCursesParam.getPlayer())) {
+                    iterator.remove();
+                    continue;
+                }
                 // 判断是否到时间
                 int anInt = ConfigUtil.RACE_CONFIG.getInt("ghoul.curseSecond");
                 long second = System.currentTimeMillis() - playerCursesParam.getAddTime() / 1000;
                 if (second >= anInt) {
-                    CacheUtil.updateRaceType(playerCursesParam.getPlayer().getUniqueId(), playerCursesParam.getRaceTypeEnum());
                     iterator.remove();
+                    CacheUtil.updateRaceType(playerCursesParam.getPlayer().getUniqueId(), playerCursesParam.getRaceTypeEnum());
                     if (playerCursesParam.getPlayer().isOnline()) {
                         playerCursesParam.getPlayer().getInventory().addItem(RaceUtil.getRaceHelpBook(RaceTypeEnum.GHOUL));
                         MessageUtil.sendActionbar(playerCursesParam.getPlayer(), BaseUtil.getLangMsg("ghoul.cursesucceedMsg"));

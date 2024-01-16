@@ -298,22 +298,33 @@ public class DemonEventListener implements Listener {
 
         InventoryAction action = event.getAction();
         // 判断是否移动物品
-        if (!InventoryAction.PICKUP_ALL.equals(action) && !InventoryAction.SWAP_WITH_CURSOR.equals(action)) {
+        // 光标上的物品(所有)被移到所单击的格子中.
+        // 将所单击的格子中的物品移动到对面的物品栏中去(如果有空位).
+        // 单击的槽和拾取的热键槽会互换。
+        if (!InventoryAction.PLACE_ALL.equals(action) && !InventoryAction.MOVE_TO_OTHER_INVENTORY.equals(action) && !InventoryAction.HOTBAR_SWAP.equals(action)) {
             return;
         }
-
-        //返回点击的格子序号，可传递给Inventory.getItem(int)。
+        ItemStack cursor = null;
+        // 获取被光标所拿起来的物品
+        if (InventoryAction.PLACE_ALL.equals(action)) {
+            cursor = event.getCursor();
+        }
+        // 获取被点击的格子的物品
+        if (InventoryAction.MOVE_TO_OTHER_INVENTORY.equals(action)) {
+            cursor = event.getCurrentItem();
+        }
+        // 获取指定格子物品
+        if (InventoryAction.HOTBAR_SWAP.equals(action)) {
+            cursor = player.getInventory().getItem(event.getHotbarButton());
+        }
+        if (cursor == null || Material.AIR.equals(cursor.getType())) {
+            return;
+        }
+        // 返回点击的格子序号，可传递给Inventory.getItem(int)。
         int slot = event.getSlot();
         if (slot > 39 || slot < 36) {
             return;
         }
-
-        // 获取被光标所拿起来的物品
-        ItemStack cursor = event.getCursor();
-        if (cursor == null || Material.AIR.equals(cursor.getType())) {
-            return;
-        }
-
         if (slot == 39 && !Material.CHAINMAIL_HELMET.equals(cursor.getType())) {
             event.setCancelled(true);
             MessageUtil.sendMessage(player, BaseUtil.getLangMsg("demon.wearEquipmentMsg"));
