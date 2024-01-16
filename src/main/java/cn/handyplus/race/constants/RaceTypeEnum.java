@@ -13,23 +13,24 @@ import java.util.List;
  *
  * @author handy
  */
-@Getter
+
 @AllArgsConstructor
 public enum RaceTypeEnum {
     /**
      * 种族类型
      */
-    MANKIND("mankind", BaseUtil.getLangMsg("raceType.mankind")),
-    WER_WOLF("wer_wolf", BaseUtil.getLangMsg("raceType.werwolf")),
-    VAMPIRE("vampire", BaseUtil.getLangMsg("raceType.vampire")),
-    GHOUL("ghoul", BaseUtil.getLangMsg("raceType.ghoul")),
-    DEMON("demon", BaseUtil.getLangMsg("raceType.demon")),
-    ANGEL("angel", BaseUtil.getLangMsg("raceType.angel")),
-    DEMON_HUNTER("demon_hunter", BaseUtil.getLangMsg("raceType.demonHunter")),
-    ;
+    MANKIND("mankind", "raceType.mankind", "mankind.mengBorneoSoupMsg"),
+    WER_WOLF("wer_wolf", "raceType.werwolf", "werwolf.succeedMsg"),
+    VAMPIRE("vampire", "raceType.vampire", "vampire.ancestorSucceedMsg"),
+    GHOUL("ghoul", "raceType.ghoul", "ghoul.succeedMsg"),
+    DEMON("demon", "raceType.demon", "demon.succeedMsg"),
+    ANGEL("angel", "raceType.angel", "angel.succeedMsg"),
+    DEMON_HUNTER("demon_hunter", "raceType.demonHunter", "mankind.killsucceedMsg");
 
+    @Getter
     private final String type;
-    private final String typeName;
+    private final String desc;
+    private final String tip;
 
     public static RaceTypeEnum getEnumThrow(String type) {
         for (RaceTypeEnum raceTypeEnum : RaceTypeEnum.values()) {
@@ -57,13 +58,13 @@ public enum RaceTypeEnum {
         return enumList;
     }
 
-    public static String getTypeName(String type) {
-        for (RaceTypeEnum raceTypeEnum : RaceTypeEnum.values()) {
-            if (raceTypeEnum.getType().equals(type)) {
-                return raceTypeEnum.getTypeName();
-            }
-        }
-        return "";
+    public static String getDesc(String type) {
+        RaceTypeEnum raceTypeEnum = getEnumThrow(type);
+        return BaseUtil.getLangMsg(raceTypeEnum.desc);
+    }
+
+    public static String getTip(RaceTypeEnum raceTypeEnum) {
+        return BaseUtil.getLangMsg(raceTypeEnum.tip);
     }
 
 }

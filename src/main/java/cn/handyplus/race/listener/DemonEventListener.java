@@ -2,13 +2,11 @@ package cn.handyplus.race.listener;
 
 import cn.handyplus.lib.annotation.HandyListener;
 import cn.handyplus.lib.constants.VersionCheckEnum;
-import cn.handyplus.lib.expand.adapter.HandySchedulerUtil;
 import cn.handyplus.lib.util.BaseUtil;
 import cn.handyplus.lib.util.MessageUtil;
 import cn.handyplus.race.PlayerRace;
 import cn.handyplus.race.constants.AbstractRaceConstants;
 import cn.handyplus.race.constants.RaceTypeEnum;
-import cn.handyplus.race.service.RacePlayerService;
 import cn.handyplus.race.util.CacheUtil;
 import cn.handyplus.race.util.ConfigUtil;
 import cn.handyplus.race.util.RaceUtil;
@@ -78,19 +76,12 @@ public class DemonEventListener implements Listener {
                 || !Material.CHAINMAIL_LEGGINGS.equals(leggings.getType()) || !Material.CHAINMAIL_BOOTS.equals(boots.getType())) {
             return;
         }
-        HandySchedulerUtil.runTaskAsynchronously(() -> {
-            // 判断玩家是否有种族
-            if (!CacheUtil.isRaceType(RaceTypeEnum.MANKIND, player)) {
-                return;
-            }
-            // 设置玩家种族为恶魔
-            Boolean rst = RacePlayerService.getInstance().updateRaceType(player.getUniqueId(), RaceTypeEnum.DEMON.getType());
-            if (rst) {
-                player.getInventory().addItem(RaceUtil.getRaceHelpBook(RaceTypeEnum.DEMON));
-                player.sendMessage(BaseUtil.getLangMsg("demon.succeedMsg"));
-                CacheUtil.db2Cache(player);
-            }
-        });
+        // 判断玩家是否有种族
+        if (!CacheUtil.isRaceType(RaceTypeEnum.MANKIND, player)) {
+            return;
+        }
+        // 设置玩家种族为恶魔
+        CacheUtil.updateRaceType(player, RaceTypeEnum.DEMON);
     }
 
     /**
@@ -247,7 +238,7 @@ public class DemonEventListener implements Listener {
         Location location = block.getLocation();
 
         // 判断是否领地
-        if (PlayerRace.getResidenceApi() != null) {
+        if (PlayerRace.RES_API != null) {
             ClaimedResidence res = Residence.getInstance().getResidenceManager().getByLoc(location);
             if (res != null) {
                 return;
@@ -325,22 +316,22 @@ public class DemonEventListener implements Listener {
 
         if (slot == 39 && !Material.CHAINMAIL_HELMET.equals(cursor.getType())) {
             event.setCancelled(true);
-            player.sendMessage(BaseUtil.getLangMsg("demon.wearEquipmentMsg"));
+            MessageUtil.sendMessage(player, BaseUtil.getLangMsg("demon.wearEquipmentMsg"));
             return;
         }
         if (slot == 38 && !Material.CHAINMAIL_CHESTPLATE.equals(cursor.getType())) {
             event.setCancelled(true);
-            player.sendMessage(BaseUtil.getLangMsg("demon.wearEquipmentMsg"));
+            MessageUtil.sendMessage(player, BaseUtil.getLangMsg("demon.wearEquipmentMsg"));
             return;
         }
         if (slot == 37 && !Material.CHAINMAIL_LEGGINGS.equals(cursor.getType())) {
             event.setCancelled(true);
-            player.sendMessage(BaseUtil.getLangMsg("demon.wearEquipmentMsg"));
+            MessageUtil.sendMessage(player, BaseUtil.getLangMsg("demon.wearEquipmentMsg"));
             return;
         }
         if (slot == 36 && !Material.CHAINMAIL_BOOTS.equals(cursor.getType())) {
             event.setCancelled(true);
-            player.sendMessage(BaseUtil.getLangMsg("demon.wearEquipmentMsg"));
+            MessageUtil.sendMessage(player, BaseUtil.getLangMsg("demon.wearEquipmentMsg"));
         }
     }
 

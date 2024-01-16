@@ -3,10 +3,12 @@ package cn.handyplus.race;
 import cn.handyplus.lib.InitApi;
 import cn.handyplus.lib.constants.BaseConstants;
 import cn.handyplus.lib.db.SqlManagerUtil;
+import cn.handyplus.lib.expand.adapter.HandySchedulerUtil;
 import cn.handyplus.lib.util.BaseUtil;
 import cn.handyplus.lib.util.MessageUtil;
 import cn.handyplus.race.constants.AbstractRaceConstants;
 import cn.handyplus.race.task.TaskManage;
+import cn.handyplus.race.util.CacheUtil;
 import cn.handyplus.race.util.ConfigUtil;
 import cn.handyplus.race.util.PlaceholderUtil;
 import cn.handyplus.race.util.RaceUtil;
@@ -22,8 +24,8 @@ import org.bukkit.plugin.java.JavaPlugin;
  * @author handy
  */
 public final class PlayerRace extends JavaPlugin {
-    private static PlayerRace INSTANCE;
-    private static ResidenceApi RES_API;
+    public static PlayerRace INSTANCE;
+    public static ResidenceApi RES_API;
 
     @Override
     public void onEnable() {
@@ -47,8 +49,8 @@ public final class PlayerRace extends JavaPlugin {
                 .initListener("cn.handyplus.race.listener")
                 .addMetrics(8605);
 
-        //注册定时事件
-        TaskManage.enableTask();
+        // 注册定时事件
+        TaskManage.start();
 
         MessageUtil.sendConsoleMessage(ChatColor.GREEN + "已成功载入服务器！");
         MessageUtil.sendConsoleMessage(ChatColor.GREEN + "Author:handy MCBBS: https://www.mcbbs.net/thread-1149860-1-1.html");
@@ -56,16 +58,12 @@ public final class PlayerRace extends JavaPlugin {
 
     @Override
     public void onDisable() {
+        // 取消定时任务
+        HandySchedulerUtil.cancelTask();
+        // 数据保存
+        CacheUtil.cache2Db();
         // 关闭数据源
         SqlManagerUtil.getInstance().close();
-    }
-
-    public static PlayerRace getInstance() {
-        return INSTANCE;
-    }
-
-    public static ResidenceApi getResidenceApi() {
-        return RES_API;
     }
 
     /**

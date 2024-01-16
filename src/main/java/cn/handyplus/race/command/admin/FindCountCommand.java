@@ -40,14 +40,14 @@ public class FindCountCommand implements IHandyCommandEvent {
             for (RaceTypeEnum raceType : RaceTypeEnum.values()) {
                 // 查询对应种族的
                 Integer count = RacePlayerService.getInstance().findCount(raceType.getType());
-                stringBuffer.append(raceType.getTypeName()).append(": ").append(count).append("\n");
+                stringBuffer.append(RaceTypeEnum.getDesc(raceType.getType())).append(": ").append(count).append("\n");
             }
             MessageUtil.sendMessage(sender, stringBuffer.toString());
             return;
         }
         // 查询对应种族的
         Integer count = RacePlayerService.getInstance().findCount(raceTypeEnum.getType());
-        MessageUtil.sendMessage(sender, raceTypeEnum.getTypeName() + ": " + count);
+        MessageUtil.sendMessage(sender, RaceTypeEnum.getDesc(raceTypeEnum.getType()) + ": " + count);
     }
 
 }

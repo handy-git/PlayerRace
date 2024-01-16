@@ -1,28 +1,30 @@
 package cn.handyplus.race.task;
 
 /**
+ * 定时任务注册
+ *
  * @author handy
  */
 public class TaskManage {
 
-    /**
-     * 定时任务注册
-     */
-    public static void enableTask() {
+    public static void start() {
         // 运行异步自动恢复能量
-        RecoveryEnergyTask.setRecoveryFatigueTask();
+        RecoveryEnergyTask.start();
 
         // 运行异步烧吸血鬼
-        VampireCombustTask.setVampireCombustTask();
+        VampireCombustTask.start();
 
         // 运行异步食尸鬼害怕水
-        GhoulWaterDamageTask.setWaterDamageTask();
+        GhoulWaterDamageTask.start();
 
         // 运行异步转换种族
-        PlayerCursesTask.setPlayerCursesTask();
+        PlayerCursesTask.start();
 
         // 同步定时清理生成出来的蜘蛛网
-        ItemClearTask.setItemClearTask();
+        ItemClearTask.start();
+
+        // 同步缓存到数据库
+        Cache2DbTask.start();
     }
 
 }

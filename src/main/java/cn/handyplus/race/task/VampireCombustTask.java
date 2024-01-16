@@ -13,14 +13,13 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 /**
+ * 异步对吸血鬼进行燃烧
+ *
  * @author handy
  */
 public class VampireCombustTask {
 
-    /**
-     * 异步对吸血鬼进行燃烧
-     */
-    public static void setVampireCombustTask() {
+    public static void start() {
         HandySchedulerUtil.runTaskTimerAsynchronously(() -> {
             for (Player player : Bukkit.getOnlinePlayers()) {
                 if (player.getFireTicks() > 0) {

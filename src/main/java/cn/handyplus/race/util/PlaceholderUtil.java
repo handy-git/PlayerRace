@@ -7,8 +7,6 @@ import cn.handyplus.race.service.RacePlayerService;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import org.bukkit.OfflinePlayer;
 
-import java.util.Optional;
-
 /**
  * 变量扩展
  *
@@ -41,20 +39,16 @@ public class PlaceholderUtil extends PlaceholderExpansion {
     @Override
     public String onRequest(OfflinePlayer player, String identifier) {
         int maxFatigue = ConfigUtil.CONFIG.getInt("maxFatigue");
-        String race = RaceTypeEnum.MANKIND.getTypeName();
 
-        Optional<RacePlayer> racePlayerOptional = RacePlayerService.getInstance().findByPlayer(player.getUniqueId());
-        if (racePlayerOptional.isPresent()) {
-            RacePlayer racePlayer = racePlayerOptional.get();
-            race = RaceTypeEnum.getEnum(racePlayer.getRaceType()).getTypeName();
-            if (racePlayer.getMaxAmount() != null && racePlayer.getMaxAmount() != 0) {
-                maxFatigue = racePlayer.getMaxAmount();
-            }
+        RacePlayer racePlayer = CacheUtil.getRacePlayer(player.getUniqueId());
+        String raceDesc = RaceTypeEnum.getDesc(racePlayer.getRaceType());
+
+        if (racePlayer.getMaxAmount() != null && racePlayer.getMaxAmount() != 0) {
+            maxFatigue = racePlayer.getMaxAmount();
         }
-
         // 吸血鬼计算最大值
-        if (racePlayerOptional.isPresent() && RaceTypeEnum.VAMPIRE.getType().equals(racePlayerOptional.get().getRaceType())) {
-            double energyDiscount = ConfigUtil.RACE_CONFIG.getDouble("vampire.energyDiscount" + racePlayerOptional.get().getRaceLevel());
+        if (RaceTypeEnum.VAMPIRE.getType().equals(racePlayer.getRaceType())) {
+            double energyDiscount = ConfigUtil.RACE_CONFIG.getDouble("vampire.energyDiscount" + racePlayer.getRaceLevel());
             if (energyDiscount > 0) {
                 maxFatigue = (int) Math.ceil(maxFatigue * energyDiscount);
             }
@@ -62,44 +56,44 @@ public class PlaceholderUtil extends PlaceholderExpansion {
 
         // %PlayerRace_race%
         if ("race".equals(identifier)) {
-            return plugin.getConfig().getString("race", race);
+            return raceDesc;
         }
         // %PlayerRace_maxfatigue%
         if ("maxfatigue".equals(identifier)) {
-            return plugin.getConfig().getString("maxfatigue", maxFatigue + "");
+            return maxFatigue + "";
         }
         // %PlayerRace_fatigue%
         if ("fatigue".equals(identifier)) {
-            return plugin.getConfig().getString("fatigue", racePlayerOptional.map(racePlayer -> racePlayer.getAmount().toString()).orElse("0"));
+            return racePlayer.getAmount().toString();
         }
         // 种族数量变量
         if ("mankindnum".equals(identifier)) {
             Integer count = RacePlayerService.getInstance().findCount(RaceTypeEnum.MANKIND.getType());
-            return plugin.getConfig().getString("mankindnum", count + "");
+            return count + "";
         }
         if ("werWolfnum".equals(identifier)) {
             Integer count = RacePlayerService.getInstance().findCount(RaceTypeEnum.WER_WOLF.getType());
-            return plugin.getConfig().getString("werWolfnum", count + "");
+            return count + "";
         }
         if ("vampirenum".equals(identifier)) {
             Integer count = RacePlayerService.getInstance().findCount(RaceTypeEnum.VAMPIRE.getType());
-            return plugin.getConfig().getString("vampirenum", count + "");
+            return count + "";
         }
         if ("ghoulnum".equals(identifier)) {
             Integer count = RacePlayerService.getInstance().findCount(RaceTypeEnum.GHOUL.getType());
-            return plugin.getConfig().getString("ghoulnum", count + "");
+            return count + "";
         }
         if ("demonnum".equals(identifier)) {
             Integer count = RacePlayerService.getInstance().findCount(RaceTypeEnum.DEMON.getType());
-            return plugin.getConfig().getString("demonnum", count + "");
+            return count + "";
         }
         if ("angelnum".equals(identifier)) {
             Integer count = RacePlayerService.getInstance().findCount(RaceTypeEnum.ANGEL.getType());
-            return plugin.getConfig().getString("angelnum", count + "");
+            return count + "";
         }
         if ("demonhunternum".equals(identifier)) {
             Integer count = RacePlayerService.getInstance().findCount(RaceTypeEnum.DEMON_HUNTER.getType());
-            return plugin.getConfig().getString("demonhunternum", count + "");
+            return count + "";
         }
         return null;
     }

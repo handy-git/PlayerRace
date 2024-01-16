@@ -3,13 +3,10 @@ package cn.handyplus.race.task;
 import cn.handyplus.lib.expand.adapter.HandySchedulerUtil;
 import cn.handyplus.race.constants.RaceTypeEnum;
 import cn.handyplus.race.entity.RacePlayer;
-import cn.handyplus.race.service.RacePlayerService;
 import cn.handyplus.race.util.CacheUtil;
 import cn.handyplus.race.util.ConfigUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-
-import java.util.Optional;
 
 /**
  * 异步恢复能量值
@@ -18,17 +15,10 @@ import java.util.Optional;
  */
 public class RecoveryEnergyTask {
 
-    /**
-     * 异步恢复能量值
-     */
-    public static void setRecoveryFatigueTask() {
+    public static void start() {
         HandySchedulerUtil.runTaskTimerAsynchronously(() -> {
             for (Player player : Bukkit.getOnlinePlayers()) {
-                Optional<RacePlayer> racePlayerOptional = RacePlayerService.getInstance().findByPlayer(player.getUniqueId());
-                if (!racePlayerOptional.isPresent()) {
-                    continue;
-                }
-                RacePlayer racePlayer = racePlayerOptional.get();
+                RacePlayer racePlayer = CacheUtil.getRacePlayer(player.getUniqueId());
                 RaceTypeEnum raceTypeEnum = RaceTypeEnum.getEnum(racePlayer.getRaceType());
                 if (raceTypeEnum == null) {
                     continue;

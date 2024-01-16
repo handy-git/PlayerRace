@@ -4,7 +4,6 @@ import cn.handyplus.lib.annotation.HandyListener;
 import cn.handyplus.lib.constants.VersionCheckEnum;
 import cn.handyplus.lib.core.CollUtil;
 import cn.handyplus.lib.core.DateUtil;
-import cn.handyplus.lib.expand.adapter.HandySchedulerUtil;
 import cn.handyplus.lib.util.BaseUtil;
 import cn.handyplus.lib.util.ItemStackUtil;
 import cn.handyplus.lib.util.MessageUtil;
@@ -71,7 +70,7 @@ public class VampireEventListener implements Listener {
         int dropRate = new Random().nextInt(anInt);
         if (dropRate == 0) {
             event.getDrops().add(RaceUtil.getKnowledgeBook());
-            player.sendMessage(BaseUtil.getLangMsg("vampire.bookSucceedMsg"));
+            MessageUtil.sendMessage(player, BaseUtil.getLangMsg("vampire.bookSucceedMsg"));
         }
     }
 
@@ -88,37 +87,30 @@ public class VampireEventListener implements Listener {
             return;
         }
         Player player = event.getPlayer();
-        HandySchedulerUtil.runTaskAsynchronously(() -> {
-            ItemStack itemStack = event.getItem();
-            if (!itemStack.isSimilar(RaceUtil.getItemStack())) {
-                return;
-            }
-            // 判断是否为人类或者吸血鬼
-            RacePlayer racePlayer = CacheUtil.getRacePlayer(player.getUniqueId());
-            if (racePlayer == null) {
-                return;
-            }
-            if (!RaceTypeEnum.MANKIND.getType().equals(racePlayer.getRaceType()) && !RaceTypeEnum.VAMPIRE.getType().equals(racePlayer.getRaceType())) {
-                return;
-            }
-            // 判断是否已经是吸血鬼了
-            if (RaceTypeEnum.VAMPIRE.getType().equals(racePlayer.getRaceType())) {
-                RaceUtil.restoreEnergy(player, RaceTypeEnum.VAMPIRE, ConfigUtil.RACE_CONFIG.getInt("vampire.cainBlood"));
-                return;
-            }
-            // 判断是否为第一只吸血鬼
-            Integer count = RacePlayerService.getInstance().findCount(RaceTypeEnum.VAMPIRE.getType());
-            if (count != 0) {
-                return;
-            }
-            // 设置玩家种族为吸血鬼始祖
-            Boolean rst = RacePlayerService.getInstance().updateRaceType(player.getUniqueId(), RaceTypeEnum.VAMPIRE.getType(), 1);
-            if (rst) {
-                player.sendMessage(BaseUtil.getLangMsg("vampire.ancestorSucceedMsg"));
-                player.getInventory().addItem(RaceUtil.getRaceHelpBook(RaceTypeEnum.VAMPIRE));
-                CacheUtil.db2Cache(player);
-            }
-        });
+        ItemStack itemStack = event.getItem();
+        if (!itemStack.isSimilar(RaceUtil.getItemStack())) {
+            return;
+        }
+        // 判断是否为人类或者吸血鬼
+        RacePlayer racePlayer = CacheUtil.getRacePlayer(player.getUniqueId());
+        if (racePlayer == null) {
+            return;
+        }
+        if (!RaceTypeEnum.MANKIND.getType().equals(racePlayer.getRaceType()) && !RaceTypeEnum.VAMPIRE.getType().equals(racePlayer.getRaceType())) {
+            return;
+        }
+        // 判断是否已经是吸血鬼了
+        if (RaceTypeEnum.VAMPIRE.getType().equals(racePlayer.getRaceType())) {
+            RaceUtil.restoreEnergy(player, RaceTypeEnum.VAMPIRE, ConfigUtil.RACE_CONFIG.getInt("vampire.cainBlood"));
+            return;
+        }
+        // 判断是否为第一只吸血鬼
+        Integer count = RacePlayerService.getInstance().findCount(RaceTypeEnum.VAMPIRE.getType());
+        if (count != 0) {
+            return;
+        }
+        // 设置玩家种族为吸血鬼始祖
+        CacheUtil.updateRaceType(player, RaceTypeEnum.VAMPIRE, 1);
     }
 
     /**
@@ -136,29 +128,24 @@ public class VampireEventListener implements Listener {
             return;
         }
 
-        HandySchedulerUtil.runTaskAsynchronously(() -> {
-            // 判断是否为人类
-            if (!CacheUtil.isRaceType(RaceTypeEnum.MANKIND, player)) {
-                return;
-            }
+        // 判断是否为人类
+        if (!CacheUtil.isRaceType(RaceTypeEnum.MANKIND, player)) {
+            return;
+        }
 
-            // 判断击杀者是不是吸血鬼
-            RacePlayer racePlayerDamage = CacheUtil.getRacePlayer(killer.getUniqueId());
-            if (racePlayerDamage == null || !RaceTypeEnum.VAMPIRE.getType().equals(racePlayerDamage.getRaceType())) {
-                return;
-            }
+        // 判断击杀者是不是吸血鬼
+        RacePlayer racePlayerDamage = CacheUtil.getRacePlayer(killer.getUniqueId());
+        if (racePlayerDamage == null || !RaceTypeEnum.VAMPIRE.getType().equals(racePlayerDamage.getRaceType())) {
+            return;
+        }
 
-            // 设置玩家种族为吸血鬼-等级变低一级
-            Boolean rst = RacePlayerService.getInstance().updateRaceType(player.getUniqueId(), RaceTypeEnum.VAMPIRE.getType(), racePlayerDamage.getRaceLevel() + 1);
-            if (rst) {
-                player.sendMessage(BaseUtil.getLangMsg("vampire.succeedMsg"));
-                player.getInventory().addItem(RaceUtil.getRaceHelpBook(RaceTypeEnum.VAMPIRE));
-                String langMsg = BaseUtil.getLangMsg("vampire.succeedPlayerMsg");
-                langMsg = langMsg.replace("${player}", player.getName());
-                MessageUtil.sendActionbar(player, langMsg);
-                CacheUtil.db2Cache(player);
-            }
-        });
+        // 设置玩家种族为吸血鬼-等级变低一级
+        boolean rst = CacheUtil.updateRaceType(player.getUniqueId(), RaceTypeEnum.VAMPIRE, racePlayerDamage.getRaceLevel() + 1);
+        if (rst) {
+            player.getInventory().addItem(RaceUtil.getRaceHelpBook(RaceTypeEnum.VAMPIRE));
+            MessageUtil.sendMessage(player, BaseUtil.getLangMsg("vampire.succeedMsg"));
+            MessageUtil.sendActionbar(player, BaseUtil.getLangMsg("vampire.succeedPlayerMsg").replace("${player}", player.getName()));
+        }
     }
 
     /**
@@ -486,7 +473,7 @@ public class VampireEventListener implements Listener {
         }
 
         // 判断是否领地
-        if (PlayerRace.getResidenceApi() != null) {
+        if (PlayerRace.RES_API != null) {
             ClaimedResidence res = Residence.getInstance().getResidenceManager().getByLoc(entity.getPlayer());
             if (res != null) {
                 return;

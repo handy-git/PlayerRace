@@ -3,14 +3,12 @@ package cn.handyplus.race.util;
 import cn.handyplus.lib.constants.VersionCheckEnum;
 import cn.handyplus.lib.core.CollUtil;
 import cn.handyplus.lib.core.StrUtil;
-import cn.handyplus.lib.expand.adapter.HandySchedulerUtil;
 import cn.handyplus.lib.util.BaseUtil;
 import cn.handyplus.lib.util.ItemStackUtil;
 import cn.handyplus.lib.util.MessageUtil;
 import cn.handyplus.race.PlayerRace;
 import cn.handyplus.race.constants.RaceTypeEnum;
 import cn.handyplus.race.entity.RacePlayer;
-import cn.handyplus.race.service.RacePlayerService;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -25,7 +23,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 /**
  * 禁止的世界
@@ -44,6 +41,19 @@ public class RaceUtil {
     public static boolean isWorld(Player player) {
         List<String> noWorld = ConfigUtil.CONFIG.getStringList("noWorld");
         return CollUtil.isNotEmpty(noWorld) && noWorld.contains(player.getWorld().getName());
+    }
+
+    /**
+     * 发送提醒消息
+     *
+     * @param playerName 玩家
+     * @param raceType   种族类型
+     */
+    public static void sendRaceMsg(String playerName, String raceType) {
+        String raceMsg = BaseUtil.getMsgNotColor("raceMsg");
+        raceMsg = StrUtil.replace(raceMsg, "player", playerName);
+        raceMsg = StrUtil.replace(raceMsg, "race", raceType);
+        MessageUtil.sendAllMessage(raceMsg);
     }
 
     /**
@@ -74,44 +84,38 @@ public class RaceUtil {
      * @param amount       能量
      */
     public static void restoreEnergy(Player player, RaceTypeEnum raceTypeEnum, int amount) {
-        HandySchedulerUtil.runTaskAsynchronously(() -> {
-            // 判断是否为对应种族
-            Optional<RacePlayer> racePlayerOptional = RacePlayerService.getInstance().findByPlayer(player.getUniqueId());
-            if (!racePlayerOptional.isPresent()) {
-                return;
+        // 判断是否为对应种族
+        RacePlayer racePlayer = CacheUtil.getRacePlayer(player.getUniqueId());
+        if (!raceTypeEnum.getType().equals(racePlayer.getRaceType())) {
+            return;
+        }
+        int maxFatigue = ConfigUtil.CONFIG.getInt("maxFatigue");
+        if (racePlayer.getMaxAmount() != null && racePlayer.getMaxAmount() != 0) {
+            maxFatigue = racePlayer.getMaxAmount();
+        }
+        // 吸血鬼计算最大值
+        if (RaceTypeEnum.VAMPIRE.getType().equals(racePlayer.getRaceType())) {
+            double energyDiscount = ConfigUtil.RACE_CONFIG.getDouble("vampire.energyDiscount" + racePlayer.getRaceLevel());
+            if (energyDiscount > 0) {
+                maxFatigue = (int) Math.ceil(maxFatigue * energyDiscount);
             }
-            RacePlayer racePlayer = racePlayerOptional.get();
-            if (!raceTypeEnum.getType().equals(racePlayer.getRaceType())) {
-                return;
-            }
-            int maxFatigue = ConfigUtil.CONFIG.getInt("maxFatigue");
-            if (racePlayer.getMaxAmount() != null && racePlayer.getMaxAmount() != 0) {
-                maxFatigue = racePlayer.getMaxAmount();
-            }
-            // 吸血鬼计算最大值
-            if (RaceTypeEnum.VAMPIRE.getType().equals(racePlayer.getRaceType())) {
-                double energyDiscount = ConfigUtil.RACE_CONFIG.getDouble("vampire.energyDiscount" + racePlayer.getRaceLevel());
-                if (energyDiscount > 0) {
-                    maxFatigue = (int) Math.ceil(maxFatigue * energyDiscount);
-                }
-            }
+        }
 
-            if (racePlayer.getAmount() >= maxFatigue) {
-                return;
+        if (racePlayer.getAmount() >= maxFatigue) {
+            return;
+        }
+        int num = amount;
+        if (racePlayer.getAmount() + amount > maxFatigue) {
+            num = maxFatigue - racePlayer.getAmount();
+        }
+        boolean rst = CacheUtil.add(player, num);
+        if (rst) {
+            String restoreEnergyMsg = ConfigUtil.LANG_CONFIG.getString("restoreEnergyMsg");
+            if (StrUtil.isNotEmpty(restoreEnergyMsg)) {
+                restoreEnergyMsg = restoreEnergyMsg.replace("${amount}", amount + "");
             }
-            int num = amount;
-            if (racePlayer.getAmount() + amount > maxFatigue) {
-                num = maxFatigue - racePlayer.getAmount();
-            }
-            boolean rst = CacheUtil.add(player, num);
-            if (rst) {
-                String restoreEnergyMsg = ConfigUtil.LANG_CONFIG.getString("restoreEnergyMsg");
-                if (StrUtil.isNotEmpty(restoreEnergyMsg)) {
-                    restoreEnergyMsg = restoreEnergyMsg.replace("${amount}", amount + "");
-                }
-                MessageUtil.sendActionbar(player, BaseUtil.replaceChatColor(restoreEnergyMsg));
-            }
-        });
+            MessageUtil.sendActionbar(player, BaseUtil.replaceChatColor(restoreEnergyMsg));
+        }
     }
 
     /**
@@ -138,7 +142,7 @@ public class RaceUtil {
             mushroomStewStr = "MUSHROOM_SOUP";
             gunpowderStr = "SULPHUR";
         } else {
-            identifyRecipe = new ShapedRecipe(new NamespacedKey(PlayerRace.getInstance(), "mengBorneoSoup"), itemStack);
+            identifyRecipe = new ShapedRecipe(new NamespacedKey(PlayerRace.INSTANCE, "mengBorneoSoup"), itemStack);
         }
         Material gunpowder = ItemStackUtil.getMaterial(gunpowderStr);
         Material mushroomStew = ItemStackUtil.getMaterial(mushroomStewStr);
@@ -200,7 +204,7 @@ public class RaceUtil {
             return book;
         }
         //添加合成配方，可以多个
-        bookMeta.addRecipe(new NamespacedKey(PlayerRace.getInstance(), "mengBorneoSoup"));
+        bookMeta.addRecipe(new NamespacedKey(PlayerRace.INSTANCE, "mengBorneoSoup"));
         //设置Meta数据
         book.setItemMeta(bookMeta);
         return book;
@@ -223,7 +227,7 @@ public class RaceUtil {
         if (VersionCheckEnum.getEnum().getVersionId() < VersionCheckEnum.V_1_13.getVersionId()) {
             identifyRecipe = new ShapedRecipe(itemStack);
         } else {
-            identifyRecipe = new ShapedRecipe(new NamespacedKey(PlayerRace.getInstance(), "vampire"), itemStack);
+            identifyRecipe = new ShapedRecipe(new NamespacedKey(PlayerRace.INSTANCE, "vampire"), itemStack);
         }
         identifyRecipe.shape("ABC", "DEF", "ABC");
         identifyRecipe.setIngredient('A', Material.EMERALD);
@@ -278,7 +282,7 @@ public class RaceUtil {
             return book;
         }
         //添加合成配方，可以多个
-        bookMeta.addRecipe(new NamespacedKey(PlayerRace.getInstance(), "vampire"));
+        bookMeta.addRecipe(new NamespacedKey(PlayerRace.INSTANCE, "vampire"));
         //设置Meta数据
         book.setItemMeta(bookMeta);
         return book;
@@ -294,7 +298,7 @@ public class RaceUtil {
         ItemStack book = new ItemStack(Material.WRITTEN_BOOK);
         BookMeta bookMeta = (BookMeta) book.getItemMeta();
         bookMeta.setAuthor("§e Handy");
-        bookMeta.setTitle("§e" + raceTypeEnum.getTypeName());
+        bookMeta.setTitle("§e" + RaceTypeEnum.getDesc(raceTypeEnum.getType()));
         switch (raceTypeEnum) {
             case MANKIND:
                 getWerWolfRaceHelpBook(bookMeta);

@@ -2,12 +2,10 @@ package cn.handyplus.race.listener;
 
 import cn.handyplus.lib.annotation.HandyListener;
 import cn.handyplus.lib.constants.VersionCheckEnum;
-import cn.handyplus.lib.expand.adapter.HandySchedulerUtil;
 import cn.handyplus.lib.util.BaseUtil;
 import cn.handyplus.lib.util.ItemStackUtil;
 import cn.handyplus.lib.util.MessageUtil;
 import cn.handyplus.race.constants.RaceTypeEnum;
-import cn.handyplus.race.service.RacePlayerService;
 import cn.handyplus.race.util.CacheUtil;
 import cn.handyplus.race.util.ConfigUtil;
 import cn.handyplus.race.util.RaceUtil;
@@ -78,19 +76,12 @@ public class AngelEventListener implements Listener {
         if (!Material.LEATHER_HELMET.equals(helmet.getType()) || !Material.LEATHER_CHESTPLATE.equals(chestPlate.getType()) || !Material.LEATHER_LEGGINGS.equals(leggings.getType()) || !Material.LEATHER_BOOTS.equals(boots.getType())) {
             return;
         }
-        HandySchedulerUtil.runTaskAsynchronously(() -> {
-            // 判断玩家是否是人类
-            if (!CacheUtil.isRaceType(RaceTypeEnum.MANKIND, player)) {
-                return;
-            }
-            // 设置玩家种族为天使
-            Boolean rst = RacePlayerService.getInstance().updateRaceType(player.getUniqueId(), RaceTypeEnum.ANGEL.getType());
-            if (rst) {
-                player.getInventory().addItem(RaceUtil.getRaceHelpBook(RaceTypeEnum.ANGEL));
-                player.sendMessage(BaseUtil.getLangMsg("angel.succeedMsg"));
-                CacheUtil.db2Cache(player);
-            }
-        });
+        // 判断玩家是否是人类
+        if (!CacheUtil.isRaceType(RaceTypeEnum.MANKIND, player)) {
+            return;
+        }
+        // 设置玩家种族为天使
+        CacheUtil.updateRaceType(player, RaceTypeEnum.ANGEL);
     }
 
     /**
@@ -204,22 +195,22 @@ public class AngelEventListener implements Listener {
 
         if (slot == 39 && !Material.LEATHER_HELMET.equals(cursor.getType())) {
             event.setCancelled(true);
-            player.sendMessage(BaseUtil.getLangMsg("angel.wearEquipmentMsg"));
+            MessageUtil.sendMessage(player, BaseUtil.getLangMsg("angel.wearEquipmentMsg"));
             return;
         }
         if (slot == 38 && !Material.LEATHER_CHESTPLATE.equals(cursor.getType())) {
             event.setCancelled(true);
-            player.sendMessage(BaseUtil.getLangMsg("angel.wearEquipmentMsg"));
+            MessageUtil.sendMessage(player, BaseUtil.getLangMsg("angel.wearEquipmentMsg"));
             return;
         }
         if (slot == 37 && !Material.LEATHER_LEGGINGS.equals(cursor.getType())) {
             event.setCancelled(true);
-            player.sendMessage(BaseUtil.getLangMsg("angel.wearEquipmentMsg"));
+            MessageUtil.sendMessage(player, BaseUtil.getLangMsg("angel.wearEquipmentMsg"));
             return;
         }
         if (slot == 36 && !Material.LEATHER_BOOTS.equals(cursor.getType())) {
             event.setCancelled(true);
-            player.sendMessage(BaseUtil.getLangMsg("angel.wearEquipmentMsg"));
+            MessageUtil.sendMessage(player, BaseUtil.getLangMsg("angel.wearEquipmentMsg"));
         }
     }
 
@@ -318,16 +309,14 @@ public class AngelEventListener implements Listener {
 
         // 判断是否为人类
         if (entity instanceof Player) {
-            Player player1 = (Player) entity;
-            String raceType = RacePlayerService.getInstance().findRaceType(player1.getUniqueId());
-            if (!RaceTypeEnum.MANKIND.getType().equals(raceType)) {
+            // 判断是否为人类
+            if (!CacheUtil.isRaceType(RaceTypeEnum.MANKIND, (Player) entity)) {
                 return;
-            } else {
-                // 判断是否拿的面包和绿宝石
-                ItemStack item = ItemStackUtil.getItemInMainHand(player.getInventory());
-                if (Material.BREAD.equals(item.getType()) || Material.EMERALD.equals(item.getType())) {
-                    return;
-                }
+            }
+            // 判断是否拿的面包和绿宝石
+            ItemStack item = ItemStackUtil.getItemInMainHand(player.getInventory());
+            if (Material.BREAD.equals(item.getType()) || Material.EMERALD.equals(item.getType())) {
+                return;
             }
         }
 

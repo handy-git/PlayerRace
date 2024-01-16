@@ -2,11 +2,9 @@ package cn.handyplus.race.listener;
 
 import cn.handyplus.lib.annotation.HandyListener;
 import cn.handyplus.lib.constants.VersionCheckEnum;
-import cn.handyplus.lib.expand.adapter.HandySchedulerUtil;
 import cn.handyplus.lib.util.BaseUtil;
 import cn.handyplus.lib.util.MessageUtil;
 import cn.handyplus.race.constants.RaceTypeEnum;
-import cn.handyplus.race.service.RacePlayerService;
 import cn.handyplus.race.util.CacheUtil;
 import cn.handyplus.race.util.ConfigUtil;
 import cn.handyplus.race.util.RaceUtil;
@@ -76,20 +74,12 @@ public class WerWolfEventListener implements Listener {
         if (!(entity instanceof Wolf)) {
             return;
         }
-        HandySchedulerUtil.runTaskAsynchronously(() -> {
-            // 判断玩家是否有种族
-            String raceType = RacePlayerService.getInstance().findRaceType(player.getUniqueId());
-            if (!RaceTypeEnum.MANKIND.getType().equals(raceType)) {
-                return;
-            }
-            // 设置玩家种族为狼人
-            Boolean rst = RacePlayerService.getInstance().updateRaceType(player.getUniqueId(), RaceTypeEnum.WER_WOLF.getType());
-            if (rst) {
-                player.getInventory().addItem(RaceUtil.getRaceHelpBook(RaceTypeEnum.WER_WOLF));
-                player.sendMessage(BaseUtil.getLangMsg("werwolf.succeedMsg"));
-                CacheUtil.db2Cache(player);
-            }
-        });
+        // 判断玩家是否人类
+        if (!CacheUtil.isRaceType(RaceTypeEnum.MANKIND, player)) {
+            return;
+        }
+        // 设置玩家种族为狼人
+        CacheUtil.updateRaceType(player, RaceTypeEnum.WER_WOLF);
     }
 
     /**
@@ -200,8 +190,7 @@ public class WerWolfEventListener implements Listener {
         }
 
         // 判断是否为狼人
-        String raceType = RacePlayerService.getInstance().findRaceType(player.getUniqueId());
-        if (!RaceTypeEnum.WER_WOLF.getType().equals(raceType)) {
+        if (!CacheUtil.isRaceType(RaceTypeEnum.WER_WOLF, player)) {
             return;
         }
 
@@ -245,8 +234,7 @@ public class WerWolfEventListener implements Listener {
         }
 
         // 判断是否为狼人
-        String raceType = RacePlayerService.getInstance().findRaceType(player.getUniqueId());
-        if (!RaceTypeEnum.WER_WOLF.getType().equals(raceType)) {
+        if (!CacheUtil.isRaceType(RaceTypeEnum.WER_WOLF, player)) {
             return;
         }
 
@@ -278,8 +266,7 @@ public class WerWolfEventListener implements Listener {
         }
 
         // 判断是否为狼人
-        String raceType = RacePlayerService.getInstance().findRaceType(player.getUniqueId());
-        if (!RaceTypeEnum.WER_WOLF.getType().equals(raceType)) {
+        if (!CacheUtil.isRaceType(RaceTypeEnum.WER_WOLF, player)) {
             return;
         }
 
@@ -310,8 +297,7 @@ public class WerWolfEventListener implements Listener {
         Player player = event.getPlayer();
 
         // 判断是否为狼人
-        String raceType = RacePlayerService.getInstance().findRaceType(player.getUniqueId());
-        if (!RaceTypeEnum.WER_WOLF.getType().equals(raceType)) {
+        if (!CacheUtil.isRaceType(RaceTypeEnum.WER_WOLF, player)) {
             return;
         }
 
@@ -360,8 +346,7 @@ public class WerWolfEventListener implements Listener {
         Player player = event.getPlayer();
 
         // 判断是否为狼人
-        String raceType = RacePlayerService.getInstance().findRaceType(player.getUniqueId());
-        if (!RaceTypeEnum.WER_WOLF.getType().equals(raceType)) {
+        if (!CacheUtil.isRaceType(RaceTypeEnum.WER_WOLF, player)) {
             return;
         }
 
@@ -390,6 +375,7 @@ public class WerWolfEventListener implements Listener {
         String sprintMsg = BaseUtil.getLangMsg("werwolf.sprintMsg");
         sprintMsg = sprintMsg.replace("${amount}", amount + "");
         MessageUtil.sendActionbar(player, BaseUtil.replaceChatColor(sprintMsg));
+
     }
 
 }

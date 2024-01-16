@@ -2,8 +2,9 @@ package cn.handyplus.race.listener;
 
 import cn.handyplus.lib.annotation.HandyListener;
 import cn.handyplus.lib.util.BaseUtil;
+import cn.handyplus.lib.util.MessageUtil;
 import cn.handyplus.race.constants.RaceTypeEnum;
-import cn.handyplus.race.service.RacePlayerService;
+import cn.handyplus.race.util.CacheUtil;
 import cn.handyplus.race.util.ConfigUtil;
 import cn.handyplus.race.util.RaceUtil;
 import org.bukkit.entity.Player;
@@ -42,7 +43,7 @@ public class BaseEventListener implements Listener {
         int dropRate = new Random().nextInt(anInt);
         if (dropRate == 0) {
             event.getDrops().add(RaceUtil.getMengBorneoSoupBook());
-            player.sendMessage(BaseUtil.getLangMsg("mankind.bookSucceedMsg"));
+            MessageUtil.sendMessage(player, BaseUtil.getLangMsg("mankind.bookSucceedMsg"));
         }
     }
 
@@ -64,10 +65,8 @@ public class BaseEventListener implements Listener {
             return;
         }
         // 设置玩家种族为人类
-        Boolean rst = RacePlayerService.getInstance().updateRaceType(player.getUniqueId(), RaceTypeEnum.MANKIND.getType());
-        if (rst) {
-            player.sendMessage(BaseUtil.getLangMsg("mankind.mengBorneoSoupMsg"));
-            player.setHealth(0);
-        }
+        CacheUtil.updateRaceType(player, RaceTypeEnum.MANKIND);
+        player.setHealth(0);
     }
+
 }

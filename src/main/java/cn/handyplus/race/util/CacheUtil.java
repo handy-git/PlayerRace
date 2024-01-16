@@ -1,5 +1,7 @@
 package cn.handyplus.race.util;
 
+import cn.handyplus.lib.expand.adapter.HandySchedulerUtil;
+import cn.handyplus.lib.util.MessageUtil;
 import cn.handyplus.race.constants.RaceTypeEnum;
 import cn.handyplus.race.entity.RacePlayer;
 import cn.handyplus.race.service.RacePlayerService;
@@ -62,10 +64,9 @@ public class CacheUtil {
      * @param player 玩家
      */
     public static void db2Cache(Player player) {
-        Optional<RacePlayer> racePlayerOptional = RacePlayerService.getInstance().findByPlayer(player.getUniqueId());
+        Optional<RacePlayer> racePlayerOptional = RacePlayerService.getInstance().findByPlayerUuid(player.getUniqueId());
         if (racePlayerOptional.isPresent()) {
             RacePlayer racePlayer = racePlayerOptional.get();
-            RacePlayerService.getInstance().updatePlayerName(player);
             racePlayer.setPlayerName(player.getName());
             CacheUtil.PLAYER_RACE.put(player.getUniqueId(), racePlayer);
             return;
@@ -86,15 +87,27 @@ public class CacheUtil {
     /**
      * 缓存到数据库
      *
-     * @param player 玩家
+     * @param playerUuid 玩家uid
      */
-    public static void cache2Db(Player player) {
-        RacePlayer racePlayer = CacheUtil.PLAYER_RACE.get(player.getUniqueId());
+    public static void cache2Db(UUID playerUuid) {
+        RacePlayer racePlayer = CacheUtil.PLAYER_RACE.get(playerUuid);
         RacePlayerService.getInstance().update(racePlayer);
     }
 
-    public static void removeCache(Player player) {
-        CacheUtil.PLAYER_RACE.remove(player.getUniqueId());
+    /**
+     * 缓存到数据库
+     */
+    public static void cache2Db() {
+        if (CacheUtil.PLAYER_RACE.isEmpty()) {
+            return;
+        }
+        for (RacePlayer racePlayer : PLAYER_RACE.values()) {
+            RacePlayerService.getInstance().update(racePlayer);
+        }
+    }
+
+    public static void removeCache(UUID playerUuid) {
+        CacheUtil.PLAYER_RACE.remove(playerUuid);
     }
 
     public synchronized static boolean add(Player player, Integer amount) {
@@ -119,6 +132,114 @@ public class CacheUtil {
             return false;
         }
         racePlayer.setAmount(racePlayer.getAmount() - amount);
+        return true;
+    }
+
+    /**
+     * 更新种族等级
+     *
+     * @param playerUuid 玩家uid
+     * @param raceLevel  种族等级
+     * @return true 成功
+     */
+    public static boolean addRaceLevel(UUID playerUuid, int raceLevel) {
+        RacePlayer racePlayer = getRacePlayer(playerUuid);
+        if (racePlayer == null) {
+            return false;
+        }
+        racePlayer.setRaceLevel(racePlayer.getRaceLevel() + raceLevel);
+        return true;
+    }
+
+    /**
+     * 设置种族
+     *
+     * @param player       玩家
+     * @param raceTypeEnum 种族类型
+     * @return true 成功
+     */
+    public static boolean updateRaceType(Player player, RaceTypeEnum raceTypeEnum) {
+        return updateRaceType(player, raceTypeEnum, 0);
+    }
+
+    /**
+     * 设置种族
+     *
+     * @param playerUuid   玩家uid
+     * @param raceTypeEnum 种族类型
+     * @return true 成功
+     */
+    public static boolean updateRaceType(UUID playerUuid, RaceTypeEnum raceTypeEnum) {
+        return updateRaceType(playerUuid, raceTypeEnum, 0);
+    }
+
+    /**
+     * 设置种族
+     *
+     * @param player       玩家
+     * @param raceTypeEnum 种族类型
+     * @param raceLevel    种族等级
+     * @return true 成功
+     */
+    public static boolean updateRaceType(Player player, RaceTypeEnum raceTypeEnum, int raceLevel) {
+        boolean rst = updateRaceType(player.getUniqueId(), raceTypeEnum, raceLevel);
+        if (rst) {
+            player.getInventory().addItem(RaceUtil.getRaceHelpBook(raceTypeEnum));
+            MessageUtil.sendMessage(player, RaceTypeEnum.getTip(raceTypeEnum));
+        }
+        return rst;
+    }
+
+    /**
+     * 设置种族
+     *
+     * @param playerUuid   玩家uid
+     * @param raceTypeEnum 种族类型
+     * @param raceLevel    种族等级
+     * @return true 成功
+     */
+    public static boolean updateRaceType(UUID playerUuid, RaceTypeEnum raceTypeEnum, int raceLevel) {
+        RacePlayer racePlayer = getRacePlayer(playerUuid);
+        if (racePlayer == null) {
+            return false;
+        }
+        int maxAmount = 0;
+        switch (raceTypeEnum) {
+            case WER_WOLF:
+                maxAmount = ConfigUtil.RACE_CONFIG.getInt("werwolf.maxAmount");
+                break;
+            case VAMPIRE:
+                if (raceLevel < 1) {
+                    raceLevel = 1;
+                }
+                if (raceLevel > 10) {
+                    raceLevel = 10;
+                }
+                maxAmount = ConfigUtil.RACE_CONFIG.getInt("vampire.maxAmount");
+                maxAmount = (int) Math.ceil(maxAmount * ConfigUtil.RACE_CONFIG.getDouble("vampire.energyMultiple" + "." + raceLevel));
+                break;
+            case DEMON:
+                maxAmount = ConfigUtil.RACE_CONFIG.getInt("demon.maxAmount");
+                break;
+            case ANGEL:
+                maxAmount = ConfigUtil.RACE_CONFIG.getInt("angel.maxAmount");
+                break;
+            case GHOUL:
+                maxAmount = ConfigUtil.RACE_CONFIG.getInt("ghoul.maxAmount");
+                break;
+            case DEMON_HUNTER:
+                maxAmount = ConfigUtil.RACE_CONFIG.getInt("demonHunter.maxAmount");
+                break;
+            default:
+                break;
+        }
+        racePlayer.setRaceType(raceTypeEnum.getType());
+        racePlayer.setRaceLevel(raceLevel);
+        racePlayer.setAmount(maxAmount);
+        racePlayer.setMaxAmount(maxAmount);
+        racePlayer.setTransferTime(System.currentTimeMillis());
+        // 变更种族异步立即刷到数据库
+        HandySchedulerUtil.runTaskAsynchronously(() -> cache2Db(playerUuid));
         return true;
     }
 

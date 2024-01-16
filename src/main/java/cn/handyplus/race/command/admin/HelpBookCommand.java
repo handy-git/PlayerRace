@@ -5,7 +5,7 @@ import cn.handyplus.lib.util.AssertUtil;
 import cn.handyplus.lib.util.BaseUtil;
 import cn.handyplus.lib.util.MessageUtil;
 import cn.handyplus.race.constants.RaceTypeEnum;
-import cn.handyplus.race.service.RacePlayerService;
+import cn.handyplus.race.util.CacheUtil;
 import cn.handyplus.race.util.RaceUtil;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -35,12 +35,7 @@ public class HelpBookCommand implements IHandyCommandEvent {
     public void onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         Player player = AssertUtil.notPlayer(sender, BaseUtil.getLangMsg("noPlayerFailureMsg"));
         // 判断种族
-        String raceType = RacePlayerService.getInstance().findRaceType(player.getUniqueId());
-        RaceTypeEnum raceTypeEnum = RaceTypeEnum.getEnum(raceType);
-        if (raceTypeEnum == null) {
-            MessageUtil.sendMessage(sender, BaseUtil.getLangMsg("typeFailureMsg"));
-            return;
-        }
+        RaceTypeEnum raceTypeEnum = RaceTypeEnum.getEnumThrow(CacheUtil.getRacePlayer(player.getUniqueId()).getRaceType());
         player.getInventory().addItem(RaceUtil.getRaceHelpBook(raceTypeEnum));
         MessageUtil.sendMessage(sender, BaseUtil.getLangMsg("succeedMsg"));
     }

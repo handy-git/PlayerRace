@@ -11,14 +11,13 @@ import org.bukkit.block.Block;
 import java.util.Iterator;
 
 /**
+ * 同步定时清理生成出来的蜘蛛网
+ *
  * @author handy
  **/
 public class ItemClearTask {
 
-    /**
-     * 同步定时清理生成出来的蜘蛛网
-     */
-    public static void setItemClearTask() {
+    public static void start() {
         HandySchedulerUtil.runTaskTimer(() -> {
             Iterator<Location> iterator = AbstractRaceConstants.LOCATIONS.iterator();
             while (iterator.hasNext()) {

@@ -3,7 +3,6 @@ package cn.handyplus.race.api;
 import cn.handyplus.lib.expand.adapter.HandySchedulerUtil;
 import cn.handyplus.lib.util.BaseUtil;
 import cn.handyplus.race.constants.RaceTypeEnum;
-import cn.handyplus.race.service.RacePlayerService;
 import cn.handyplus.race.util.CacheUtil;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
@@ -37,7 +36,7 @@ public class PlayerRaceApi {
      * @since 1.2.4
      */
     public void temporaryCancel(Player player) {
-        CacheUtil.removeCache(player);
+        CacheUtil.removeCache(player.getUniqueId());
     }
 
     /**
@@ -55,12 +54,14 @@ public class PlayerRaceApi {
     /**
      * 查询种族类型
      *
-     * @param playerUuid 玩家uid
+     * @param playerName 玩家名
      * @return 种族类型
      * @since 1.3.0
      */
-    public String findRaceType(UUID playerUuid) {
-        return RacePlayerService.getInstance().findRaceType(playerUuid);
+    @Deprecated
+    public String findRaceType(String playerName) {
+        OfflinePlayer offlinePlayer = BaseUtil.getOfflinePlayer(playerName);
+        return CacheUtil.getRacePlayer(offlinePlayer.getUniqueId()).getRaceType();
     }
 
     /**
@@ -70,9 +71,31 @@ public class PlayerRaceApi {
      * @return 种族名称
      * @since 1.3.0
      */
+    @Deprecated
     public String findRaceTypeName(String playerName) {
-        OfflinePlayer offlinePlayer = BaseUtil.getOfflinePlayer(playerName);
-        return RaceTypeEnum.getTypeName(this.findRaceType(offlinePlayer.getUniqueId()));
+        return RaceTypeEnum.getDesc(this.findRaceType(playerName));
+    }
+
+    /**
+     * 查询种族类型
+     *
+     * @param playerUuid 玩家uid
+     * @return 种族类型
+     * @since 2.0.0
+     */
+    public String findRaceType(UUID playerUuid) {
+        return CacheUtil.getRacePlayer(playerUuid).getRaceType();
+    }
+
+    /**
+     * 查询种族名称
+     *
+     * @param playerUuid 玩家uid
+     * @return 种族名称
+     * @since 2.0.0
+     */
+    public String findRaceTypeName(UUID playerUuid) {
+        return RaceTypeEnum.getDesc(this.findRaceType(playerUuid));
     }
 
 }

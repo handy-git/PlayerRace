@@ -4,7 +4,8 @@ import cn.handyplus.lib.command.IHandyCommandEvent;
 import cn.handyplus.lib.util.BaseUtil;
 import cn.handyplus.lib.util.MessageUtil;
 import cn.handyplus.race.constants.RaceTypeEnum;
-import cn.handyplus.race.service.RacePlayerService;
+import cn.handyplus.race.entity.RacePlayer;
+import cn.handyplus.race.util.CacheUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
@@ -35,12 +36,9 @@ public class FindRaceCommand implements IHandyCommandEvent {
     public void onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         if (args.length == 2) {
             OfflinePlayer offlinePlayer = BaseUtil.getOfflinePlayer(args[1]);
-            RaceTypeEnum anEnum = RaceTypeEnum.getEnum(RacePlayerService.getInstance().findRaceType(offlinePlayer.getUniqueId()));
-            if (anEnum == null) {
-                MessageUtil.sendMessage(sender, BaseUtil.getLangMsg("typeFailureMsg"));
-            } else {
-                MessageUtil.sendMessage(sender, args[1] + ": " + anEnum.getTypeName());
-            }
+            RacePlayer racePlayer = CacheUtil.getRacePlayer(offlinePlayer.getUniqueId());
+            RaceTypeEnum raceTypeEnum = RaceTypeEnum.getEnumThrow(racePlayer.getRaceType());
+            MessageUtil.sendMessage(sender, args[1] + ": " + RaceTypeEnum.getDesc(raceTypeEnum.getType()));
             return;
         }
         if (Bukkit.getOnlinePlayers().isEmpty()) {
@@ -49,10 +47,8 @@ public class FindRaceCommand implements IHandyCommandEvent {
         }
         // 查询全部在线玩家
         for (Player player : Bukkit.getOnlinePlayers()) {
-            RaceTypeEnum anEnum = RaceTypeEnum.getEnum(RacePlayerService.getInstance().findRaceType(player.getUniqueId()));
-            if (anEnum != null) {
-                MessageUtil.sendMessage(sender, player.getName() + ": " + anEnum.getTypeName());
-            }
+            RaceTypeEnum raceTypeEnum = RaceTypeEnum.getEnumThrow(CacheUtil.getRacePlayer(player.getUniqueId()).getRaceType());
+            MessageUtil.sendMessage(sender, player.getName() + ": " + RaceTypeEnum.getDesc(raceTypeEnum.getType()));
         }
     }
 

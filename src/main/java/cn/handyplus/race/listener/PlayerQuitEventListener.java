@@ -38,8 +38,8 @@ public class PlayerQuitEventListener implements Listener {
     }
 
     private void clearCache(Player player) {
-        CacheUtil.cache2Db(player);
-        CacheUtil.removeCache(player);
+        CacheUtil.cache2Db(player.getUniqueId());
+        CacheUtil.removeCache(player.getUniqueId());
         AbstractRaceConstants.VICTIM_ENTITY.remove(player.getUniqueId());
         AbstractRaceConstants.DEMON_HUNTER_BOW.remove(player.getUniqueId());
     }
