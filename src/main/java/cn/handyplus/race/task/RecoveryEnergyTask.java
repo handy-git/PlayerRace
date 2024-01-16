@@ -4,6 +4,7 @@ import cn.handyplus.lib.expand.adapter.HandySchedulerUtil;
 import cn.handyplus.race.constants.RaceTypeEnum;
 import cn.handyplus.race.entity.RacePlayer;
 import cn.handyplus.race.service.RacePlayerService;
+import cn.handyplus.race.util.CacheUtil;
 import cn.handyplus.race.util.ConfigUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -23,7 +24,7 @@ public class RecoveryEnergyTask {
     public static void setRecoveryFatigueTask() {
         HandySchedulerUtil.runTaskTimerAsynchronously(() -> {
             for (Player player : Bukkit.getOnlinePlayers()) {
-                Optional<RacePlayer> racePlayerOptional = RacePlayerService.getInstance().findByPlayerName(player.getName());
+                Optional<RacePlayer> racePlayerOptional = RacePlayerService.getInstance().findByPlayer(player.getUniqueId());
                 if (!racePlayerOptional.isPresent()) {
                     continue;
                 }
@@ -67,7 +68,7 @@ public class RecoveryEnergyTask {
                 if (racePlayer.getAmount() + restoreNumber > racePlayer.getMaxAmount()) {
                     restoreNumber = racePlayer.getMaxAmount() - racePlayer.getAmount();
                 }
-                RacePlayerService.getInstance().updateAdd(player.getName(), restoreNumber);
+                CacheUtil.add(player, restoreNumber);
             }
         }, 20 * 60, 20 * 60);
     }

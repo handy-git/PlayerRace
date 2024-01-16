@@ -6,6 +6,7 @@ import cn.handyplus.lib.util.MessageUtil;
 import cn.handyplus.race.constants.RaceTypeEnum;
 import cn.handyplus.race.service.RacePlayerService;
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -33,7 +34,8 @@ public class FindRaceCommand implements IHandyCommandEvent {
     @Override
     public void onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         if (args.length == 2) {
-            RaceTypeEnum anEnum = RaceTypeEnum.getEnum(RacePlayerService.getInstance().findRaceType(args[1]));
+            OfflinePlayer offlinePlayer = BaseUtil.getOfflinePlayer(args[1]);
+            RaceTypeEnum anEnum = RaceTypeEnum.getEnum(RacePlayerService.getInstance().findRaceType(offlinePlayer.getUniqueId()));
             if (anEnum == null) {
                 MessageUtil.sendMessage(sender, BaseUtil.getLangMsg("typeFailureMsg"));
             } else {
@@ -47,7 +49,7 @@ public class FindRaceCommand implements IHandyCommandEvent {
         }
         // 查询全部在线玩家
         for (Player player : Bukkit.getOnlinePlayers()) {
-            RaceTypeEnum anEnum = RaceTypeEnum.getEnum(RacePlayerService.getInstance().findRaceType(player.getName()));
+            RaceTypeEnum anEnum = RaceTypeEnum.getEnum(RacePlayerService.getInstance().findRaceType(player.getUniqueId()));
             if (anEnum != null) {
                 MessageUtil.sendMessage(sender, player.getName() + ": " + anEnum.getTypeName());
             }

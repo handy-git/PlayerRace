@@ -9,10 +9,11 @@ import cn.handyplus.lib.util.BaseUtil;
 import cn.handyplus.lib.util.ItemStackUtil;
 import cn.handyplus.lib.util.MessageUtil;
 import cn.handyplus.race.PlayerRace;
-import cn.handyplus.race.constants.RaceConstants;
+import cn.handyplus.race.constants.AbstractRaceConstants;
 import cn.handyplus.race.constants.RaceTypeEnum;
 import cn.handyplus.race.entity.RacePlayer;
 import cn.handyplus.race.service.RacePlayerService;
+import cn.handyplus.race.util.CacheUtil;
 import cn.handyplus.race.util.ConfigUtil;
 import cn.handyplus.race.util.RaceUtil;
 import com.bekvon.bukkit.residence.Residence;
@@ -93,7 +94,7 @@ public class VampireEventListener implements Listener {
                 return;
             }
             // 判断是否为人类或者吸血鬼
-            RacePlayer racePlayer = RaceConstants.PLAYER_RACE.get(player.getName());
+            RacePlayer racePlayer = CacheUtil.getRacePlayer(player.getUniqueId());
             if (racePlayer == null) {
                 return;
             }
@@ -111,11 +112,11 @@ public class VampireEventListener implements Listener {
                 return;
             }
             // 设置玩家种族为吸血鬼始祖
-            Boolean rst = RacePlayerService.getInstance().updateRaceType(player.getName(), RaceTypeEnum.VAMPIRE.getType(), 1);
+            Boolean rst = RacePlayerService.getInstance().updateRaceType(player.getUniqueId(), RaceTypeEnum.VAMPIRE.getType(), 1);
             if (rst) {
                 player.sendMessage(BaseUtil.getLangMsg("vampire.ancestorSucceedMsg"));
                 player.getInventory().addItem(RaceUtil.getRaceHelpBook(RaceTypeEnum.VAMPIRE));
-                RaceUtil.refreshCache(player);
+                CacheUtil.db2Cache(player);
             }
         });
     }
@@ -137,25 +138,25 @@ public class VampireEventListener implements Listener {
 
         HandySchedulerUtil.runTaskAsynchronously(() -> {
             // 判断是否为人类
-            if (!RaceUtil.isRaceType(RaceTypeEnum.MANKIND, player)) {
+            if (!CacheUtil.isRaceType(RaceTypeEnum.MANKIND, player)) {
                 return;
             }
 
             // 判断击杀者是不是吸血鬼
-            RacePlayer racePlayerDamage = RaceConstants.PLAYER_RACE.get(killer.getName());
+            RacePlayer racePlayerDamage = CacheUtil.getRacePlayer(killer.getUniqueId());
             if (racePlayerDamage == null || !RaceTypeEnum.VAMPIRE.getType().equals(racePlayerDamage.getRaceType())) {
                 return;
             }
 
             // 设置玩家种族为吸血鬼-等级变低一级
-            Boolean rst = RacePlayerService.getInstance().updateRaceType(player.getName(), RaceTypeEnum.VAMPIRE.getType(), racePlayerDamage.getRaceLevel() + 1);
+            Boolean rst = RacePlayerService.getInstance().updateRaceType(player.getUniqueId(), RaceTypeEnum.VAMPIRE.getType(), racePlayerDamage.getRaceLevel() + 1);
             if (rst) {
                 player.sendMessage(BaseUtil.getLangMsg("vampire.succeedMsg"));
                 player.getInventory().addItem(RaceUtil.getRaceHelpBook(RaceTypeEnum.VAMPIRE));
                 String langMsg = BaseUtil.getLangMsg("vampire.succeedPlayerMsg");
                 langMsg = langMsg.replace("${player}", player.getName());
                 MessageUtil.sendActionbar(player, langMsg);
-                RaceUtil.refreshCache(player);
+                CacheUtil.db2Cache(player);
             }
         });
     }
@@ -175,7 +176,7 @@ public class VampireEventListener implements Listener {
         Player player = (Player) damage;
 
         // 判断是否为吸血鬼
-        RacePlayer racePlayer = RaceUtil.isRaceTypeAndGetRace(RaceTypeEnum.VAMPIRE, player);
+        RacePlayer racePlayer = CacheUtil.isRaceTypeAndGetRace(RaceTypeEnum.VAMPIRE, player);
         if (racePlayer == null) {
             return;
         }
@@ -196,7 +197,7 @@ public class VampireEventListener implements Listener {
         // 被伤害者
         Entity entity = event.getEntity();
         if (entity instanceof Player) {
-            RaceConstants.VICTIM_ENTITY.put(player.getUniqueId(), (Player) entity);
+            AbstractRaceConstants.VICTIM_ENTITY.put(player.getUniqueId(), (Player) entity);
         }
     }
 
@@ -215,7 +216,7 @@ public class VampireEventListener implements Listener {
         Player player = (Player) entity;
 
         // 判断是否为吸血鬼
-        RacePlayer racePlayer = RaceUtil.isRaceTypeAndGetRace(RaceTypeEnum.VAMPIRE, player);
+        RacePlayer racePlayer = CacheUtil.isRaceTypeAndGetRace(RaceTypeEnum.VAMPIRE, player);
         if (racePlayer == null) {
             return;
         }
@@ -302,7 +303,7 @@ public class VampireEventListener implements Listener {
         Player player = (Player) entity;
 
         // 判断是否为吸血鬼
-        if (!RaceUtil.isRaceType(RaceTypeEnum.VAMPIRE, player)) {
+        if (!CacheUtil.isRaceType(RaceTypeEnum.VAMPIRE, player)) {
             return;
         }
         event.setAmount(event.getAmount() + ConfigUtil.RACE_CONFIG.getInt("vampire.regainHealth"));
@@ -329,7 +330,7 @@ public class VampireEventListener implements Listener {
         }
 
         // 判断是否为吸血鬼
-        if (!RaceUtil.isRaceType(RaceTypeEnum.VAMPIRE, player)) {
+        if (!CacheUtil.isRaceType(RaceTypeEnum.VAMPIRE, player)) {
             return;
         }
         event.setDamage(event.getDamage() - ConfigUtil.RACE_CONFIG.getInt("vampire.drowning"));
@@ -355,7 +356,7 @@ public class VampireEventListener implements Listener {
         }
 
         // 判断是否为吸血鬼
-        if (!RaceUtil.isRaceType(RaceTypeEnum.VAMPIRE, player)) {
+        if (!CacheUtil.isRaceType(RaceTypeEnum.VAMPIRE, player)) {
             return;
         }
         event.setCancelled(true);
@@ -376,7 +377,7 @@ public class VampireEventListener implements Listener {
         Player player = event.getPlayer();
 
         // 判断是否为吸血鬼
-        if (!RaceUtil.isRaceType(RaceTypeEnum.VAMPIRE, player)) {
+        if (!CacheUtil.isRaceType(RaceTypeEnum.VAMPIRE, player)) {
             return;
         }
         // 判断物品是否配置过可使用
@@ -439,7 +440,7 @@ public class VampireEventListener implements Listener {
         Player player = (Player) entity;
 
         // 判断是否为吸血鬼
-        if (!RaceUtil.isRaceType(RaceTypeEnum.VAMPIRE, player)) {
+        if (!CacheUtil.isRaceType(RaceTypeEnum.VAMPIRE, player)) {
             return;
         }
         event.setCancelled(true);
@@ -462,7 +463,7 @@ public class VampireEventListener implements Listener {
         Player player = event.getPlayer();
 
         // 判断是否为吸血鬼
-        if (!RaceUtil.isRaceType(RaceTypeEnum.VAMPIRE, player)) {
+        if (!CacheUtil.isRaceType(RaceTypeEnum.VAMPIRE, player)) {
             return;
         }
 
@@ -473,7 +474,7 @@ public class VampireEventListener implements Listener {
         }
 
         // 判断是否有敌人
-        Player entity = RaceConstants.VICTIM_ENTITY.get(player.getUniqueId());
+        Player entity = AbstractRaceConstants.VICTIM_ENTITY.get(player.getUniqueId());
         if (entity == null || !player.canSee(entity)) {
             MessageUtil.sendActionbar(player, BaseUtil.getLangMsg("vampire.noTarget"));
             return;
@@ -493,7 +494,7 @@ public class VampireEventListener implements Listener {
         }
 
         int amount = ConfigUtil.RACE_CONFIG.getInt("vampire.hematophagia");
-        boolean rst = RacePlayerService.getInstance().updateSubtract(player.getName(), amount);
+        boolean rst = CacheUtil.subtract(player, amount);
         if (!rst) {
             MessageUtil.sendActionbar(player, RaceUtil.getEnergyShortageMsg(amount));
             return;
@@ -522,7 +523,7 @@ public class VampireEventListener implements Listener {
 
         player.setHealth(Math.min(healthValue, player.getMaxHealth()));
 
-        RaceConstants.VICTIM_ENTITY.remove(player.getUniqueId());
+        AbstractRaceConstants.VICTIM_ENTITY.remove(player.getUniqueId());
 
         String hematophagiaSucceedMsg = BaseUtil.getLangMsg("vampire.hematophagiaSucceedMsg");
         hematophagiaSucceedMsg = hematophagiaSucceedMsg

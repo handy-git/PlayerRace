@@ -7,11 +7,12 @@ import cn.handyplus.lib.expand.adapter.HandySchedulerUtil;
 import cn.handyplus.lib.util.BaseUtil;
 import cn.handyplus.lib.util.MessageUtil;
 import cn.handyplus.race.PlayerRace;
+import cn.handyplus.race.constants.AbstractRaceConstants;
 import cn.handyplus.race.constants.DemonHunterBowTypeEnum;
-import cn.handyplus.race.constants.RaceConstants;
 import cn.handyplus.race.constants.RaceTypeEnum;
 import cn.handyplus.race.entity.RacePlayer;
 import cn.handyplus.race.service.RacePlayerService;
+import cn.handyplus.race.util.CacheUtil;
 import cn.handyplus.race.util.ConfigUtil;
 import cn.handyplus.race.util.RaceUtil;
 import com.bekvon.bukkit.residence.Residence;
@@ -55,12 +56,12 @@ public class DemonHunterEventListener implements Listener {
         }
         HandySchedulerUtil.runTaskAsynchronously(() -> {
             // 判断被击杀者是否为为其他种族
-            if (RaceUtil.isRaceType(RaceTypeEnum.MANKIND, player)) {
+            if (CacheUtil.isRaceType(RaceTypeEnum.MANKIND, player)) {
                 return;
             }
 
             // 判断击杀者是不是人类
-            RacePlayer racePlayer = RaceUtil.isRaceTypeAndGetRace(RaceTypeEnum.MANKIND, killer);
+            RacePlayer racePlayer = CacheUtil.isRaceTypeAndGetRace(RaceTypeEnum.MANKIND, killer);
             if (racePlayer == null) {
                 return;
             }
@@ -68,19 +69,19 @@ public class DemonHunterEventListener implements Listener {
             // 击杀超过3人,进行转换
             if (racePlayer.getRaceLevel() != null && racePlayer.getRaceLevel() >= 3) {
                 // 设置玩家种族为恶魔猎手
-                Boolean rst = RacePlayerService.getInstance().updateRaceType(killer.getName(), RaceTypeEnum.DEMON_HUNTER.getType());
+                Boolean rst = RacePlayerService.getInstance().updateRaceType(killer.getUniqueId(), RaceTypeEnum.DEMON_HUNTER.getType());
                 if (rst) {
                     killer.getInventory().addItem(RaceUtil.getRaceHelpBook(RaceTypeEnum.DEMON_HUNTER));
                     killer.sendMessage(BaseUtil.getLangMsg("mankind.killsucceedMsg"));
                 }
             } else {
                 // 设置人类等级提升
-                boolean rst = RacePlayerService.getInstance().addRaceLevel(killer.getName(), 1);
+                boolean rst = RacePlayerService.getInstance().addRaceLevel(killer.getUniqueId(), 1);
                 if (rst) {
                     killer.sendMessage(BaseUtil.getLangMsg("mankind.killMsg"));
                 }
             }
-            RaceUtil.refreshCache(killer);
+            CacheUtil.db2Cache(killer);
         });
     }
 
@@ -109,12 +110,12 @@ public class DemonHunterEventListener implements Listener {
         }
 
         // 判断是否为恶魔猎手
-        if (!RaceUtil.isRaceType(RaceTypeEnum.DEMON_HUNTER, player)) {
+        if (!CacheUtil.isRaceType(RaceTypeEnum.DEMON_HUNTER, player)) {
             return;
         }
 
         // 判断弓类型
-        DemonHunterBowTypeEnum demonHunterBowTypeEnum = RaceConstants.DEMON_HUNTER_BOW.get(player.getUniqueId());
+        DemonHunterBowTypeEnum demonHunterBowTypeEnum = AbstractRaceConstants.DEMON_HUNTER_BOW.get(player.getUniqueId());
         if (demonHunterBowTypeEnum == null) {
             return;
         }
@@ -150,7 +151,7 @@ public class DemonHunterEventListener implements Listener {
                 // 如果是空气才能生成网
                 if (Material.AIR.equals(location.getWorld().getBlockAt(location).getType())) {
                     location.getWorld().getBlockAt(location).setType(Material.valueOf(web));
-                    RaceConstants.LOCATIONS.add(location);
+                    AbstractRaceConstants.LOCATIONS.add(location);
                 }
                 break;
             default:
@@ -178,35 +179,35 @@ public class DemonHunterEventListener implements Listener {
         Player player = event.getPlayer();
 
         // 判断是否为恶魔猎手
-        if (!RaceUtil.isRaceType(RaceTypeEnum.DEMON_HUNTER, player)) {
+        if (!CacheUtil.isRaceType(RaceTypeEnum.DEMON_HUNTER, player)) {
             return;
         }
 
         HandySchedulerUtil.runTaskAsynchronously(() -> {
             int amount = ConfigUtil.RACE_CONFIG.getInt("demonHunter.cutBow");
-            boolean rst = RacePlayerService.getInstance().updateSubtract(player.getName(), amount);
+            boolean rst = CacheUtil.subtract(player, amount);
             if (!rst) {
                 MessageUtil.sendActionbar(player, RaceUtil.getEnergyShortageMsg(amount));
                 return;
             }
 
-            DemonHunterBowTypeEnum demonHunterBowTypeEnum = RaceConstants.DEMON_HUNTER_BOW.get(player.getUniqueId());
+            DemonHunterBowTypeEnum demonHunterBowTypeEnum = AbstractRaceConstants.DEMON_HUNTER_BOW.get(player.getUniqueId());
 
             DemonHunterBowTypeEnum cutBow = DemonHunterBowTypeEnum.STRENGTH;
             if (demonHunterBowTypeEnum == null) {
-                RaceConstants.DEMON_HUNTER_BOW.put(player.getUniqueId(), cutBow);
+                AbstractRaceConstants.DEMON_HUNTER_BOW.put(player.getUniqueId(), cutBow);
             } else {
                 switch (demonHunterBowTypeEnum) {
                     case STRENGTH:
-                        RaceConstants.DEMON_HUNTER_BOW.put(player.getUniqueId(), DemonHunterBowTypeEnum.FIRE);
+                        AbstractRaceConstants.DEMON_HUNTER_BOW.put(player.getUniqueId(), DemonHunterBowTypeEnum.FIRE);
                         cutBow = DemonHunterBowTypeEnum.FIRE;
                         break;
                     case FIRE:
-                        RaceConstants.DEMON_HUNTER_BOW.put(player.getUniqueId(), DemonHunterBowTypeEnum.WEB);
+                        AbstractRaceConstants.DEMON_HUNTER_BOW.put(player.getUniqueId(), DemonHunterBowTypeEnum.WEB);
                         cutBow = DemonHunterBowTypeEnum.WEB;
                         break;
                     case WEB:
-                        RaceConstants.DEMON_HUNTER_BOW.put(player.getUniqueId(), DemonHunterBowTypeEnum.STRENGTH);
+                        AbstractRaceConstants.DEMON_HUNTER_BOW.put(player.getUniqueId(), DemonHunterBowTypeEnum.STRENGTH);
                         cutBow = DemonHunterBowTypeEnum.STRENGTH;
                         break;
                     default:
@@ -234,7 +235,7 @@ public class DemonHunterEventListener implements Listener {
         }
         Player player = event.getPlayer();
         // 判断是否为人类
-        if (!RaceUtil.isRaceType(RaceTypeEnum.MANKIND, player)) {
+        if (!CacheUtil.isRaceType(RaceTypeEnum.MANKIND, player)) {
             return;
         }
         // 判断是否牛奶
@@ -242,8 +243,8 @@ public class DemonHunterEventListener implements Listener {
         if (!event.getItem().getType().equals(milkBucket)) {
             return;
         }
-        if (CollUtil.isNotEmpty(RaceConstants.PLAYER_CURSES)) {
-            RaceConstants.PLAYER_CURSES.removeIf(playerCursesParam -> playerCursesParam.getPlayer().equals(player));
+        if (CollUtil.isNotEmpty(AbstractRaceConstants.PLAYER_CURSES)) {
+            AbstractRaceConstants.PLAYER_CURSES.removeIf(playerCursesParam -> playerCursesParam.getPlayer().equals(player));
         }
     }
 

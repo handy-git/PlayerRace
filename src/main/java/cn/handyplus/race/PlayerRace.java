@@ -5,7 +5,7 @@ import cn.handyplus.lib.constants.BaseConstants;
 import cn.handyplus.lib.db.SqlManagerUtil;
 import cn.handyplus.lib.util.BaseUtil;
 import cn.handyplus.lib.util.MessageUtil;
-import cn.handyplus.race.constants.RaceConstants;
+import cn.handyplus.race.constants.AbstractRaceConstants;
 import cn.handyplus.race.task.TaskManage;
 import cn.handyplus.race.util.ConfigUtil;
 import cn.handyplus.race.util.PlaceholderUtil;
@@ -41,7 +41,7 @@ public final class PlayerRace extends JavaPlugin {
         RaceUtil.registerCompound();
 
         // 初始化
-        initApi.checkVersion(ConfigUtil.CONFIG.getBoolean(BaseConstants.IS_CHECK_UPDATE), RaceConstants.CHECK_VERSION_URL)
+        initApi.checkVersion(ConfigUtil.CONFIG.getBoolean(BaseConstants.IS_CHECK_UPDATE), AbstractRaceConstants.CHECK_VERSION_URL)
                 .enableSql("cn.handyplus.race.entity")
                 .initCommand("cn.handyplus.race.command")
                 .initListener("cn.handyplus.race.listener")

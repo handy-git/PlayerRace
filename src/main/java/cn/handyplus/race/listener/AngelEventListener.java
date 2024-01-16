@@ -8,6 +8,7 @@ import cn.handyplus.lib.util.ItemStackUtil;
 import cn.handyplus.lib.util.MessageUtil;
 import cn.handyplus.race.constants.RaceTypeEnum;
 import cn.handyplus.race.service.RacePlayerService;
+import cn.handyplus.race.util.CacheUtil;
 import cn.handyplus.race.util.ConfigUtil;
 import cn.handyplus.race.util.RaceUtil;
 import org.bukkit.Location;
@@ -79,15 +80,15 @@ public class AngelEventListener implements Listener {
         }
         HandySchedulerUtil.runTaskAsynchronously(() -> {
             // 判断玩家是否是人类
-            if (!RaceUtil.isRaceType(RaceTypeEnum.MANKIND, player)) {
+            if (!CacheUtil.isRaceType(RaceTypeEnum.MANKIND, player)) {
                 return;
             }
             // 设置玩家种族为天使
-            Boolean rst = RacePlayerService.getInstance().updateRaceType(player.getName(), RaceTypeEnum.ANGEL.getType());
+            Boolean rst = RacePlayerService.getInstance().updateRaceType(player.getUniqueId(), RaceTypeEnum.ANGEL.getType());
             if (rst) {
                 player.getInventory().addItem(RaceUtil.getRaceHelpBook(RaceTypeEnum.ANGEL));
                 player.sendMessage(BaseUtil.getLangMsg("angel.succeedMsg"));
-                RaceUtil.refreshCache(player);
+                CacheUtil.db2Cache(player);
             }
         });
     }
@@ -117,7 +118,7 @@ public class AngelEventListener implements Listener {
         }
 
         // 判断玩家是否为天使
-        if (!RaceUtil.isRaceType(RaceTypeEnum.ANGEL, player)) {
+        if (!CacheUtil.isRaceType(RaceTypeEnum.ANGEL, player)) {
             return;
         }
 
@@ -127,7 +128,7 @@ public class AngelEventListener implements Listener {
         }
 
         int amount = ConfigUtil.RACE_CONFIG.getInt("angel.diaup");
-        boolean rst = RacePlayerService.getInstance().updateSubtract(player.getName(), amount);
+        boolean rst = CacheUtil.subtract(player, amount);
         if (!rst) {
             MessageUtil.sendActionbar(player, RaceUtil.getEnergyShortageMsg(amount));
             return;
@@ -179,7 +180,7 @@ public class AngelEventListener implements Listener {
         Player player = (Player) whoClicked;
 
         // 判断是否为天使
-        if (!RaceUtil.isRaceType(RaceTypeEnum.ANGEL, player)) {
+        if (!CacheUtil.isRaceType(RaceTypeEnum.ANGEL, player)) {
             return;
         }
 
@@ -242,7 +243,7 @@ public class AngelEventListener implements Listener {
         }
 
         // 判断是否为天使
-        if (!RaceUtil.isRaceType(RaceTypeEnum.ANGEL, player)) {
+        if (!CacheUtil.isRaceType(RaceTypeEnum.ANGEL, player)) {
             return;
         }
         event.setCancelled(true);
@@ -269,7 +270,7 @@ public class AngelEventListener implements Listener {
         }
 
         // 判断是否为天使
-        if (!RaceUtil.isRaceType(RaceTypeEnum.ANGEL, player)) {
+        if (!CacheUtil.isRaceType(RaceTypeEnum.ANGEL, player)) {
             return;
         }
         event.setDamage(0);
@@ -318,7 +319,7 @@ public class AngelEventListener implements Listener {
         // 判断是否为人类
         if (entity instanceof Player) {
             Player player1 = (Player) entity;
-            String raceType = RacePlayerService.getInstance().findRaceType(player1.getName());
+            String raceType = RacePlayerService.getInstance().findRaceType(player1.getUniqueId());
             if (!RaceTypeEnum.MANKIND.getType().equals(raceType)) {
                 return;
             } else {
@@ -331,7 +332,7 @@ public class AngelEventListener implements Listener {
         }
 
         // 判断是否为天使
-        if (!RaceUtil.isRaceType(RaceTypeEnum.ANGEL, player)) {
+        if (!CacheUtil.isRaceType(RaceTypeEnum.ANGEL, player)) {
             return;
         }
         event.setCancelled(true);
@@ -359,7 +360,7 @@ public class AngelEventListener implements Listener {
         Player player = event.getPlayer();
 
         // 判断是否为天使
-        if (!RaceUtil.isRaceType(RaceTypeEnum.ANGEL, player)) {
+        if (!CacheUtil.isRaceType(RaceTypeEnum.ANGEL, player)) {
             return;
         }
 
@@ -382,7 +383,7 @@ public class AngelEventListener implements Listener {
         if (carrotMaterial.equals(material)) {
             amount = ConfigUtil.RACE_CONFIG.getInt("angel.summonPig");
         }
-        boolean rst = RacePlayerService.getInstance().updateSubtract(player.getName(), amount);
+        boolean rst = CacheUtil.subtract(player, amount);
         if (!rst) {
             MessageUtil.sendActionbar(player, RaceUtil.getEnergyShortageMsg(amount));
             return;
@@ -445,14 +446,14 @@ public class AngelEventListener implements Listener {
         }
 
         // 判断是否为天使
-        if (!RaceUtil.isRaceType(RaceTypeEnum.ANGEL, player)) {
+        if (!CacheUtil.isRaceType(RaceTypeEnum.ANGEL, player)) {
             return;
         }
 
         event.setCancelled(true);
 
         int amount = ConfigUtil.RACE_CONFIG.getInt("angel.returnValue");
-        boolean rst = RacePlayerService.getInstance().updateSubtract(player.getName(), amount);
+        boolean rst = CacheUtil.subtract(player, amount);
         if (!rst) {
             MessageUtil.sendActionbar(player, RaceUtil.getEnergyShortageMsg(amount));
             return;
@@ -466,7 +467,7 @@ public class AngelEventListener implements Listener {
         }
 
         int returnAmount = ConfigUtil.RACE_CONFIG.getInt("angel.returnAmount");
-        RacePlayerService.getInstance().updateAdd(playerEntity.getName(), returnAmount);
+        CacheUtil.add(playerEntity, returnAmount);
 
         String returnValueMsg = BaseUtil.getLangMsg("angel.returnValueMsg");
         returnValueMsg = returnValueMsg.replace("${amount}", amount + "").replace("${player}", playerEntity.getName()).replace("${returnAmount", returnAmount + "");
@@ -510,14 +511,14 @@ public class AngelEventListener implements Listener {
         }
 
         // 判断是否为天使
-        if (!RaceUtil.isRaceType(RaceTypeEnum.ANGEL, player)) {
+        if (!CacheUtil.isRaceType(RaceTypeEnum.ANGEL, player)) {
             return;
         }
 
         event.setCancelled(true);
 
         int amount = ConfigUtil.RACE_CONFIG.getInt("angel.returnHealth");
-        boolean rst = RacePlayerService.getInstance().updateSubtract(player.getName(), amount);
+        boolean rst = CacheUtil.subtract(player, amount);
         if (!rst) {
             MessageUtil.sendActionbar(player, RaceUtil.getEnergyShortageMsg(amount));
             return;

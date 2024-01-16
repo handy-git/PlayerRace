@@ -5,8 +5,8 @@ import cn.handyplus.lib.util.BaseUtil;
 import cn.handyplus.lib.util.MessageUtil;
 import cn.handyplus.race.constants.RaceTypeEnum;
 import cn.handyplus.race.service.RacePlayerService;
+import cn.handyplus.race.util.CacheUtil;
 import cn.handyplus.race.util.ConfigUtil;
-import cn.handyplus.race.util.RaceUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -23,11 +23,11 @@ public class GhoulWaterDamageTask {
         HandySchedulerUtil.runTaskTimerAsynchronously(() -> {
             for (Player player : Bukkit.getOnlinePlayers()) {
                 // 判断是否为食尸鬼
-                if (!RaceUtil.isRaceType(RaceTypeEnum.GHOUL, player)) {
+                if (!CacheUtil.isRaceType(RaceTypeEnum.GHOUL, player)) {
                     return;
                 }
                 // 判断是否为食尸鬼
-                String raceType = RacePlayerService.getInstance().findRaceType(player.getName());
+                String raceType = RacePlayerService.getInstance().findRaceType(player.getUniqueId());
                 if (!RaceTypeEnum.GHOUL.getType().equals(raceType)) {
                     continue;
                 }

@@ -43,7 +43,7 @@ public class PlaceholderUtil extends PlaceholderExpansion {
         int maxFatigue = ConfigUtil.CONFIG.getInt("maxFatigue");
         String race = RaceTypeEnum.MANKIND.getTypeName();
 
-        Optional<RacePlayer> racePlayerOptional = RacePlayerService.getInstance().findByPlayerName(player.getName());
+        Optional<RacePlayer> racePlayerOptional = RacePlayerService.getInstance().findByPlayer(player.getUniqueId());
         if (racePlayerOptional.isPresent()) {
             RacePlayer racePlayer = racePlayerOptional.get();
             race = RaceTypeEnum.getEnum(racePlayer.getRaceType()).getTypeName();

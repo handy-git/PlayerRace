@@ -8,7 +8,6 @@ import cn.handyplus.lib.util.BaseUtil;
 import cn.handyplus.lib.util.ItemStackUtil;
 import cn.handyplus.lib.util.MessageUtil;
 import cn.handyplus.race.PlayerRace;
-import cn.handyplus.race.constants.RaceConstants;
 import cn.handyplus.race.constants.RaceTypeEnum;
 import cn.handyplus.race.entity.RacePlayer;
 import cn.handyplus.race.service.RacePlayerService;
@@ -48,64 +47,6 @@ public class RaceUtil {
     }
 
     /**
-     * 判断是否对应种族类型
-     *
-     * @param raceTypeEnum 类型
-     * @param player       玩家
-     * @return RacePlayer
-     */
-    public static RacePlayer isRaceTypeAndGetRace(RaceTypeEnum raceTypeEnum, Player player) {
-        RacePlayer racePlayer = RaceConstants.PLAYER_RACE.get(player.getName());
-        if (racePlayer == null) {
-            return null;
-        }
-        if (isWorld(player)) {
-            return null;
-        }
-        return raceTypeEnum.getType().equals(racePlayer.getRaceType()) ? racePlayer : null;
-    }
-
-    /**
-     * 判断是否对应种族类型
-     *
-     * @param raceTypeEnum 类型
-     * @param player       玩家
-     * @return true/是
-     */
-    public static boolean isRaceType(RaceTypeEnum raceTypeEnum, Player player) {
-        RacePlayer racePlayer = RaceConstants.PLAYER_RACE.get(player.getName());
-        if (racePlayer == null) {
-            return false;
-        }
-        if (isWorld(player)) {
-            return false;
-        }
-        return raceTypeEnum.getType().equals(racePlayer.getRaceType());
-    }
-
-    /**
-     * 刷新缓存
-     *
-     * @param playerName 玩家名称
-     * @since 1.2.9
-     */
-    public static void refreshCache(String playerName) {
-        RaceConstants.PLAYER_RACE.put(playerName, RacePlayerService.getInstance().findByPlayerName(playerName).orElse(null));
-    }
-
-    /**
-     * 刷新缓存
-     *
-     * @param player 玩家
-     * @since 1.2.9
-     */
-    public static void refreshCache(Player player) {
-        if (player != null && player.isOnline()) {
-            refreshCache(player.getName());
-        }
-    }
-
-    /**
      * 能量不足
      *
      * @param amount 消耗值
@@ -135,7 +76,7 @@ public class RaceUtil {
     public static void restoreEnergy(Player player, RaceTypeEnum raceTypeEnum, int amount) {
         HandySchedulerUtil.runTaskAsynchronously(() -> {
             // 判断是否为对应种族
-            Optional<RacePlayer> racePlayerOptional = RacePlayerService.getInstance().findByPlayerName(player.getName());
+            Optional<RacePlayer> racePlayerOptional = RacePlayerService.getInstance().findByPlayer(player.getUniqueId());
             if (!racePlayerOptional.isPresent()) {
                 return;
             }
@@ -162,7 +103,7 @@ public class RaceUtil {
             if (racePlayer.getAmount() + amount > maxFatigue) {
                 num = maxFatigue - racePlayer.getAmount();
             }
-            boolean rst = RacePlayerService.getInstance().updateAdd(player.getName(), num);
+            boolean rst = CacheUtil.add(player, num);
             if (rst) {
                 String restoreEnergyMsg = ConfigUtil.LANG_CONFIG.getString("restoreEnergyMsg");
                 if (StrUtil.isNotEmpty(restoreEnergyMsg)) {

@@ -6,9 +6,10 @@ import cn.handyplus.lib.expand.adapter.HandySchedulerUtil;
 import cn.handyplus.lib.util.BaseUtil;
 import cn.handyplus.lib.util.MessageUtil;
 import cn.handyplus.race.PlayerRace;
-import cn.handyplus.race.constants.RaceConstants;
+import cn.handyplus.race.constants.AbstractRaceConstants;
 import cn.handyplus.race.constants.RaceTypeEnum;
 import cn.handyplus.race.service.RacePlayerService;
+import cn.handyplus.race.util.CacheUtil;
 import cn.handyplus.race.util.ConfigUtil;
 import cn.handyplus.race.util.RaceUtil;
 import com.bekvon.bukkit.residence.Residence;
@@ -79,15 +80,15 @@ public class DemonEventListener implements Listener {
         }
         HandySchedulerUtil.runTaskAsynchronously(() -> {
             // 判断玩家是否有种族
-            if (!RaceUtil.isRaceType(RaceTypeEnum.MANKIND, player)) {
+            if (!CacheUtil.isRaceType(RaceTypeEnum.MANKIND, player)) {
                 return;
             }
             // 设置玩家种族为恶魔
-            Boolean rst = RacePlayerService.getInstance().updateRaceType(player.getName(), RaceTypeEnum.DEMON.getType());
+            Boolean rst = RacePlayerService.getInstance().updateRaceType(player.getUniqueId(), RaceTypeEnum.DEMON.getType());
             if (rst) {
                 player.getInventory().addItem(RaceUtil.getRaceHelpBook(RaceTypeEnum.DEMON));
                 player.sendMessage(BaseUtil.getLangMsg("demon.succeedMsg"));
-                RaceUtil.refreshCache(player);
+                CacheUtil.db2Cache(player);
             }
         });
     }
@@ -112,7 +113,7 @@ public class DemonEventListener implements Listener {
         }
 
         // 判断是否为恶魔
-        if (!RaceUtil.isRaceType(RaceTypeEnum.DEMON, player)) {
+        if (!CacheUtil.isRaceType(RaceTypeEnum.DEMON, player)) {
             return;
         }
         event.setDamage(0);
@@ -138,7 +139,7 @@ public class DemonEventListener implements Listener {
         }
 
         // 判断是否为恶魔
-        if (!RaceUtil.isRaceType(RaceTypeEnum.DEMON, player)) {
+        if (!CacheUtil.isRaceType(RaceTypeEnum.DEMON, player)) {
             return;
         }
         event.setDamage(0);
@@ -181,11 +182,11 @@ public class DemonEventListener implements Listener {
         Player player = event.getPlayer();
 
         // 判断是否为恶魔
-        if (!RaceUtil.isRaceType(RaceTypeEnum.DEMON, player)) {
+        if (!CacheUtil.isRaceType(RaceTypeEnum.DEMON, player)) {
             return;
         }
         int amount = ConfigUtil.RACE_CONFIG.getInt("demon.fireBall");
-        boolean rst = RacePlayerService.getInstance().updateSubtract(player.getName(), amount);
+        boolean rst = CacheUtil.subtract(player, amount);
         if (!rst) {
             MessageUtil.sendActionbar(player, RaceUtil.getEnergyShortageMsg(amount));
             return;
@@ -234,7 +235,7 @@ public class DemonEventListener implements Listener {
         Player player = event.getPlayer();
 
         // 判断是否为恶魔
-        if (!RaceUtil.isRaceType(RaceTypeEnum.DEMON, player)) {
+        if (!CacheUtil.isRaceType(RaceTypeEnum.DEMON, player)) {
             return;
         }
 
@@ -259,7 +260,7 @@ public class DemonEventListener implements Listener {
             return;
         }
         int amount = ConfigUtil.RACE_CONFIG.getInt("demon.web");
-        boolean rst = RacePlayerService.getInstance().updateSubtract(player.getName(), amount);
+        boolean rst = CacheUtil.subtract(player, amount);
         if (!rst) {
             MessageUtil.sendActionbar(player, RaceUtil.getEnergyShortageMsg(amount));
             return;
@@ -279,7 +280,7 @@ public class DemonEventListener implements Listener {
         }
 
         block.getWorld().getBlockAt(location).setType(Material.valueOf(web));
-        RaceConstants.LOCATIONS.add(location);
+        AbstractRaceConstants.LOCATIONS.add(location);
         String langMsg = BaseUtil.getLangMsg("demon.webMsg");
         langMsg = langMsg.replace("${amount}", amount + "");
         MessageUtil.sendActionbar(player, langMsg);
@@ -300,7 +301,7 @@ public class DemonEventListener implements Listener {
         Player player = (Player) whoClicked;
 
         // 判断是否为恶魔
-        if (!RaceUtil.isRaceType(RaceTypeEnum.DEMON, player)) {
+        if (!CacheUtil.isRaceType(RaceTypeEnum.DEMON, player)) {
             return;
         }
 

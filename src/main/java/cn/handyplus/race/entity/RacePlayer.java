@@ -2,9 +2,12 @@ package cn.handyplus.race.entity;
 
 import cn.handyplus.lib.annotation.TableField;
 import cn.handyplus.lib.annotation.TableName;
+import cn.handyplus.lib.db.enums.IndexEnum;
 import lombok.Data;
 
 /**
+ * 玩家种族表
+ *
  * @author handy
  */
 @Data
@@ -16,7 +19,7 @@ public class RacePlayer {
     @TableField(value = "player_name", comment = "玩家名称", notNull = true)
     private String playerName;
 
-    @TableField(value = "player_uuid", comment = "玩家uuid", notNull = true)
+    @TableField(value = "player_uuid", comment = "玩家uuid", notNull = true, indexEnum = IndexEnum.INDEX)
     private String playerUuid;
 
     @TableField(value = "race_type", comment = "种族类型", notNull = true)

@@ -6,9 +6,13 @@ import cn.handyplus.lib.util.BaseUtil;
 import cn.handyplus.lib.util.MessageUtil;
 import cn.handyplus.race.constants.RaceTypeEnum;
 import cn.handyplus.race.service.RacePlayerService;
-import cn.handyplus.race.util.RaceUtil;
+import cn.handyplus.race.util.CacheUtil;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+
+import java.util.Optional;
 
 /**
  * @author handy
@@ -36,10 +40,12 @@ public class SetRaceCommand implements IHandyCommandEvent {
         // 类型
         RaceTypeEnum raceTypeEnum = RaceTypeEnum.getEnumThrow(args[2]);
         // 设置玩家种族
-        Boolean rst = RacePlayerService.getInstance().updateRaceType(args[1], raceTypeEnum.getType());
+        OfflinePlayer offlinePlayer = BaseUtil.getOfflinePlayer(args[1]);
+        Boolean rst = RacePlayerService.getInstance().updateRaceType(offlinePlayer.getUniqueId(), raceTypeEnum.getType());
         if (rst) {
             MessageUtil.sendMessage(sender, BaseUtil.getLangMsg("succeedMsg"));
-            RaceUtil.refreshCache(args[1]);
+            Optional<Player> onlinePlayer = BaseUtil.getOnlinePlayer(args[1]);
+            onlinePlayer.ifPresent(CacheUtil::db2Cache);
         } else {
             MessageUtil.sendMessage(sender, BaseUtil.getLangMsg("failureMsg"));
         }

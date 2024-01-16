@@ -1,13 +1,14 @@
 package cn.handyplus.race.api;
 
 import cn.handyplus.lib.expand.adapter.HandySchedulerUtil;
-import cn.handyplus.race.constants.RaceConstants;
+import cn.handyplus.lib.util.BaseUtil;
 import cn.handyplus.race.constants.RaceTypeEnum;
-import cn.handyplus.race.entity.RacePlayer;
 import cn.handyplus.race.service.RacePlayerService;
+import cn.handyplus.race.util.CacheUtil;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
-import java.util.Optional;
+import java.util.UUID;
 
 /**
  * API
@@ -36,7 +37,7 @@ public class PlayerRaceApi {
      * @since 1.2.4
      */
     public void temporaryCancel(Player player) {
-        RaceConstants.PLAYER_RACE.remove(player.getName());
+        CacheUtil.removeCache(player);
     }
 
     /**
@@ -47,33 +48,19 @@ public class PlayerRaceApi {
      */
     public void resetPlayerRace(Player player) {
         HandySchedulerUtil.runTaskAsynchronously(() -> {
-            String playerName = player.getName();
-            Optional<RacePlayer> racePlayerOptional = RacePlayerService.getInstance().findByPlayerName(playerName);
-            if (racePlayerOptional.isPresent()) {
-                RaceConstants.PLAYER_RACE.put(playerName, racePlayerOptional.get());
-                return;
-            }
-            RacePlayer racePlayer = new RacePlayer();
-            racePlayer.setPlayerName(playerName);
-            racePlayer.setPlayerUuid(player.getUniqueId().toString());
-            racePlayer.setRaceType(RaceTypeEnum.MANKIND.getType());
-            racePlayer.setAmount(0);
-            racePlayer.setMaxAmount(0);
-            racePlayer.setTransferTime(0L);
-            RacePlayerService.getInstance().add(racePlayer);
-            RaceConstants.PLAYER_RACE.put(playerName, racePlayer);
+            CacheUtil.db2Cache(player);
         });
     }
 
     /**
      * 查询种族类型
      *
-     * @param playerName 玩家名
+     * @param playerUuid 玩家uid
      * @return 种族类型
      * @since 1.3.0
      */
-    public String findRaceType(String playerName) {
-        return RacePlayerService.getInstance().findRaceType(playerName);
+    public String findRaceType(UUID playerUuid) {
+        return RacePlayerService.getInstance().findRaceType(playerUuid);
     }
 
     /**
@@ -84,7 +71,8 @@ public class PlayerRaceApi {
      * @since 1.3.0
      */
     public String findRaceTypeName(String playerName) {
-        return RaceTypeEnum.getTypeName(this.findRaceType(playerName));
+        OfflinePlayer offlinePlayer = BaseUtil.getOfflinePlayer(playerName);
+        return RaceTypeEnum.getTypeName(this.findRaceType(offlinePlayer.getUniqueId()));
     }
 
 }

@@ -1,7 +1,8 @@
 package cn.handyplus.race.listener;
 
 import cn.handyplus.lib.annotation.HandyListener;
-import cn.handyplus.race.constants.RaceConstants;
+import cn.handyplus.race.constants.AbstractRaceConstants;
+import cn.handyplus.race.util.CacheUtil;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -37,9 +38,10 @@ public class PlayerQuitEventListener implements Listener {
     }
 
     private void clearCache(Player player) {
-        RaceConstants.VICTIM_ENTITY.remove(player.getUniqueId());
-        RaceConstants.PLAYER_RACE.remove(player.getName());
-        RaceConstants.DEMON_HUNTER_BOW.remove(player.getUniqueId());
+        CacheUtil.cache2Db(player);
+        CacheUtil.removeCache(player);
+        AbstractRaceConstants.VICTIM_ENTITY.remove(player.getUniqueId());
+        AbstractRaceConstants.DEMON_HUNTER_BOW.remove(player.getUniqueId());
     }
 
 }

@@ -7,6 +7,7 @@ import cn.handyplus.lib.util.BaseUtil;
 import cn.handyplus.lib.util.MessageUtil;
 import cn.handyplus.race.constants.RaceTypeEnum;
 import cn.handyplus.race.service.RacePlayerService;
+import cn.handyplus.race.util.CacheUtil;
 import cn.handyplus.race.util.ConfigUtil;
 import cn.handyplus.race.util.RaceUtil;
 import org.bukkit.Location;
@@ -77,16 +78,16 @@ public class WerWolfEventListener implements Listener {
         }
         HandySchedulerUtil.runTaskAsynchronously(() -> {
             // 判断玩家是否有种族
-            String raceType = RacePlayerService.getInstance().findRaceType(player.getName());
+            String raceType = RacePlayerService.getInstance().findRaceType(player.getUniqueId());
             if (!RaceTypeEnum.MANKIND.getType().equals(raceType)) {
                 return;
             }
             // 设置玩家种族为狼人
-            Boolean rst = RacePlayerService.getInstance().updateRaceType(player.getName(), RaceTypeEnum.WER_WOLF.getType());
+            Boolean rst = RacePlayerService.getInstance().updateRaceType(player.getUniqueId(), RaceTypeEnum.WER_WOLF.getType());
             if (rst) {
                 player.getInventory().addItem(RaceUtil.getRaceHelpBook(RaceTypeEnum.WER_WOLF));
                 player.sendMessage(BaseUtil.getLangMsg("werwolf.succeedMsg"));
-                RaceUtil.refreshCache(player);
+                CacheUtil.db2Cache(player);
             }
         });
     }
@@ -199,7 +200,7 @@ public class WerWolfEventListener implements Listener {
         }
 
         // 判断是否为狼人
-        String raceType = RacePlayerService.getInstance().findRaceType(player.getName());
+        String raceType = RacePlayerService.getInstance().findRaceType(player.getUniqueId());
         if (!RaceTypeEnum.WER_WOLF.getType().equals(raceType)) {
             return;
         }
@@ -244,7 +245,7 @@ public class WerWolfEventListener implements Listener {
         }
 
         // 判断是否为狼人
-        String raceType = RacePlayerService.getInstance().findRaceType(player.getName());
+        String raceType = RacePlayerService.getInstance().findRaceType(player.getUniqueId());
         if (!RaceTypeEnum.WER_WOLF.getType().equals(raceType)) {
             return;
         }
@@ -277,7 +278,7 @@ public class WerWolfEventListener implements Listener {
         }
 
         // 判断是否为狼人
-        String raceType = RacePlayerService.getInstance().findRaceType(player.getName());
+        String raceType = RacePlayerService.getInstance().findRaceType(player.getUniqueId());
         if (!RaceTypeEnum.WER_WOLF.getType().equals(raceType)) {
             return;
         }
@@ -309,13 +310,13 @@ public class WerWolfEventListener implements Listener {
         Player player = event.getPlayer();
 
         // 判断是否为狼人
-        String raceType = RacePlayerService.getInstance().findRaceType(player.getName());
+        String raceType = RacePlayerService.getInstance().findRaceType(player.getUniqueId());
         if (!RaceTypeEnum.WER_WOLF.getType().equals(raceType)) {
             return;
         }
 
         int amount = ConfigUtil.RACE_CONFIG.getInt("werwolf.summonWolf");
-        boolean rst = RacePlayerService.getInstance().updateSubtract(player.getName(), amount);
+        boolean rst = CacheUtil.subtract(player, amount);
         if (!rst) {
             MessageUtil.sendActionbar(player, RaceUtil.getEnergyShortageMsg(amount));
             return;
@@ -359,13 +360,13 @@ public class WerWolfEventListener implements Listener {
         Player player = event.getPlayer();
 
         // 判断是否为狼人
-        String raceType = RacePlayerService.getInstance().findRaceType(player.getName());
+        String raceType = RacePlayerService.getInstance().findRaceType(player.getUniqueId());
         if (!RaceTypeEnum.WER_WOLF.getType().equals(raceType)) {
             return;
         }
 
         int amount = ConfigUtil.RACE_CONFIG.getInt("werwolf.sprint");
-        boolean rst = RacePlayerService.getInstance().updateSubtract(player.getName(), amount);
+        boolean rst = CacheUtil.subtract(player, amount);
         if (!rst) {
             MessageUtil.sendActionbar(player, RaceUtil.getEnergyShortageMsg(amount));
             return;

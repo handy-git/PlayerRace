@@ -64,7 +64,7 @@ public class BaseEventListener implements Listener {
             return;
         }
         // 设置玩家种族为人类
-        Boolean rst = RacePlayerService.getInstance().updateRaceType(player.getName(), RaceTypeEnum.MANKIND.getType());
+        Boolean rst = RacePlayerService.getInstance().updateRaceType(player.getUniqueId(), RaceTypeEnum.MANKIND.getType());
         if (rst) {
             player.sendMessage(BaseUtil.getLangMsg("mankind.mengBorneoSoupMsg"));
             player.setHealth(0);

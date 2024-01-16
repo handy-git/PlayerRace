@@ -35,7 +35,7 @@ public class HelpBookCommand implements IHandyCommandEvent {
     public void onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         Player player = AssertUtil.notPlayer(sender, BaseUtil.getLangMsg("noPlayerFailureMsg"));
         // 判断种族
-        String raceType = RacePlayerService.getInstance().findRaceType(player.getName());
+        String raceType = RacePlayerService.getInstance().findRaceType(player.getUniqueId());
         RaceTypeEnum raceTypeEnum = RaceTypeEnum.getEnum(raceType);
         if (raceTypeEnum == null) {
             MessageUtil.sendMessage(sender, BaseUtil.getLangMsg("typeFailureMsg"));

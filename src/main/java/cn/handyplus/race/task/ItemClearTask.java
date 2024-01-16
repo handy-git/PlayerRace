@@ -3,7 +3,7 @@ package cn.handyplus.race.task;
 import cn.handyplus.lib.constants.VersionCheckEnum;
 import cn.handyplus.lib.expand.adapter.HandySchedulerUtil;
 import cn.handyplus.lib.util.ItemStackUtil;
-import cn.handyplus.race.constants.RaceConstants;
+import cn.handyplus.race.constants.AbstractRaceConstants;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -20,7 +20,7 @@ public class ItemClearTask {
      */
     public static void setItemClearTask() {
         HandySchedulerUtil.runTaskTimer(() -> {
-            Iterator<Location> iterator = RaceConstants.LOCATIONS.iterator();
+            Iterator<Location> iterator = AbstractRaceConstants.LOCATIONS.iterator();
             while (iterator.hasNext()) {
                 Location location = iterator.next();
                 Block block = location.getBlock();

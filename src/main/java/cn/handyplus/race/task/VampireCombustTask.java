@@ -5,7 +5,7 @@ import cn.handyplus.lib.util.BaseUtil;
 import cn.handyplus.lib.util.ItemStackUtil;
 import cn.handyplus.lib.util.MessageUtil;
 import cn.handyplus.race.constants.RaceTypeEnum;
-import cn.handyplus.race.util.RaceUtil;
+import cn.handyplus.race.util.CacheUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -27,7 +27,7 @@ public class VampireCombustTask {
                     continue;
                 }
                 // 判断是否为吸血鬼
-                if (!RaceUtil.isRaceType(RaceTypeEnum.VAMPIRE, player)) {
+                if (!CacheUtil.isRaceType(RaceTypeEnum.VAMPIRE, player)) {
                     continue;
                 }
 
