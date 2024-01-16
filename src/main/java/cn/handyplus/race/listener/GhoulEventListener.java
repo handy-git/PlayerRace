@@ -2,10 +2,10 @@ package cn.handyplus.race.listener;
 
 import cn.handyplus.lib.annotation.HandyListener;
 import cn.handyplus.lib.constants.VersionCheckEnum;
+import cn.handyplus.lib.expand.adapter.HandySchedulerUtil;
 import cn.handyplus.lib.util.BaseUtil;
 import cn.handyplus.lib.util.ItemStackUtil;
 import cn.handyplus.lib.util.MessageUtil;
-import cn.handyplus.race.PlayerRace;
 import cn.handyplus.race.constants.RaceConstants;
 import cn.handyplus.race.constants.RaceTypeEnum;
 import cn.handyplus.race.param.PlayerCursesParam;
@@ -28,7 +28,6 @@ import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntityTargetEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.scheduler.BukkitRunnable;
 
 /**
  * 食尸鬼事件
@@ -64,23 +63,19 @@ public class GhoulEventListener implements Listener {
         if (!(entity instanceof PigZombie)) {
             return;
         }
-
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                // 判断玩家是否有种族
-                if (!RaceUtil.isRaceType(RaceTypeEnum.MANKIND, player)) {
-                    return;
-                }
-                // 设置玩家种族为食尸鬼
-                Boolean rst = RacePlayerService.getInstance().updateRaceType(player.getName(), RaceTypeEnum.GHOUL.getType());
-                if (rst) {
-                    player.getInventory().addItem(RaceUtil.getRaceHelpBook(RaceTypeEnum.GHOUL));
-                    player.sendMessage(BaseUtil.getLangMsg("ghoul.succeedMsg"));
-                    RaceUtil.refreshCache(player);
-                }
+        HandySchedulerUtil.runTaskAsynchronously(() -> {
+            // 判断玩家是否有种族
+            if (!RaceUtil.isRaceType(RaceTypeEnum.MANKIND, player)) {
+                return;
             }
-        }.runTaskAsynchronously(PlayerRace.getInstance());
+            // 设置玩家种族为食尸鬼
+            Boolean rst = RacePlayerService.getInstance().updateRaceType(player.getName(), RaceTypeEnum.GHOUL.getType());
+            if (rst) {
+                player.getInventory().addItem(RaceUtil.getRaceHelpBook(RaceTypeEnum.GHOUL));
+                player.sendMessage(BaseUtil.getLangMsg("ghoul.succeedMsg"));
+                RaceUtil.refreshCache(player);
+            }
+        });
     }
 
     /**
@@ -136,44 +131,42 @@ public class GhoulEventListener implements Listener {
             return;
         }
 
-        // 扣除能量回血
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                double finalDamage = event.getFinalDamage();
-                boolean rst = RacePlayerService.getInstance().updateSubtract(player.getName(), (int) finalDamage);
-                if (!rst) {
-                    return;
-                }
 
-                double health = player.getHealth() + event.getFinalDamage();
-                if (health < 0) {
-                    return;
-                }
-                if (health > player.getMaxHealth()) {
-                    health = player.getMaxHealth();
-                }
-                player.setHealth(health);
-
-                String langMsg = BaseUtil.getLangMsg("ghoul.damageMsg");
-                langMsg = langMsg.replace("${amount}", (int) finalDamage + "")
-                        .replace("${health}", (int) finalDamage + "");
-                MessageUtil.sendActionbar(player, langMsg);
-
-                // 如果是玩家还要扣除能量值
-                Entity entity = event.getEntity();
-                if (!(entity instanceof Player)) {
-                    return;
-                }
-                Player entityPlayer = (Player) entity;
-                int amount = ConfigUtil.RACE_CONFIG.getInt("ghoul.absorptionValue");
-                RacePlayerService.getInstance().updateSubtract(entityPlayer.getName(), amount);
-
-                String absorptionMsg = BaseUtil.getLangMsg("ghoul.absorptionMsg");
-                absorptionMsg = absorptionMsg.replace("${amount}", amount + "");
-                MessageUtil.sendActionbar(entityPlayer, absorptionMsg);
+        HandySchedulerUtil.runTaskAsynchronously(() -> {
+            // 扣除能量回血
+            double finalDamage = event.getFinalDamage();
+            boolean rst = RacePlayerService.getInstance().updateSubtract(player.getName(), (int) finalDamage);
+            if (!rst) {
+                return;
             }
-        }.runTaskAsynchronously(PlayerRace.getInstance());
+
+            double health = player.getHealth() + event.getFinalDamage();
+            if (health < 0) {
+                return;
+            }
+            if (health > player.getMaxHealth()) {
+                health = player.getMaxHealth();
+            }
+            player.setHealth(health);
+
+            String langMsg = BaseUtil.getLangMsg("ghoul.damageMsg");
+            langMsg = langMsg.replace("${amount}", (int) finalDamage + "")
+                    .replace("${health}", (int) finalDamage + "");
+            MessageUtil.sendActionbar(player, langMsg);
+
+            // 如果是玩家还要扣除能量值
+            Entity entity = event.getEntity();
+            if (!(entity instanceof Player)) {
+                return;
+            }
+            Player entityPlayer = (Player) entity;
+            int amount = ConfigUtil.RACE_CONFIG.getInt("ghoul.absorptionValue");
+            RacePlayerService.getInstance().updateSubtract(entityPlayer.getName(), amount);
+
+            String absorptionMsg = BaseUtil.getLangMsg("ghoul.absorptionMsg");
+            absorptionMsg = absorptionMsg.replace("${amount}", amount + "");
+            MessageUtil.sendActionbar(entityPlayer, absorptionMsg);
+        });
     }
 
     /**
@@ -202,7 +195,7 @@ public class GhoulEventListener implements Listener {
         }
 
         int amount = ConfigUtil.RACE_CONFIG.getInt("ghoul.summonPigZombie");
-        Boolean rst = RacePlayerService.getInstance().updateSubtract(player.getName(), amount);
+        boolean rst = RacePlayerService.getInstance().updateSubtract(player.getName(), amount);
         if (!rst) {
             MessageUtil.sendActionbar(player, RaceUtil.getEnergyShortageMsg(amount));
             return;
@@ -272,7 +265,7 @@ public class GhoulEventListener implements Listener {
         }
 
         int amount = ConfigUtil.RACE_CONFIG.getInt("ghoul.curse");
-        Boolean rst = RacePlayerService.getInstance().updateSubtract(player.getName(), amount);
+        boolean rst = RacePlayerService.getInstance().updateSubtract(player.getName(), amount);
         if (!rst) {
             MessageUtil.sendActionbar(player, RaceUtil.getEnergyShortageMsg(amount));
             return;
@@ -294,7 +287,7 @@ public class GhoulEventListener implements Listener {
 
         String langMsg = BaseUtil.getLangMsg("ghoul.cursePlayerMsg");
         langMsg = langMsg.replace("${amount}", amount + "")
-                .replace("${player}", playerEntity.getName() + "");
+                .replace("${player}", playerEntity.getName());
         MessageUtil.sendActionbar(player, langMsg);
     }
 

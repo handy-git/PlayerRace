@@ -22,7 +22,7 @@ public class RacePlayer {
     @TableField(value = "race_type", comment = "种族类型", notNull = true)
     private String raceType;
 
-    @TableField(value = "race_level", comment = "种族等级", filedDefault = "1")
+    @TableField(value = "race_level", comment = "种族等级", fieldDefault = "1")
     private Integer raceLevel;
 
     @TableField(value = "amount", comment = "玩家能量值", notNull = true)

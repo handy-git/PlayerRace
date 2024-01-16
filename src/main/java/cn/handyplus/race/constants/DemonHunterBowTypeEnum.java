@@ -16,7 +16,7 @@ public enum DemonHunterBowTypeEnum {
      */
     STRENGTH("strength", BaseUtil.getLangMsg("demonHunterBowType.strength")),
     FIRE("fire", BaseUtil.getLangMsg("demonHunterBowType.fire")),
-    WEB("web", BaseUtil.getLangMsg("demonHunterBowType.web"));;
+    WEB("web", BaseUtil.getLangMsg("demonHunterBowType.web"));
 
     private final String type;
     private final String typeName;

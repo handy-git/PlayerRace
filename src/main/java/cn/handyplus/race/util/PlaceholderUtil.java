@@ -7,6 +7,8 @@ import cn.handyplus.race.service.RacePlayerService;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import org.bukkit.OfflinePlayer;
 
+import java.util.Optional;
+
 /**
  * 变量扩展
  *
@@ -41,8 +43,9 @@ public class PlaceholderUtil extends PlaceholderExpansion {
         int maxFatigue = ConfigUtil.CONFIG.getInt("maxFatigue");
         String race = RaceTypeEnum.MANKIND.getTypeName();
 
-        RacePlayer racePlayer = RacePlayerService.getInstance().findByPlayerName(player.getName());
-        if (racePlayer != null) {
+        Optional<RacePlayer> racePlayerOptional = RacePlayerService.getInstance().findByPlayerName(player.getName());
+        if (racePlayerOptional.isPresent()) {
+            RacePlayer racePlayer = racePlayerOptional.get();
             race = RaceTypeEnum.getEnum(racePlayer.getRaceType()).getTypeName();
             if (racePlayer.getMaxAmount() != null && racePlayer.getMaxAmount() != 0) {
                 maxFatigue = racePlayer.getMaxAmount();
@@ -50,8 +53,8 @@ public class PlaceholderUtil extends PlaceholderExpansion {
         }
 
         // 吸血鬼计算最大值
-        if (racePlayer != null && RaceTypeEnum.VAMPIRE.getType().equals(racePlayer.getRaceType())) {
-            double energyDiscount = ConfigUtil.RACE_CONFIG.getDouble("vampire.energyDiscount" + racePlayer.getRaceLevel());
+        if (racePlayerOptional.isPresent() && RaceTypeEnum.VAMPIRE.getType().equals(racePlayerOptional.get().getRaceType())) {
+            double energyDiscount = ConfigUtil.RACE_CONFIG.getDouble("vampire.energyDiscount" + racePlayerOptional.get().getRaceLevel());
             if (energyDiscount > 0) {
                 maxFatigue = (int) Math.ceil(maxFatigue * energyDiscount);
             }
@@ -67,7 +70,7 @@ public class PlaceholderUtil extends PlaceholderExpansion {
         }
         // %PlayerRace_fatigue%
         if ("fatigue".equals(identifier)) {
-            return plugin.getConfig().getString("fatigue", racePlayer != null ? racePlayer.getAmount().toString() : "0");
+            return plugin.getConfig().getString("fatigue", racePlayerOptional.map(racePlayer -> racePlayer.getAmount().toString()).orElse("0"));
         }
         // 种族数量变量
         if ("mankindnum".equals(identifier)) {

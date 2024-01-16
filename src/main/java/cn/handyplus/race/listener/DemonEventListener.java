@@ -2,6 +2,7 @@ package cn.handyplus.race.listener;
 
 import cn.handyplus.lib.annotation.HandyListener;
 import cn.handyplus.lib.constants.VersionCheckEnum;
+import cn.handyplus.lib.expand.adapter.HandySchedulerUtil;
 import cn.handyplus.lib.util.BaseUtil;
 import cn.handyplus.lib.util.MessageUtil;
 import cn.handyplus.race.PlayerRace;
@@ -31,7 +32,6 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
-import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
 /**
@@ -77,23 +77,19 @@ public class DemonEventListener implements Listener {
                 || !Material.CHAINMAIL_LEGGINGS.equals(leggings.getType()) || !Material.CHAINMAIL_BOOTS.equals(boots.getType())) {
             return;
         }
-
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                // 判断玩家是否有种族
-                if (!RaceUtil.isRaceType(RaceTypeEnum.MANKIND, player)) {
-                    return;
-                }
-                // 设置玩家种族为恶魔
-                Boolean rst = RacePlayerService.getInstance().updateRaceType(player.getName(), RaceTypeEnum.DEMON.getType());
-                if (rst) {
-                    player.getInventory().addItem(RaceUtil.getRaceHelpBook(RaceTypeEnum.DEMON));
-                    player.sendMessage(BaseUtil.getLangMsg("demon.succeedMsg"));
-                    RaceUtil.refreshCache(player);
-                }
+        HandySchedulerUtil.runTaskAsynchronously(() -> {
+            // 判断玩家是否有种族
+            if (!RaceUtil.isRaceType(RaceTypeEnum.MANKIND, player)) {
+                return;
             }
-        }.runTaskAsynchronously(PlayerRace.getInstance());
+            // 设置玩家种族为恶魔
+            Boolean rst = RacePlayerService.getInstance().updateRaceType(player.getName(), RaceTypeEnum.DEMON.getType());
+            if (rst) {
+                player.getInventory().addItem(RaceUtil.getRaceHelpBook(RaceTypeEnum.DEMON));
+                player.sendMessage(BaseUtil.getLangMsg("demon.succeedMsg"));
+                RaceUtil.refreshCache(player);
+            }
+        });
     }
 
     /**
@@ -189,7 +185,7 @@ public class DemonEventListener implements Listener {
             return;
         }
         int amount = ConfigUtil.RACE_CONFIG.getInt("demon.fireBall");
-        Boolean rst = RacePlayerService.getInstance().updateSubtract(player.getName(), amount);
+        boolean rst = RacePlayerService.getInstance().updateSubtract(player.getName(), amount);
         if (!rst) {
             MessageUtil.sendActionbar(player, RaceUtil.getEnergyShortageMsg(amount));
             return;
@@ -263,7 +259,7 @@ public class DemonEventListener implements Listener {
             return;
         }
         int amount = ConfigUtil.RACE_CONFIG.getInt("demon.web");
-        Boolean rst = RacePlayerService.getInstance().updateSubtract(player.getName(), amount);
+        boolean rst = RacePlayerService.getInstance().updateSubtract(player.getName(), amount);
         if (!rst) {
             MessageUtil.sendActionbar(player, RaceUtil.getEnergyShortageMsg(amount));
             return;

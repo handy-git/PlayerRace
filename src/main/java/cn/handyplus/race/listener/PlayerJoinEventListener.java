@@ -2,8 +2,8 @@ package cn.handyplus.race.listener;
 
 import cn.handyplus.lib.annotation.HandyListener;
 import cn.handyplus.lib.constants.BaseConstants;
+import cn.handyplus.lib.expand.adapter.HandySchedulerUtil;
 import cn.handyplus.lib.util.HandyHttpUtil;
-import cn.handyplus.race.PlayerRace;
 import cn.handyplus.race.constants.RaceConstants;
 import cn.handyplus.race.constants.RaceTypeEnum;
 import cn.handyplus.race.entity.RacePlayer;
@@ -13,7 +13,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.scheduler.BukkitRunnable;
+
+import java.util.Optional;
 
 /**
  * 玩家加入游戏的事件
@@ -32,29 +33,26 @@ public class PlayerJoinEventListener implements Listener {
     public void onPlayerJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
         String playerName = player.getName();
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                // 更新遗留的大小写问题
-                RacePlayerService.getInstance().updatePlayerName(playerName);
-                // 查询玩家种族
-                RacePlayer racePlayer = RacePlayerService.getInstance().findByPlayerName(playerName);
-                if (racePlayer != null) {
-                    RaceConstants.PLAYER_RACE.put(playerName, racePlayer);
-                    return;
-                }
-                racePlayer = new RacePlayer();
-                racePlayer.setPlayerName(playerName);
-                racePlayer.setPlayerUuid(player.getUniqueId().toString());
-                racePlayer.setRaceType(RaceTypeEnum.MANKIND.getType());
-                racePlayer.setAmount(0);
-                racePlayer.setMaxAmount(0);
-                racePlayer.setTransferTime(0L);
-                racePlayer.setRaceLevel(1);
-                RacePlayerService.getInstance().add(racePlayer);
-                RaceConstants.PLAYER_RACE.put(playerName, racePlayer);
+        HandySchedulerUtil.runTaskAsynchronously(() -> {
+            // 更新遗留的大小写问题
+            RacePlayerService.getInstance().updatePlayerName(playerName);
+            // 查询玩家种族
+            Optional<RacePlayer> racePlayerOptional = RacePlayerService.getInstance().findByPlayerName(playerName);
+            if (racePlayerOptional.isPresent()) {
+                RaceConstants.PLAYER_RACE.put(playerName, racePlayerOptional.get());
+                return;
             }
-        }.runTaskAsynchronously(PlayerRace.getInstance());
+            RacePlayer racePlayer = new RacePlayer();
+            racePlayer.setPlayerName(playerName);
+            racePlayer.setPlayerUuid(player.getUniqueId().toString());
+            racePlayer.setRaceType(RaceTypeEnum.MANKIND.getType());
+            racePlayer.setAmount(0);
+            racePlayer.setMaxAmount(0);
+            racePlayer.setTransferTime(0L);
+            racePlayer.setRaceLevel(1);
+            RacePlayerService.getInstance().add(racePlayer);
+            RaceConstants.PLAYER_RACE.put(playerName, racePlayer);
+        });
     }
 
     /**

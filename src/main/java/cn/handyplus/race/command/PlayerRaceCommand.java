@@ -3,6 +3,7 @@ package cn.handyplus.race.command;
 import cn.handyplus.lib.annotation.HandyCommand;
 import cn.handyplus.lib.command.HandyCommandFactory;
 import cn.handyplus.lib.util.BaseUtil;
+import cn.handyplus.lib.util.MessageUtil;
 import cn.handyplus.race.constants.TabListEnum;
 import cn.handyplus.race.util.ConfigUtil;
 import org.bukkit.command.Command;
@@ -60,7 +61,7 @@ public class PlayerRaceCommand implements TabExecutor {
 
         List<String> helps = ConfigUtil.LANG_CONFIG.getStringList("helps");
         for (String help : helps) {
-            sender.sendMessage(BaseUtil.replaceChatColor(help));
+            MessageUtil.sendMessage(sender, BaseUtil.replaceChatColor(help));
         }
         return true;
     }

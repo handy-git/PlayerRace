@@ -8,6 +8,8 @@ import cn.handyplus.race.constants.RaceTypeEnum;
 import cn.handyplus.race.entity.RacePlayer;
 import cn.handyplus.race.util.ConfigUtil;
 
+import java.util.Optional;
+
 /**
  * 种族方法
  *
@@ -27,10 +29,9 @@ public class RacePlayerService {
      * 新增
      *
      * @param racePlayer 数据
-     * @return true 成功
      */
-    public Boolean add(RacePlayer racePlayer) {
-        return Db.use(RacePlayer.class).execution().insert(racePlayer) > 0;
+    public void add(RacePlayer racePlayer) {
+        Db.use(RacePlayer.class).execution().insert(racePlayer);
     }
 
     /**
@@ -39,7 +40,7 @@ public class RacePlayerService {
      * @param playerName 玩家名
      * @return 种族
      */
-    public RacePlayer findByPlayerName(String playerName) {
+    public Optional<RacePlayer> findByPlayerName(String playerName) {
         Db<RacePlayer> use = Db.use(RacePlayer.class);
         use.where().eq(RacePlayer::getPlayerName, playerName);
         return use.execution().selectOne();
@@ -52,8 +53,8 @@ public class RacePlayerService {
      * @return 种族名
      */
     public String findRaceType(String playerName) {
-        RacePlayer racePlayer = this.findByPlayerName(playerName);
-        return racePlayer != null ? racePlayer.getRaceType() : RaceTypeEnum.MANKIND.getType();
+        Optional<RacePlayer> racePlayerOptional = this.findByPlayerName(playerName);
+        return racePlayerOptional.isPresent() ? racePlayerOptional.get().getRaceType() : RaceTypeEnum.MANKIND.getType();
     }
 
     /**
@@ -76,7 +77,11 @@ public class RacePlayerService {
      * @return true 成功
      */
     public synchronized boolean updateAdd(String playerName, Integer amount) {
-        RacePlayer racePlayer = this.findByPlayerName(playerName);
+        Optional<RacePlayer> racePlayerOptional = this.findByPlayerName(playerName);
+        if (!racePlayerOptional.isPresent()) {
+            return false;
+        }
+        RacePlayer racePlayer = racePlayerOptional.get();
         if (racePlayer.getAmount() + amount > racePlayer.getMaxAmount()) {
             return false;
         }
@@ -94,7 +99,11 @@ public class RacePlayerService {
      * @return true 成功
      */
     public synchronized boolean updateSubtract(String playerName, Integer amount) {
-        RacePlayer racePlayer = this.findByPlayerName(playerName);
+        Optional<RacePlayer> racePlayerOptional = this.findByPlayerName(playerName);
+        if (!racePlayerOptional.isPresent()) {
+            return false;
+        }
+        RacePlayer racePlayer = racePlayerOptional.get();
         if (racePlayer.getAmount() - amount < 0) {
             return false;
         }
@@ -171,7 +180,7 @@ public class RacePlayerService {
             String raceMsg = BaseUtil.getLangMsg("raceMsg");
             raceMsg = raceMsg.replace("${player}", playerName).replace("${race}", RaceTypeEnum.getTypeName(raceType));
             MessageUtil.sendAllMessage(raceMsg);
-            RaceConstants.PLAYER_RACE.put(playerName, this.findByPlayerName(playerName));
+            RaceConstants.PLAYER_RACE.put(playerName, this.findByPlayerName(playerName).orElse(null));
         }
         return rst > 0;
     }

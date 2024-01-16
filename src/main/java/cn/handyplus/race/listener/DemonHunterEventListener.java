@@ -3,6 +3,7 @@ package cn.handyplus.race.listener;
 import cn.handyplus.lib.annotation.HandyListener;
 import cn.handyplus.lib.constants.VersionCheckEnum;
 import cn.handyplus.lib.core.CollUtil;
+import cn.handyplus.lib.expand.adapter.HandySchedulerUtil;
 import cn.handyplus.lib.util.BaseUtil;
 import cn.handyplus.lib.util.MessageUtil;
 import cn.handyplus.race.PlayerRace;
@@ -29,7 +30,6 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.projectiles.ProjectileSource;
-import org.bukkit.scheduler.BukkitRunnable;
 
 /**
  * 恶魔猎手事件
@@ -53,39 +53,35 @@ public class DemonHunterEventListener implements Listener {
         if (killer == null) {
             return;
         }
-
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                // 判断被击杀者是否为为其他种族
-                if (RaceUtil.isRaceType(RaceTypeEnum.MANKIND, player)) {
-                    return;
-                }
-
-                // 判断击杀者是不是人类
-                RacePlayer racePlayer = RaceUtil.isRaceTypeAndGetRace(RaceTypeEnum.MANKIND, killer);
-                if (racePlayer == null) {
-                    return;
-                }
-
-                // 击杀超过3人,进行转换
-                if (racePlayer.getRaceLevel() != null && racePlayer.getRaceLevel() >= 3) {
-                    // 设置玩家种族为恶魔猎手
-                    Boolean rst = RacePlayerService.getInstance().updateRaceType(killer.getName(), RaceTypeEnum.DEMON_HUNTER.getType());
-                    if (rst) {
-                        killer.getInventory().addItem(RaceUtil.getRaceHelpBook(RaceTypeEnum.DEMON_HUNTER));
-                        killer.sendMessage(BaseUtil.getLangMsg("mankind.killsucceedMsg"));
-                    }
-                } else {
-                    // 设置人类等级提升
-                    boolean rst = RacePlayerService.getInstance().addRaceLevel(killer.getName(), 1);
-                    if (rst) {
-                        killer.sendMessage(BaseUtil.getLangMsg("mankind.killMsg"));
-                    }
-                }
-                RaceUtil.refreshCache(killer);
+        HandySchedulerUtil.runTaskAsynchronously(() -> {
+            // 判断被击杀者是否为为其他种族
+            if (RaceUtil.isRaceType(RaceTypeEnum.MANKIND, player)) {
+                return;
             }
-        }.runTaskAsynchronously(PlayerRace.getInstance());
+
+            // 判断击杀者是不是人类
+            RacePlayer racePlayer = RaceUtil.isRaceTypeAndGetRace(RaceTypeEnum.MANKIND, killer);
+            if (racePlayer == null) {
+                return;
+            }
+
+            // 击杀超过3人,进行转换
+            if (racePlayer.getRaceLevel() != null && racePlayer.getRaceLevel() >= 3) {
+                // 设置玩家种族为恶魔猎手
+                Boolean rst = RacePlayerService.getInstance().updateRaceType(killer.getName(), RaceTypeEnum.DEMON_HUNTER.getType());
+                if (rst) {
+                    killer.getInventory().addItem(RaceUtil.getRaceHelpBook(RaceTypeEnum.DEMON_HUNTER));
+                    killer.sendMessage(BaseUtil.getLangMsg("mankind.killsucceedMsg"));
+                }
+            } else {
+                // 设置人类等级提升
+                boolean rst = RacePlayerService.getInstance().addRaceLevel(killer.getName(), 1);
+                if (rst) {
+                    killer.sendMessage(BaseUtil.getLangMsg("mankind.killMsg"));
+                }
+            }
+            RaceUtil.refreshCache(killer);
+        });
     }
 
     /**
@@ -186,48 +182,43 @@ public class DemonHunterEventListener implements Listener {
             return;
         }
 
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-
-                int amount = ConfigUtil.RACE_CONFIG.getInt("demonHunter.cutBow");
-                Boolean rst = RacePlayerService.getInstance().updateSubtract(player.getName(), amount);
-                if (!rst) {
-                    MessageUtil.sendActionbar(player, RaceUtil.getEnergyShortageMsg(amount));
-                    return;
-                }
-
-                DemonHunterBowTypeEnum demonHunterBowTypeEnum = RaceConstants.DEMON_HUNTER_BOW.get(player.getUniqueId());
-
-                DemonHunterBowTypeEnum cutBow = DemonHunterBowTypeEnum.STRENGTH;
-                if (demonHunterBowTypeEnum == null) {
-                    RaceConstants.DEMON_HUNTER_BOW.put(player.getUniqueId(), cutBow);
-                } else {
-                    switch (demonHunterBowTypeEnum) {
-                        case STRENGTH:
-                            RaceConstants.DEMON_HUNTER_BOW.put(player.getUniqueId(), DemonHunterBowTypeEnum.FIRE);
-                            cutBow = DemonHunterBowTypeEnum.FIRE;
-                            break;
-                        case FIRE:
-                            RaceConstants.DEMON_HUNTER_BOW.put(player.getUniqueId(), DemonHunterBowTypeEnum.WEB);
-                            cutBow = DemonHunterBowTypeEnum.WEB;
-                            break;
-                        case WEB:
-                            RaceConstants.DEMON_HUNTER_BOW.put(player.getUniqueId(), DemonHunterBowTypeEnum.STRENGTH);
-                            cutBow = DemonHunterBowTypeEnum.STRENGTH;
-                            break;
-                        default:
-                            break;
-                    }
-                }
-
-                String cutBowMsg = BaseUtil.getLangMsg("demonHunter.cutBowMsg");
-                cutBowMsg = cutBowMsg.replace("${amount}", amount + "").replace("${type}", cutBow.getTypeName());
-                MessageUtil.sendActionbar(player, BaseUtil.replaceChatColor(cutBowMsg));
+        HandySchedulerUtil.runTaskAsynchronously(() -> {
+            int amount = ConfigUtil.RACE_CONFIG.getInt("demonHunter.cutBow");
+            boolean rst = RacePlayerService.getInstance().updateSubtract(player.getName(), amount);
+            if (!rst) {
+                MessageUtil.sendActionbar(player, RaceUtil.getEnergyShortageMsg(amount));
+                return;
             }
-        }.runTaskAsynchronously(PlayerRace.getInstance());
-    }
 
+            DemonHunterBowTypeEnum demonHunterBowTypeEnum = RaceConstants.DEMON_HUNTER_BOW.get(player.getUniqueId());
+
+            DemonHunterBowTypeEnum cutBow = DemonHunterBowTypeEnum.STRENGTH;
+            if (demonHunterBowTypeEnum == null) {
+                RaceConstants.DEMON_HUNTER_BOW.put(player.getUniqueId(), cutBow);
+            } else {
+                switch (demonHunterBowTypeEnum) {
+                    case STRENGTH:
+                        RaceConstants.DEMON_HUNTER_BOW.put(player.getUniqueId(), DemonHunterBowTypeEnum.FIRE);
+                        cutBow = DemonHunterBowTypeEnum.FIRE;
+                        break;
+                    case FIRE:
+                        RaceConstants.DEMON_HUNTER_BOW.put(player.getUniqueId(), DemonHunterBowTypeEnum.WEB);
+                        cutBow = DemonHunterBowTypeEnum.WEB;
+                        break;
+                    case WEB:
+                        RaceConstants.DEMON_HUNTER_BOW.put(player.getUniqueId(), DemonHunterBowTypeEnum.STRENGTH);
+                        cutBow = DemonHunterBowTypeEnum.STRENGTH;
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            String cutBowMsg = BaseUtil.getLangMsg("demonHunter.cutBowMsg");
+            cutBowMsg = cutBowMsg.replace("${amount}", amount + "").replace("${type}", cutBow.getTypeName());
+            MessageUtil.sendActionbar(player, BaseUtil.replaceChatColor(cutBowMsg));
+        });
+    }
 
     /**
      * 当玩家消耗完物品时, 此事件将触发 例如:(食物, 药水, 牛奶桶).

@@ -1,15 +1,16 @@
 package cn.handyplus.race.api;
 
-import cn.handyplus.race.PlayerRace;
+import cn.handyplus.lib.expand.adapter.HandySchedulerUtil;
 import cn.handyplus.race.constants.RaceConstants;
 import cn.handyplus.race.constants.RaceTypeEnum;
 import cn.handyplus.race.entity.RacePlayer;
 import cn.handyplus.race.service.RacePlayerService;
 import org.bukkit.entity.Player;
-import org.bukkit.scheduler.BukkitRunnable;
+
+import java.util.Optional;
 
 /**
- * 种族api
+ * API
  *
  * @author handy
  */
@@ -45,26 +46,23 @@ public class PlayerRaceApi {
      * @since 1.2.4
      */
     public void resetPlayerRace(Player player) {
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                String playerName = player.getName();
-                RacePlayer racePlayer = RacePlayerService.getInstance().findByPlayerName(playerName);
-                if (racePlayer != null) {
-                    RaceConstants.PLAYER_RACE.put(playerName, racePlayer);
-                    return;
-                }
-                racePlayer = new RacePlayer();
-                racePlayer.setPlayerName(playerName);
-                racePlayer.setPlayerUuid(player.getUniqueId().toString());
-                racePlayer.setRaceType(RaceTypeEnum.MANKIND.getType());
-                racePlayer.setAmount(0);
-                racePlayer.setMaxAmount(0);
-                racePlayer.setTransferTime(0L);
-                RacePlayerService.getInstance().add(racePlayer);
-                RaceConstants.PLAYER_RACE.put(playerName, racePlayer);
+        HandySchedulerUtil.runTaskAsynchronously(() -> {
+            String playerName = player.getName();
+            Optional<RacePlayer> racePlayerOptional = RacePlayerService.getInstance().findByPlayerName(playerName);
+            if (racePlayerOptional.isPresent()) {
+                RaceConstants.PLAYER_RACE.put(playerName, racePlayerOptional.get());
+                return;
             }
-        }.runTaskAsynchronously(PlayerRace.getInstance());
+            RacePlayer racePlayer = new RacePlayer();
+            racePlayer.setPlayerName(playerName);
+            racePlayer.setPlayerUuid(player.getUniqueId().toString());
+            racePlayer.setRaceType(RaceTypeEnum.MANKIND.getType());
+            racePlayer.setAmount(0);
+            racePlayer.setMaxAmount(0);
+            racePlayer.setTransferTime(0L);
+            RacePlayerService.getInstance().add(racePlayer);
+            RaceConstants.PLAYER_RACE.put(playerName, racePlayer);
+        });
     }
 
     /**

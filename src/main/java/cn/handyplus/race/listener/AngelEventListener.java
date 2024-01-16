@@ -2,10 +2,10 @@ package cn.handyplus.race.listener;
 
 import cn.handyplus.lib.annotation.HandyListener;
 import cn.handyplus.lib.constants.VersionCheckEnum;
+import cn.handyplus.lib.expand.adapter.HandySchedulerUtil;
 import cn.handyplus.lib.util.BaseUtil;
 import cn.handyplus.lib.util.ItemStackUtil;
 import cn.handyplus.lib.util.MessageUtil;
-import cn.handyplus.race.PlayerRace;
 import cn.handyplus.race.constants.RaceTypeEnum;
 import cn.handyplus.race.service.RacePlayerService;
 import cn.handyplus.race.util.ConfigUtil;
@@ -31,7 +31,6 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.projectiles.ProjectileSource;
-import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
 /**
@@ -78,23 +77,19 @@ public class AngelEventListener implements Listener {
         if (!Material.LEATHER_HELMET.equals(helmet.getType()) || !Material.LEATHER_CHESTPLATE.equals(chestPlate.getType()) || !Material.LEATHER_LEGGINGS.equals(leggings.getType()) || !Material.LEATHER_BOOTS.equals(boots.getType())) {
             return;
         }
-
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                // 判断玩家是否是人类
-                if (!RaceUtil.isRaceType(RaceTypeEnum.MANKIND, player)) {
-                    return;
-                }
-                // 设置玩家种族为天使
-                Boolean rst = RacePlayerService.getInstance().updateRaceType(player.getName(), RaceTypeEnum.ANGEL.getType());
-                if (rst) {
-                    player.getInventory().addItem(RaceUtil.getRaceHelpBook(RaceTypeEnum.ANGEL));
-                    player.sendMessage(BaseUtil.getLangMsg("angel.succeedMsg"));
-                    RaceUtil.refreshCache(player);
-                }
+        HandySchedulerUtil.runTaskAsynchronously(() -> {
+            // 判断玩家是否是人类
+            if (!RaceUtil.isRaceType(RaceTypeEnum.MANKIND, player)) {
+                return;
             }
-        }.runTaskAsynchronously(PlayerRace.getInstance());
+            // 设置玩家种族为天使
+            Boolean rst = RacePlayerService.getInstance().updateRaceType(player.getName(), RaceTypeEnum.ANGEL.getType());
+            if (rst) {
+                player.getInventory().addItem(RaceUtil.getRaceHelpBook(RaceTypeEnum.ANGEL));
+                player.sendMessage(BaseUtil.getLangMsg("angel.succeedMsg"));
+                RaceUtil.refreshCache(player);
+            }
+        });
     }
 
     /**
@@ -132,7 +127,7 @@ public class AngelEventListener implements Listener {
         }
 
         int amount = ConfigUtil.RACE_CONFIG.getInt("angel.diaup");
-        Boolean rst = RacePlayerService.getInstance().updateSubtract(player.getName(), amount);
+        boolean rst = RacePlayerService.getInstance().updateSubtract(player.getName(), amount);
         if (!rst) {
             MessageUtil.sendActionbar(player, RaceUtil.getEnergyShortageMsg(amount));
             return;
@@ -157,7 +152,7 @@ public class AngelEventListener implements Listener {
             MessageUtil.sendActionbar(entityPlayer, BaseUtil.replaceChatColor(diaupMsg));
 
             String langMsg = BaseUtil.getLangMsg("angel.diaupPlayerMsg");
-            langMsg = langMsg.replace("${amount}", amount + "").replace("${player}", entityPlayer.getName() + "");
+            langMsg = langMsg.replace("${amount}", amount + "").replace("${player}", entityPlayer.getName());
             MessageUtil.sendActionbar(player, langMsg);
         } else {
             entity.setVelocity(player.getLocation().getDirection().multiply(7));
@@ -387,7 +382,7 @@ public class AngelEventListener implements Listener {
         if (carrotMaterial.equals(material)) {
             amount = ConfigUtil.RACE_CONFIG.getInt("angel.summonPig");
         }
-        Boolean rst = RacePlayerService.getInstance().updateSubtract(player.getName(), amount);
+        boolean rst = RacePlayerService.getInstance().updateSubtract(player.getName(), amount);
         if (!rst) {
             MessageUtil.sendActionbar(player, RaceUtil.getEnergyShortageMsg(amount));
             return;
@@ -457,7 +452,7 @@ public class AngelEventListener implements Listener {
         event.setCancelled(true);
 
         int amount = ConfigUtil.RACE_CONFIG.getInt("angel.returnValue");
-        Boolean rst = RacePlayerService.getInstance().updateSubtract(player.getName(), amount);
+        boolean rst = RacePlayerService.getInstance().updateSubtract(player.getName(), amount);
         if (!rst) {
             MessageUtil.sendActionbar(player, RaceUtil.getEnergyShortageMsg(amount));
             return;
@@ -474,11 +469,11 @@ public class AngelEventListener implements Listener {
         RacePlayerService.getInstance().updateAdd(playerEntity.getName(), returnAmount);
 
         String returnValueMsg = BaseUtil.getLangMsg("angel.returnValueMsg");
-        returnValueMsg = returnValueMsg.replace("${amount}", amount + "").replace("${player}", playerEntity.getName() + "").replace("${returnAmount", returnAmount + "");
+        returnValueMsg = returnValueMsg.replace("${amount}", amount + "").replace("${player}", playerEntity.getName()).replace("${returnAmount", returnAmount + "");
         MessageUtil.sendActionbar(player, BaseUtil.replaceChatColor(returnValueMsg));
 
         String playerReturnValueMsg = BaseUtil.getLangMsg("angel.playerReturnValueMsg");
-        playerReturnValueMsg = playerReturnValueMsg.replace("${amount}", returnAmount + "").replace("${player}", player.getName() + "");
+        playerReturnValueMsg = playerReturnValueMsg.replace("${amount}", returnAmount + "").replace("${player}", player.getName());
         MessageUtil.sendActionbar(playerEntity, BaseUtil.replaceChatColor(playerReturnValueMsg));
     }
 
@@ -522,7 +517,7 @@ public class AngelEventListener implements Listener {
         event.setCancelled(true);
 
         int amount = ConfigUtil.RACE_CONFIG.getInt("angel.returnHealth");
-        Boolean rst = RacePlayerService.getInstance().updateSubtract(player.getName(), amount);
+        boolean rst = RacePlayerService.getInstance().updateSubtract(player.getName(), amount);
         if (!rst) {
             MessageUtil.sendActionbar(player, RaceUtil.getEnergyShortageMsg(amount));
             return;
@@ -544,11 +539,11 @@ public class AngelEventListener implements Listener {
         playerEntity.setHealth(newHealTh);
 
         String returnHealthMsg = BaseUtil.getLangMsg("angel.returnHealthMsg");
-        returnHealthMsg = returnHealthMsg.replace("${amount}", amount + "").replace("${player}", playerEntity.getName() + "").replace("${returnAmount}", returnHealthAmount + "");
+        returnHealthMsg = returnHealthMsg.replace("${amount}", amount + "").replace("${player}", playerEntity.getName()).replace("${returnAmount}", returnHealthAmount + "");
         MessageUtil.sendActionbar(player, BaseUtil.replaceChatColor(returnHealthMsg));
 
         String playerReturnHealthMsg = BaseUtil.getLangMsg("angel.playerReturnHealthMsg");
-        playerReturnHealthMsg = playerReturnHealthMsg.replace("${amount}", returnHealthAmount + "").replace("${player}", player.getName() + "");
+        playerReturnHealthMsg = playerReturnHealthMsg.replace("${amount}", returnHealthAmount + "").replace("${player}", player.getName());
         MessageUtil.sendActionbar(playerEntity, BaseUtil.replaceChatColor(playerReturnHealthMsg));
     }
 

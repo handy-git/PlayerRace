@@ -2,9 +2,9 @@ package cn.handyplus.race.listener;
 
 import cn.handyplus.lib.annotation.HandyListener;
 import cn.handyplus.lib.constants.VersionCheckEnum;
+import cn.handyplus.lib.expand.adapter.HandySchedulerUtil;
 import cn.handyplus.lib.util.BaseUtil;
 import cn.handyplus.lib.util.MessageUtil;
-import cn.handyplus.race.PlayerRace;
 import cn.handyplus.race.constants.RaceTypeEnum;
 import cn.handyplus.race.service.RacePlayerService;
 import cn.handyplus.race.util.ConfigUtil;
@@ -30,7 +30,6 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.projectiles.ProjectileSource;
-import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
 import java.util.ArrayList;
@@ -76,24 +75,20 @@ public class WerWolfEventListener implements Listener {
         if (!(entity instanceof Wolf)) {
             return;
         }
-
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                // 判断玩家是否有种族
-                String raceType = RacePlayerService.getInstance().findRaceType(player.getName());
-                if (!RaceTypeEnum.MANKIND.getType().equals(raceType)) {
-                    return;
-                }
-                // 设置玩家种族为狼人
-                Boolean rst = RacePlayerService.getInstance().updateRaceType(player.getName(), RaceTypeEnum.WER_WOLF.getType());
-                if (rst) {
-                    player.getInventory().addItem(RaceUtil.getRaceHelpBook(RaceTypeEnum.WER_WOLF));
-                    player.sendMessage(BaseUtil.getLangMsg("werwolf.succeedMsg"));
-                    RaceUtil.refreshCache(player);
-                }
+        HandySchedulerUtil.runTaskAsynchronously(() -> {
+            // 判断玩家是否有种族
+            String raceType = RacePlayerService.getInstance().findRaceType(player.getName());
+            if (!RaceTypeEnum.MANKIND.getType().equals(raceType)) {
+                return;
             }
-        }.runTaskAsynchronously(PlayerRace.getInstance());
+            // 设置玩家种族为狼人
+            Boolean rst = RacePlayerService.getInstance().updateRaceType(player.getName(), RaceTypeEnum.WER_WOLF.getType());
+            if (rst) {
+                player.getInventory().addItem(RaceUtil.getRaceHelpBook(RaceTypeEnum.WER_WOLF));
+                player.sendMessage(BaseUtil.getLangMsg("werwolf.succeedMsg"));
+                RaceUtil.refreshCache(player);
+            }
+        });
     }
 
     /**
@@ -254,12 +249,12 @@ public class WerWolfEventListener implements Listener {
             return;
         }
 
-        event.setDamage(event.getDamage() + ConfigUtil.RACE_CONFIG.getInt("werwolf.damage"));
+        event.setDamage(event.getDamage() + damage);
     }
 
     /**
      * 储存伤害事件的数据
-     * 狼人掉落伤害减倍
+     * 狼人掉落伤害减少
      *
      * @param event 事件
      */
@@ -320,7 +315,7 @@ public class WerWolfEventListener implements Listener {
         }
 
         int amount = ConfigUtil.RACE_CONFIG.getInt("werwolf.summonWolf");
-        Boolean rst = RacePlayerService.getInstance().updateSubtract(player.getName(), amount);
+        boolean rst = RacePlayerService.getInstance().updateSubtract(player.getName(), amount);
         if (!rst) {
             MessageUtil.sendActionbar(player, RaceUtil.getEnergyShortageMsg(amount));
             return;
@@ -370,7 +365,7 @@ public class WerWolfEventListener implements Listener {
         }
 
         int amount = ConfigUtil.RACE_CONFIG.getInt("werwolf.sprint");
-        Boolean rst = RacePlayerService.getInstance().updateSubtract(player.getName(), amount);
+        boolean rst = RacePlayerService.getInstance().updateSubtract(player.getName(), amount);
         if (!rst) {
             MessageUtil.sendActionbar(player, RaceUtil.getEnergyShortageMsg(amount));
             return;

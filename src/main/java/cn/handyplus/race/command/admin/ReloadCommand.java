@@ -2,11 +2,10 @@ package cn.handyplus.race.command.admin;
 
 import cn.handyplus.lib.command.IHandyCommandEvent;
 import cn.handyplus.lib.util.BaseUtil;
-import cn.handyplus.race.PlayerRace;
+import cn.handyplus.lib.util.MessageUtil;
 import cn.handyplus.race.util.ConfigUtil;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-import org.bukkit.scheduler.BukkitRunnable;
 
 /**
  * 重载
@@ -26,14 +25,14 @@ public class ReloadCommand implements IHandyCommandEvent {
     }
 
     @Override
+    public boolean isAsync() {
+        return true;
+    }
+
+    @Override
     public void onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                ConfigUtil.init();
-                sender.sendMessage(BaseUtil.getLangMsg("reloadMsg"));
-            }
-        }.runTaskAsynchronously(PlayerRace.getInstance());
+        ConfigUtil.init();
+        MessageUtil.sendMessage(sender, BaseUtil.getLangMsg("reloadMsg"));
     }
 
 }

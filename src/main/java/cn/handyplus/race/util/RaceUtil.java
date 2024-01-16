@@ -3,6 +3,7 @@ package cn.handyplus.race.util;
 import cn.handyplus.lib.constants.VersionCheckEnum;
 import cn.handyplus.lib.core.CollUtil;
 import cn.handyplus.lib.core.StrUtil;
+import cn.handyplus.lib.expand.adapter.HandySchedulerUtil;
 import cn.handyplus.lib.util.BaseUtil;
 import cn.handyplus.lib.util.ItemStackUtil;
 import cn.handyplus.lib.util.MessageUtil;
@@ -20,12 +21,12 @@ import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.BookMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.KnowledgeBookMeta;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * 禁止的世界
@@ -89,7 +90,7 @@ public class RaceUtil {
      * @since 1.2.9
      */
     public static void refreshCache(String playerName) {
-        RaceConstants.PLAYER_RACE.put(playerName, RacePlayerService.getInstance().findByPlayerName(playerName));
+        RaceConstants.PLAYER_RACE.put(playerName, RacePlayerService.getInstance().findByPlayerName(playerName).orElse(null));
     }
 
     /**
@@ -115,7 +116,7 @@ public class RaceUtil {
         map.put("amount", amount.toString());
 
         String actionBarMsg = ConfigUtil.LANG_CONFIG.getString("energyShortageMsg");
-        if (actionBarMsg == null || "".equals(actionBarMsg)) {
+        if (actionBarMsg == null || actionBarMsg.isEmpty()) {
             return "";
         }
         for (String str : map.keySet()) {
@@ -132,43 +133,44 @@ public class RaceUtil {
      * @param amount       能量
      */
     public static void restoreEnergy(Player player, RaceTypeEnum raceTypeEnum, int amount) {
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                // 判断是否为对应种族
-                RacePlayer racePlayer = RacePlayerService.getInstance().findByPlayerName(player.getName());
-                if (racePlayer == null || !raceTypeEnum.getType().equals(racePlayer.getRaceType())) {
-                    return;
-                }
-                int maxFatigue = ConfigUtil.CONFIG.getInt("maxFatigue");
-                if (racePlayer.getMaxAmount() != null && racePlayer.getMaxAmount() != 0) {
-                    maxFatigue = racePlayer.getMaxAmount();
-                }
-                // 吸血鬼计算最大值
-                if (RaceTypeEnum.VAMPIRE.getType().equals(racePlayer.getRaceType())) {
-                    double energyDiscount = ConfigUtil.RACE_CONFIG.getDouble("vampire.energyDiscount" + racePlayer.getRaceLevel());
-                    if (energyDiscount > 0) {
-                        maxFatigue = (int) Math.ceil(maxFatigue * energyDiscount);
-                    }
-                }
-
-                if (racePlayer.getAmount() >= maxFatigue) {
-                    return;
-                }
-                int num = amount;
-                if (racePlayer.getAmount() + amount > maxFatigue) {
-                    num = maxFatigue - racePlayer.getAmount();
-                }
-                boolean rst = RacePlayerService.getInstance().updateAdd(player.getName(), num);
-                if (rst) {
-                    String restoreEnergyMsg = ConfigUtil.LANG_CONFIG.getString("restoreEnergyMsg");
-                    if (StrUtil.isNotEmpty(restoreEnergyMsg)) {
-                        restoreEnergyMsg = restoreEnergyMsg.replace("${amount}", amount + "");
-                    }
-                    MessageUtil.sendActionbar(player, BaseUtil.replaceChatColor(restoreEnergyMsg));
+        HandySchedulerUtil.runTaskAsynchronously(() -> {
+            // 判断是否为对应种族
+            Optional<RacePlayer> racePlayerOptional = RacePlayerService.getInstance().findByPlayerName(player.getName());
+            if (!racePlayerOptional.isPresent()) {
+                return;
+            }
+            RacePlayer racePlayer = racePlayerOptional.get();
+            if (!raceTypeEnum.getType().equals(racePlayer.getRaceType())) {
+                return;
+            }
+            int maxFatigue = ConfigUtil.CONFIG.getInt("maxFatigue");
+            if (racePlayer.getMaxAmount() != null && racePlayer.getMaxAmount() != 0) {
+                maxFatigue = racePlayer.getMaxAmount();
+            }
+            // 吸血鬼计算最大值
+            if (RaceTypeEnum.VAMPIRE.getType().equals(racePlayer.getRaceType())) {
+                double energyDiscount = ConfigUtil.RACE_CONFIG.getDouble("vampire.energyDiscount" + racePlayer.getRaceLevel());
+                if (energyDiscount > 0) {
+                    maxFatigue = (int) Math.ceil(maxFatigue * energyDiscount);
                 }
             }
-        }.runTaskAsynchronously(PlayerRace.getInstance());
+
+            if (racePlayer.getAmount() >= maxFatigue) {
+                return;
+            }
+            int num = amount;
+            if (racePlayer.getAmount() + amount > maxFatigue) {
+                num = maxFatigue - racePlayer.getAmount();
+            }
+            boolean rst = RacePlayerService.getInstance().updateAdd(player.getName(), num);
+            if (rst) {
+                String restoreEnergyMsg = ConfigUtil.LANG_CONFIG.getString("restoreEnergyMsg");
+                if (StrUtil.isNotEmpty(restoreEnergyMsg)) {
+                    restoreEnergyMsg = restoreEnergyMsg.replace("${amount}", amount + "");
+                }
+                MessageUtil.sendActionbar(player, BaseUtil.replaceChatColor(restoreEnergyMsg));
+            }
+        });
     }
 
     /**

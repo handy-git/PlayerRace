@@ -1,5 +1,6 @@
 package cn.handyplus.race.constants;
 
+import cn.handyplus.lib.exception.HandyException;
 import cn.handyplus.lib.util.BaseUtil;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -29,6 +30,15 @@ public enum RaceTypeEnum {
 
     private final String type;
     private final String typeName;
+
+    public static RaceTypeEnum getEnumThrow(String type) {
+        for (RaceTypeEnum raceTypeEnum : RaceTypeEnum.values()) {
+            if (raceTypeEnum.getType().equalsIgnoreCase(type)) {
+                return raceTypeEnum;
+            }
+        }
+        throw new HandyException(BaseUtil.getMsgNotColor("typeFailureMsg"));
+    }
 
     public static RaceTypeEnum getEnum(String type) {
         for (RaceTypeEnum raceTypeEnum : RaceTypeEnum.values()) {
