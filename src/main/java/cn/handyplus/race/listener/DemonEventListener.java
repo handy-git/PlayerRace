@@ -17,7 +17,6 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Fireball;
-import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
@@ -26,8 +25,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
-import org.bukkit.event.inventory.InventoryAction;
-import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
@@ -275,77 +272,6 @@ public class DemonEventListener implements Listener {
         String langMsg = BaseUtil.getLangMsg("demon.webMsg");
         langMsg = langMsg.replace("${amount}", amount + "");
         MessageUtil.sendActionbar(player, langMsg);
-    }
-
-    /**
-     * 当玩家点击物品栏中的格子时触发事件事件..
-     * 恶魔无法穿除了锁链以外的装备
-     *
-     * @param event 事件
-     */
-    @EventHandler
-    public void onInventoryClick(InventoryClickEvent event) {
-        HumanEntity whoClicked = event.getWhoClicked();
-        if (!(whoClicked instanceof Player)) {
-            return;
-        }
-        Player player = (Player) whoClicked;
-
-        // 判断是否为恶魔
-        if (!CacheUtil.isRaceType(RaceTypeEnum.DEMON, player)) {
-            return;
-        }
-
-        InventoryAction action = event.getAction();
-        // 判断是否移动物品
-        // 光标上的物品(所有)被移到所单击的格子中.
-        // 将所单击的格子中的物品移动到对面的物品栏中去(如果有空位).
-        // 单击的槽和拾取的热键槽会互换。
-        if (!InventoryAction.PLACE_ALL.equals(action) && !InventoryAction.MOVE_TO_OTHER_INVENTORY.equals(action)
-                && !InventoryAction.HOTBAR_SWAP.equals(action) && !InventoryAction.HOTBAR_MOVE_AND_READD.equals(action)) {
-            return;
-        }
-        // 返回点击的格子序号
-        int slot = event.getSlot();
-        ItemStack cursor = null;
-        // 获取被光标所拿起来的物品
-        if (InventoryAction.PLACE_ALL.equals(action)) {
-            cursor = event.getCursor();
-        }
-        // 获取被点击的格子的物品
-        if (InventoryAction.MOVE_TO_OTHER_INVENTORY.equals(action)) {
-            cursor = event.getCurrentItem();
-            slot = event.getRawSlot();
-        }
-        // 获取指定格子物品
-        if (InventoryAction.HOTBAR_SWAP.equals(action) || InventoryAction.HOTBAR_MOVE_AND_READD.equals(action)) {
-            cursor = player.getInventory().getItem(event.getHotbarButton());
-        }
-        if (cursor == null || Material.AIR.equals(cursor.getType())) {
-            return;
-        }
-        if (slot > 39 || slot < 36) {
-            return;
-        }
-        if (slot == 39 && !Material.CHAINMAIL_HELMET.equals(cursor.getType())) {
-            event.setCancelled(true);
-            MessageUtil.sendMessage(player, BaseUtil.getLangMsg("demon.wearEquipmentMsg"));
-            return;
-        }
-        if (slot == 38 && !Material.CHAINMAIL_CHESTPLATE.equals(cursor.getType())) {
-            event.setCancelled(true);
-            MessageUtil.sendMessage(player, BaseUtil.getLangMsg("demon.wearEquipmentMsg"));
-            return;
-        }
-        if (slot == 37 && !Material.CHAINMAIL_LEGGINGS.equals(cursor.getType())) {
-            event.setCancelled(true);
-            MessageUtil.sendMessage(player, BaseUtil.getLangMsg("demon.wearEquipmentMsg"));
-            return;
-        }
-        if (slot == 36 && !Material.CHAINMAIL_BOOTS.equals(cursor.getType())) {
-            event.setCancelled(true);
-            MessageUtil.sendMessage(player, BaseUtil.getLangMsg("demon.wearEquipmentMsg"));
-        }
     }
 
 }

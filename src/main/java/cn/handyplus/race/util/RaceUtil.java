@@ -52,7 +52,7 @@ public class RaceUtil {
     public static void sendRaceMsg(String playerName, String raceType) {
         String raceMsg = BaseUtil.getMsgNotColor("raceMsg");
         raceMsg = StrUtil.replace(raceMsg, "player", playerName);
-        raceMsg = StrUtil.replace(raceMsg, "race", raceType);
+        raceMsg = StrUtil.replace(raceMsg, "race", RaceTypeEnum.getDesc(raceType));
         MessageUtil.sendAllMessage(raceMsg);
     }
 

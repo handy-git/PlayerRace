@@ -7,10 +7,12 @@ import cn.handyplus.race.entity.RacePlayer;
 import cn.handyplus.race.service.RacePlayerService;
 import org.bukkit.entity.Player;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 /**
  * 缓存
@@ -45,6 +47,16 @@ public class CacheUtil {
 
     public static RacePlayer getRacePlayer(UUID playerUuid) {
         return CacheUtil.PLAYER_RACE.get(playerUuid);
+    }
+
+    /**
+     * 判断是否对应种族类型
+     *
+     * @param raceTypeEnum 类型
+     * @return 全部
+     */
+    public static List<RacePlayer> getRacePlayer(RaceTypeEnum raceTypeEnum) {
+        return CacheUtil.PLAYER_RACE.values().stream().filter(s -> raceTypeEnum.getType().equals(s.getRaceType())).collect(Collectors.toList());
     }
 
     /**

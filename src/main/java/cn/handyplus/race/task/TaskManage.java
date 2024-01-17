@@ -25,6 +25,12 @@ public class TaskManage {
 
         // 同步缓存到数据库
         Cache2DbTask.start();
+
+        // 恶魔禁止锁链以外装备
+        DemonArmorCheckTask.start();
+
+        // 天使禁止皮革以外装备
+        AngelArmorCheckTask.start();
     }
 
 }

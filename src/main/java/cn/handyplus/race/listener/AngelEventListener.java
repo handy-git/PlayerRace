@@ -14,7 +14,6 @@ import org.bukkit.Material;
 import org.bukkit.entity.Animals;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
-import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
@@ -24,8 +23,6 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
-import org.bukkit.event.inventory.InventoryAction;
-import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
@@ -153,64 +150,6 @@ public class AngelEventListener implements Listener {
             String langMsg = BaseUtil.getLangMsg("angel.diaupOtherMsg");
             langMsg = langMsg.replace("${amount}", amount + "");
             MessageUtil.sendActionbar(player, langMsg);
-        }
-    }
-
-    /**
-     * 当玩家点击物品栏中的格子时触发事件事件..
-     * 天使无法穿除了皮革以外的装备
-     *
-     * @param event 事件
-     */
-    @EventHandler
-    public void onInventoryClick(InventoryClickEvent event) {
-        HumanEntity whoClicked = event.getWhoClicked();
-        if (!(whoClicked instanceof Player)) {
-            return;
-        }
-        Player player = (Player) whoClicked;
-
-        // 判断是否为天使
-        if (!CacheUtil.isRaceType(RaceTypeEnum.ANGEL, player)) {
-            return;
-        }
-
-        InventoryAction action = event.getAction();
-        // 判断是否移动物品
-        if (!InventoryAction.PICKUP_ALL.equals(action) && !InventoryAction.SWAP_WITH_CURSOR.equals(action)) {
-            return;
-        }
-
-        //返回点击的格子序号，可传递给Inventory.getItem(int)。
-        int slot = event.getSlot();
-        if (slot > 39 || slot < 36) {
-            return;
-        }
-
-        // 获取被光标所拿起来的物品
-        ItemStack cursor = event.getCursor();
-        if (cursor == null || Material.AIR.equals(cursor.getType())) {
-            return;
-        }
-
-        if (slot == 39 && !Material.LEATHER_HELMET.equals(cursor.getType())) {
-            event.setCancelled(true);
-            MessageUtil.sendMessage(player, BaseUtil.getLangMsg("angel.wearEquipmentMsg"));
-            return;
-        }
-        if (slot == 38 && !Material.LEATHER_CHESTPLATE.equals(cursor.getType())) {
-            event.setCancelled(true);
-            MessageUtil.sendMessage(player, BaseUtil.getLangMsg("angel.wearEquipmentMsg"));
-            return;
-        }
-        if (slot == 37 && !Material.LEATHER_LEGGINGS.equals(cursor.getType())) {
-            event.setCancelled(true);
-            MessageUtil.sendMessage(player, BaseUtil.getLangMsg("angel.wearEquipmentMsg"));
-            return;
-        }
-        if (slot == 36 && !Material.LEATHER_BOOTS.equals(cursor.getType())) {
-            event.setCancelled(true);
-            MessageUtil.sendMessage(player, BaseUtil.getLangMsg("angel.wearEquipmentMsg"));
         }
     }
 
