@@ -38,7 +38,11 @@ public class SetRaceCommand implements IHandyCommandEvent {
         RaceTypeEnum raceTypeEnum = RaceTypeEnum.getEnumThrow(args[2]);
         // 设置玩家种族
         OfflinePlayer offlinePlayer = BaseUtil.getOfflinePlayer(args[1]);
-        boolean rst = CacheUtil.updateRaceType(offlinePlayer.getUniqueId(), raceTypeEnum);
+        int raceLevel = 1;
+        if (args.length > 3) {
+            raceLevel = AssertUtil.isNumericToInt(args[3], sender, "&a只能为数字");
+        }
+        boolean rst = CacheUtil.updateRaceType(offlinePlayer.getUniqueId(), raceTypeEnum, raceLevel);
         // 发送提醒消息
         RaceUtil.sendRaceMsg(args[1], raceTypeEnum.getType());
         MessageUtil.sendMessage(sender, BaseUtil.getLangMsg(rst ? "succeedMsg" : "failureMsg"));

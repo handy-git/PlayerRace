@@ -39,6 +39,9 @@ public class PlayerRaceCommand implements TabExecutor {
     @Override
     public List<String> onTabComplete(CommandSender sender, Command cmd, String label, String[] args) {
         List<String> completions = new ArrayList<>();
+        if (!sender.hasPermission("playerrace.reload")) {
+            return completions;
+        }
         List<String> commands = TabListEnum.returnList(args, args.length, sender);
         if (commands == null) {
             return null;
@@ -58,7 +61,6 @@ public class PlayerRaceCommand implements TabExecutor {
         if (!sender.hasPermission("playerrace.reload")) {
             return true;
         }
-
         List<String> helps = ConfigUtil.LANG_CONFIG.getStringList("helps");
         for (String help : helps) {
             MessageUtil.sendMessage(sender, BaseUtil.replaceChatColor(help));

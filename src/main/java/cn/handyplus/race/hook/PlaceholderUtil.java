@@ -38,6 +38,10 @@ public class PlaceholderUtil extends PlaceholderExpansion {
         if ("level".equals(identifier)) {
             return String.valueOf(racePlayer.getRaceLevel());
         }
+        // %PlayerRace_level_day%
+        if ("level_day".equals(identifier)) {
+            return CacheUtil.levelUpDay(racePlayer);
+        }
         // %PlayerRace_race_level%
         if ("race_level".equals(identifier)) {
             String levelTitle = ConfigUtil.RACE_CONFIG.getString(racePlayer.getRaceType() + ".levelTitle." + racePlayer.getRaceLevel());

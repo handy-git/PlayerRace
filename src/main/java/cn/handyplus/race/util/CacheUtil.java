@@ -166,7 +166,7 @@ public class CacheUtil {
      * @return true 成功
      */
     public static boolean updateRaceType(Player player, RaceTypeEnum raceTypeEnum) {
-        return updateRaceType(player, raceTypeEnum, 0);
+        return updateRaceType(player, raceTypeEnum, 1);
     }
 
     /**
@@ -177,7 +177,7 @@ public class CacheUtil {
      * @return true 成功
      */
     public static boolean updateRaceType(UUID playerUuid, RaceTypeEnum raceTypeEnum) {
-        return updateRaceType(playerUuid, raceTypeEnum, 0);
+        return updateRaceType(playerUuid, raceTypeEnum, 1);
     }
 
     /**
@@ -259,6 +259,15 @@ public class CacheUtil {
                 racePlayer.setMaxAmount((int) (maxAmount * levelMaxAmount));
             }
         }
+    }
+
+    public static String levelUpDay(RacePlayer racePlayer) {
+        // 升级需要时间
+        int levelUpTime = ConfigUtil.RACE_CONFIG.getInt(racePlayer.getRaceType() + ".levelUpTime." + racePlayer.getRaceLevel() + 1, 0);
+        if (levelUpTime == 0) {
+            return "0";
+        }
+        return String.valueOf(levelUpTime - DateUtil.getDifferDay(racePlayer.getTransferTime()));
     }
 
 }
