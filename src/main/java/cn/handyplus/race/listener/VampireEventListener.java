@@ -3,7 +3,6 @@ package cn.handyplus.race.listener;
 import cn.handyplus.lib.annotation.HandyListener;
 import cn.handyplus.lib.constants.VersionCheckEnum;
 import cn.handyplus.lib.core.CollUtil;
-import cn.handyplus.lib.core.DateUtil;
 import cn.handyplus.lib.util.BaseUtil;
 import cn.handyplus.lib.util.ItemStackUtil;
 import cn.handyplus.lib.util.MessageUtil;
@@ -110,7 +109,8 @@ public class VampireEventListener implements Listener {
             return;
         }
         // 设置玩家种族为吸血鬼始祖
-        CacheUtil.updateRaceType(player, RaceTypeEnum.VAMPIRE, 1);
+        int cainBloodLevel = ConfigUtil.RACE_CONFIG.getInt(RaceTypeEnum.VAMPIRE.getType() + ".cainBloodLevel", 5);
+        CacheUtil.updateRaceType(player, RaceTypeEnum.VAMPIRE, cainBloodLevel);
     }
 
     /**
@@ -139,8 +139,8 @@ public class VampireEventListener implements Listener {
             return;
         }
 
-        // 设置玩家种族为吸血鬼-等级变低一级
-        boolean rst = CacheUtil.updateRaceType(player.getUniqueId(), RaceTypeEnum.VAMPIRE, racePlayerDamage.getRaceLevel() + 1);
+        // 设置玩家种族为吸血鬼
+        boolean rst = CacheUtil.updateRaceType(player.getUniqueId(), RaceTypeEnum.VAMPIRE);
         if (rst) {
             player.getInventory().addItem(RaceUtil.getRaceHelpBook(RaceTypeEnum.VAMPIRE));
             MessageUtil.sendMessage(player, BaseUtil.getLangMsg("vampire.succeedMsg"));
@@ -171,14 +171,6 @@ public class VampireEventListener implements Listener {
         // 伤害倍数
         double damageModifier = ConfigUtil.RACE_CONFIG.getDouble("vampire.damage");
 
-        // 转换天数
-        int differDay = DateUtil.getDifferDay(racePlayer.getTransferTime());
-        if (differDay > 0) {
-            double transferTime = ConfigUtil.RACE_CONFIG.getDouble("vampire.transferTime" + differDay);
-            if (transferTime > 0) {
-                damageModifier = (int) Math.ceil(damageModifier * transferTime);
-            }
-        }
         event.setDamage(event.getDamage() * damageModifier);
 
         // 被伤害者
@@ -224,14 +216,6 @@ public class VampireEventListener implements Listener {
         // 伤害减少倍数
         double damageModifier = ConfigUtil.RACE_CONFIG.getDouble("vampire.defenseBonus");
 
-        // 转换天数
-        int differDay = DateUtil.getDifferDay(racePlayer.getTransferTime());
-        if (differDay > 0) {
-            double transferTime = ConfigUtil.RACE_CONFIG.getDouble("vampire.transferTime" + differDay);
-            if (transferTime > 0) {
-                damageModifier = (int) Math.ceil(damageModifier * transferTime);
-            }
-        }
         event.setDamage(event.getDamage() - damageModifier);
     }
 

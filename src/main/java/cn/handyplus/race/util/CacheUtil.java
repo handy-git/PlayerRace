@@ -1,5 +1,6 @@
 package cn.handyplus.race.util;
 
+import cn.handyplus.lib.core.DateUtil;
 import cn.handyplus.lib.expand.adapter.HandySchedulerUtil;
 import cn.handyplus.lib.util.MessageUtil;
 import cn.handyplus.race.constants.RaceTypeEnum;
@@ -7,12 +8,10 @@ import cn.handyplus.race.entity.RacePlayer;
 import cn.handyplus.race.service.RacePlayerService;
 import org.bukkit.entity.Player;
 
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.stream.Collectors;
 
 /**
  * 缓存
@@ -53,16 +52,6 @@ public class CacheUtil {
      * 判断是否对应种族类型
      *
      * @param raceTypeEnum 类型
-     * @return 全部
-     */
-    public static List<RacePlayer> getRacePlayer(RaceTypeEnum raceTypeEnum) {
-        return CacheUtil.PLAYER_RACE.values().stream().filter(s -> raceTypeEnum.getType().equals(s.getRaceType())).collect(Collectors.toList());
-    }
-
-    /**
-     * 判断是否对应种族类型
-     *
-     * @param raceTypeEnum 类型
      * @param player       玩家
      * @return true/是
      */
@@ -80,6 +69,8 @@ public class CacheUtil {
         if (racePlayerOptional.isPresent()) {
             RacePlayer racePlayer = racePlayerOptional.get();
             racePlayer.setPlayerName(player.getName());
+            // 升级处理
+            levelUp(racePlayer);
             CacheUtil.PLAYER_RACE.put(player.getUniqueId(), racePlayer);
             return;
         }
@@ -103,6 +94,8 @@ public class CacheUtil {
      */
     public static void cache2Db(UUID playerUuid) {
         RacePlayer racePlayer = CacheUtil.PLAYER_RACE.get(playerUuid);
+        // 升级处理
+        levelUp(racePlayer);
         RacePlayerService.getInstance().update(racePlayer);
     }
 
@@ -114,6 +107,8 @@ public class CacheUtil {
             return;
         }
         for (RacePlayer racePlayer : PLAYER_RACE.values()) {
+            // 升级处理
+            levelUp(racePlayer);
             RacePlayerService.getInstance().update(racePlayer);
         }
     }
@@ -221,14 +216,7 @@ public class CacheUtil {
                 maxAmount = ConfigUtil.RACE_CONFIG.getInt("werwolf.maxAmount");
                 break;
             case VAMPIRE:
-                if (raceLevel < 1) {
-                    raceLevel = 1;
-                }
-                if (raceLevel > 10) {
-                    raceLevel = 10;
-                }
                 maxAmount = ConfigUtil.RACE_CONFIG.getInt("vampire.maxAmount");
-                maxAmount = (int) Math.ceil(maxAmount * ConfigUtil.RACE_CONFIG.getDouble("vampire.energyMultiple" + "." + raceLevel));
                 break;
             case DEMON:
                 maxAmount = ConfigUtil.RACE_CONFIG.getInt("demon.maxAmount");
@@ -253,6 +241,24 @@ public class CacheUtil {
         // 变更种族异步立即刷到数据库
         HandySchedulerUtil.runTaskAsynchronously(() -> cache2Db(playerUuid));
         return true;
+    }
+
+    private static void levelUp(RacePlayer racePlayer) {
+        // 升级需要时间
+        int levelUpTime = ConfigUtil.RACE_CONFIG.getInt(racePlayer.getRaceType() + ".levelUpTime." + racePlayer.getRaceLevel() + 1, 0);
+        if (levelUpTime == 0) {
+            return;
+        }
+        // 当前转换时间
+        int differDay = DateUtil.getDifferDay(racePlayer.getTransferTime());
+        if (differDay >= levelUpTime) {
+            racePlayer.setRaceLevel(racePlayer.getRaceLevel() + 1);
+            int maxAmount = ConfigUtil.RACE_CONFIG.getInt(racePlayer.getRaceType() + ".maxAmount");
+            double levelMaxAmount = ConfigUtil.RACE_CONFIG.getDouble(racePlayer.getRaceType() + ".levelMaxAmount." + racePlayer.getRaceLevel() + 1, 0.0);
+            if (levelMaxAmount > 0) {
+                racePlayer.setMaxAmount((int) (maxAmount * levelMaxAmount));
+            }
+        }
     }
 
 }

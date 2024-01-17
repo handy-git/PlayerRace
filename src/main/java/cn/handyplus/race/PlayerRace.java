@@ -10,7 +10,7 @@ import cn.handyplus.race.constants.AbstractRaceConstants;
 import cn.handyplus.race.task.TaskManage;
 import cn.handyplus.race.util.CacheUtil;
 import cn.handyplus.race.util.ConfigUtil;
-import cn.handyplus.race.util.PlaceholderUtil;
+import cn.handyplus.race.hook.PlaceholderUtil;
 import cn.handyplus.race.util.RaceUtil;
 import com.bekvon.bukkit.residence.Residence;
 import com.bekvon.bukkit.residence.api.ResidenceApi;
