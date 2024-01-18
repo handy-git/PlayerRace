@@ -36,7 +36,7 @@ public class PlaceholderUtil extends PlaceholderExpansion {
         }
         // %PlayerRace_level%
         if ("level".equals(identifier)) {
-            return String.valueOf(racePlayer.getRaceLevel());
+            return ConfigUtil.RACE_CONFIG.getString(racePlayer.getRaceType() + ".levelTitle." + racePlayer.getRaceLevel());
         }
         // %PlayerRace_level_day%
         if ("level_day".equals(identifier)) {
@@ -45,7 +45,7 @@ public class PlaceholderUtil extends PlaceholderExpansion {
         // %PlayerRace_race_level%
         if ("race_level".equals(identifier)) {
             String levelTitle = ConfigUtil.RACE_CONFIG.getString(racePlayer.getRaceType() + ".levelTitle." + racePlayer.getRaceLevel());
-            return RaceTypeEnum.getDesc(racePlayer.getRaceType() + " " + levelTitle);
+            return RaceTypeEnum.getDesc(racePlayer.getRaceType()) + " " + levelTitle;
         }
         // %PlayerRace_maxfatigue%
         if ("maxfatigue".equals(identifier)) {
