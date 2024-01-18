@@ -94,9 +94,10 @@ public class CacheUtil {
      */
     public static void cache2Db(UUID playerUuid) {
         RacePlayer racePlayer = CacheUtil.PLAYER_RACE.get(playerUuid);
-        // 升级处理
-        levelUp(racePlayer);
-        RacePlayerService.getInstance().update(racePlayer);
+        if (racePlayer != null) {
+            levelUp(racePlayer);
+            RacePlayerService.getInstance().update(racePlayer);
+        }
     }
 
     /**
