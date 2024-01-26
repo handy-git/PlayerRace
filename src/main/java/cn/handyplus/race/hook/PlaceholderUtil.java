@@ -9,6 +9,8 @@ import cn.handyplus.race.util.ConfigUtil;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import org.bukkit.OfflinePlayer;
 
+import java.util.Optional;
+
 /**
  * 变量扩展
  *
@@ -30,6 +32,10 @@ public class PlaceholderUtil extends PlaceholderExpansion {
     @Override
     public String onRequest(OfflinePlayer player, String identifier) {
         RacePlayer racePlayer = CacheUtil.getRacePlayer(player.getUniqueId());
+        if (racePlayer == null) {
+            Optional<RacePlayer> racePlayerOptional = RacePlayerService.getInstance().findByPlayerUuid(player.getUniqueId());
+            racePlayer = racePlayerOptional.orElseGet(RacePlayer::new);
+        }
         // %PlayerRace_race%
         if ("race".equals(identifier)) {
             return RaceTypeEnum.getDesc(racePlayer.getRaceType());
