@@ -1,10 +1,5 @@
 package cn.handyplus.race.api;
 
-import cn.handyplus.lib.expand.adapter.HandySchedulerUtil;
-import cn.handyplus.lib.util.BaseUtil;
-import cn.handyplus.race.constants.RaceTypeEnum;
-import cn.handyplus.race.util.CacheUtil;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
 import java.util.UUID;
@@ -36,7 +31,7 @@ public class PlayerRaceApi {
      * @since 1.2.4
      */
     public void temporaryCancel(Player player) {
-        CacheUtil.removeCache(player.getUniqueId());
+
     }
 
     /**
@@ -46,9 +41,7 @@ public class PlayerRaceApi {
      * @since 1.2.4
      */
     public void resetPlayerRace(Player player) {
-        HandySchedulerUtil.runTaskAsynchronously(() -> {
-            CacheUtil.db2Cache(player);
-        });
+
     }
 
     /**
@@ -60,8 +53,7 @@ public class PlayerRaceApi {
      */
     @Deprecated
     public String findRaceType(String playerName) {
-        OfflinePlayer offlinePlayer = BaseUtil.getOfflinePlayer(playerName);
-        return CacheUtil.getRacePlayer(offlinePlayer.getUniqueId()).getRaceType();
+        return null;
     }
 
     /**
@@ -73,7 +65,7 @@ public class PlayerRaceApi {
      */
     @Deprecated
     public String findRaceTypeName(String playerName) {
-        return RaceTypeEnum.getDesc(this.findRaceType(playerName));
+        return null;
     }
 
     /**
@@ -84,7 +76,7 @@ public class PlayerRaceApi {
      * @since 2.0.0
      */
     public String findRaceType(UUID playerUuid) {
-        return CacheUtil.getRacePlayer(playerUuid).getRaceType();
+        return null;
     }
 
     /**
@@ -95,7 +87,7 @@ public class PlayerRaceApi {
      * @since 2.0.0
      */
     public String findRaceTypeName(UUID playerUuid) {
-        return RaceTypeEnum.getDesc(this.findRaceType(playerUuid));
+        return null;
     }
 
 }
