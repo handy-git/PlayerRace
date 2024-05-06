@@ -1,10 +1,11 @@
-### 玩家超自然种族 PlayerRace 插件
+# PlayerRace
 
-![](https://bstats.org/signatures/bukkit/PlayerRace.svg)
+一款有点好用的玩家超自然种族
 
-如果本插件帮助到了您,希望点个右上角的star就是对作者最大的支持了~感谢
+如果本插件帮助到你，请帮忙右上角点个Star就对作者很大的支持了～
 
-[文档地址](https://ricedoc.handyplus.cn/wiki/PlayerRace/README/)
+![使用统计](https://bstats.org/signatures/bukkit/PlayerRace.svg)
 
-[javadoc](https://handy-git.github.io/PlayerRace/cn/handyplus/race/api/PlayerRaceApi.html)
+使用教程: [点击查看](https://ricedoc.handyplus.cn/wiki/PlayerRace/README/)
 
+javadoc: [点击查看](https://handy-git.github.io/PlayerRace/cn/handyplus/race/api/PlayerRaceApi.html)
