@@ -2,15 +2,13 @@ package cn.handyplus.race;
 
 import cn.handyplus.lib.InitApi;
 import cn.handyplus.lib.constants.BaseConstants;
-import cn.handyplus.lib.db.SqlManagerUtil;
-import cn.handyplus.lib.expand.adapter.HandySchedulerUtil;
 import cn.handyplus.lib.util.BaseUtil;
 import cn.handyplus.lib.util.MessageUtil;
 import cn.handyplus.race.constants.AbstractRaceConstants;
+import cn.handyplus.race.hook.PlaceholderUtil;
 import cn.handyplus.race.task.TaskManage;
 import cn.handyplus.race.util.CacheUtil;
 import cn.handyplus.race.util.ConfigUtil;
-import cn.handyplus.race.hook.PlaceholderUtil;
 import cn.handyplus.race.util.RaceUtil;
 import com.bekvon.bukkit.residence.Residence;
 import com.bekvon.bukkit.residence.api.ResidenceApi;
@@ -53,17 +51,14 @@ public final class PlayerRace extends JavaPlugin {
         TaskManage.start();
 
         MessageUtil.sendConsoleMessage(ChatColor.GREEN + "已成功载入服务器！");
-        MessageUtil.sendConsoleMessage(ChatColor.GREEN + "Author:handy MCBBS: https://www.mcbbs.net/thread-1149860-1-1.html");
+        MessageUtil.sendConsoleMessage(ChatColor.GREEN + "Author:handy WIKI: https://ricedoc.handyplus.cn/wiki/PlayerRace/README/");
     }
 
     @Override
     public void onDisable() {
-        // 取消定时任务
-        HandySchedulerUtil.cancelTask();
         // 数据保存
         CacheUtil.cache2Db();
-        // 关闭数据源
-        SqlManagerUtil.getInstance().close();
+        InitApi.disable();
     }
 
     /**
